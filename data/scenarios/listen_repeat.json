@@ -1,0 +1,124 @@
+{
+  "scenarios": [
+    {
+      "id": "campus-website-login",
+      "title": "Logging in to the campus website",
+      "context": "A student helper explains how to access a university website.",
+      "level": "medium",
+      "sentences": [
+        { "id": "campus-website-login-01", "order": 1, "text": "Open the school website first.", "audioUrl": "" },
+        { "id": "campus-website-login-02", "order": 2, "text": "Click the student login button.", "audioUrl": "" },
+        { "id": "campus-website-login-03", "order": 3, "text": "Use your student ID and password.", "audioUrl": "" },
+        { "id": "campus-website-login-04", "order": 4, "text": "The system may ask you to verify your email.", "audioUrl": "" },
+        { "id": "campus-website-login-05", "order": 5, "text": "After logging in, choose the course registration page.", "audioUrl": "" },
+        { "id": "campus-website-login-06", "order": 6, "text": "If the page does not load, refresh your browser and try again.", "audioUrl": "" },
+        { "id": "campus-website-login-07", "order": 7, "text": "Students who forget passwords should contact technical support before registration closes.", "audioUrl": "" }
+      ]
+    },
+    {
+      "id": "library-study-room",
+      "title": "Reserving a library study room",
+      "context": "A librarian explains how to reserve and use a group study room.",
+      "level": "medium",
+      "sentences": [
+        { "id": "library-study-room-01", "order": 1, "text": "Choose a room on the library map.", "audioUrl": "" },
+        { "id": "library-study-room-02", "order": 2, "text": "Select the time your group needs.", "audioUrl": "" },
+        { "id": "library-study-room-03", "order": 3, "text": "You can reserve the room for two hours.", "audioUrl": "" },
+        { "id": "library-study-room-04", "order": 4, "text": "Bring your student card when you arrive.", "audioUrl": "" },
+        { "id": "library-study-room-05", "order": 5, "text": "Please cancel your booking if your plans change.", "audioUrl": "" },
+        { "id": "library-study-room-06", "order": 6, "text": "Rooms left empty for fifteen minutes may be given to others.", "audioUrl": "" },
+        { "id": "library-study-room-07", "order": 7, "text": "Food is not allowed, but covered drinks are fine in study rooms.", "audioUrl": "" }
+      ]
+    },
+    {
+      "id": "office-hours-appointment",
+      "title": "Booking professor office hours",
+      "context": "A classmate explains how to book a meeting with a professor.",
+      "level": "medium",
+      "sentences": [
+        { "id": "office-hours-appointment-01", "order": 1, "text": "Check the office hours schedule online.", "audioUrl": "" },
+        { "id": "office-hours-appointment-02", "order": 2, "text": "Pick a time slot before it fills up.", "audioUrl": "" },
+        { "id": "office-hours-appointment-03", "order": 3, "text": "Write your question in the booking form.", "audioUrl": "" },
+        { "id": "office-hours-appointment-04", "order": 4, "text": "Attach your draft so the professor can prepare.", "audioUrl": "" },
+        { "id": "office-hours-appointment-05", "order": 5, "text": "Arrive five minutes early and wait outside politely.", "audioUrl": "" },
+        { "id": "office-hours-appointment-06", "order": 6, "text": "If you cannot attend, cancel early so another student can take the slot.", "audioUrl": "" },
+        { "id": "office-hours-appointment-07", "order": 7, "text": "Bring specific questions, because short meetings are easier when goals are clear.", "audioUrl": "" }
+      ]
+    },
+    {
+      "id": "group-project-meeting",
+      "title": "Preparing a group project meeting",
+      "context": "A team leader gives instructions before a project meeting.",
+      "level": "medium",
+      "sentences": [
+        { "id": "group-project-meeting-01", "order": 1, "text": "Review last week's tasks before the meeting.", "audioUrl": "" },
+        { "id": "group-project-meeting-02", "order": 2, "text": "Upload your slides to the shared folder.", "audioUrl": "" },
+        { "id": "group-project-meeting-03", "order": 3, "text": "Each member should report progress in one minute.", "audioUrl": "" },
+        { "id": "group-project-meeting-04", "order": 4, "text": "Mention blockers early so we can solve them together.", "audioUrl": "" },
+        { "id": "group-project-meeting-05", "order": 5, "text": "After discussion, assign one clear owner to every task.", "audioUrl": "" },
+        { "id": "group-project-meeting-06", "order": 6, "text": "Record key decisions because memory is unreliable after long meetings.", "audioUrl": "" },
+        { "id": "group-project-meeting-07", "order": 7, "text": "Send the summary tonight so everyone starts tomorrow with the same priorities.", "audioUrl": "" }
+      ]
+    },
+    {
+      "id": "bus-to-campus",
+      "title": "Taking the bus to campus",
+      "context": "A student explains how to commute by bus in the morning.",
+      "level": "easy",
+      "sentences": [
+        { "id": "bus-to-campus-01", "order": 1, "text": "Leave home ten minutes before the bus.", "audioUrl": "" },
+        { "id": "bus-to-campus-02", "order": 2, "text": "The number twelve bus stops near campus.", "audioUrl": "" },
+        { "id": "bus-to-campus-03", "order": 3, "text": "Use your student card for a cheaper fare.", "audioUrl": "" },
+        { "id": "bus-to-campus-04", "order": 4, "text": "Check the app in case the bus is delayed.", "audioUrl": "" },
+        { "id": "bus-to-campus-05", "order": 5, "text": "Get off at the library stop, not the stadium.", "audioUrl": "" },
+        { "id": "bus-to-campus-06", "order": 6, "text": "In rain, buses are crowded, so leave home even earlier.", "audioUrl": "" },
+        { "id": "bus-to-campus-07", "order": 7, "text": "If you miss one bus, the next usually arrives in fifteen minutes.", "audioUrl": "" }
+      ]
+    },
+    {
+      "id": "printing-assignment",
+      "title": "Printing an assignment",
+      "context": "A teaching assistant explains how to print and submit homework.",
+      "level": "medium",
+      "sentences": [
+        { "id": "printing-assignment-01", "order": 1, "text": "Save your file as a PDF first.", "audioUrl": "" },
+        { "id": "printing-assignment-02", "order": 2, "text": "Use double sided mode to save paper.", "audioUrl": "" },
+        { "id": "printing-assignment-03", "order": 3, "text": "Add your name and student number on top.", "audioUrl": "" },
+        { "id": "printing-assignment-04", "order": 4, "text": "Check page order before pressing the print button.", "audioUrl": "" },
+        { "id": "printing-assignment-05", "order": 5, "text": "If the printer jams, ask the lab staff for help.", "audioUrl": "" },
+        { "id": "printing-assignment-06", "order": 6, "text": "Staple the pages neatly and keep one photo as backup.", "audioUrl": "" },
+        { "id": "printing-assignment-07", "order": 7, "text": "Submit before noon, because late work may lose points automatically.", "audioUrl": "" }
+      ]
+    },
+    {
+      "id": "dorm-check-in",
+      "title": "Checking in to a dorm",
+      "context": "A resident assistant explains dorm check in steps for new students.",
+      "level": "medium",
+      "sentences": [
+        { "id": "dorm-check-in-01", "order": 1, "text": "Bring your passport and admission letter.", "audioUrl": "" },
+        { "id": "dorm-check-in-02", "order": 2, "text": "Sign the housing agreement at the front desk.", "audioUrl": "" },
+        { "id": "dorm-check-in-03", "order": 3, "text": "Collect your room key and laundry card.", "audioUrl": "" },
+        { "id": "dorm-check-in-04", "order": 4, "text": "Check furniture carefully and report any damage today.", "audioUrl": "" },
+        { "id": "dorm-check-in-05", "order": 5, "text": "Do not leave personal items in hallway common areas.", "audioUrl": "" },
+        { "id": "dorm-check-in-06", "order": 6, "text": "Quiet hours begin at ten, so use headphones at night.", "audioUrl": "" },
+        { "id": "dorm-check-in-07", "order": 7, "text": "If your key is lost, contact the front desk immediately to avoid penalties.", "audioUrl": "" }
+      ]
+    },
+    {
+      "id": "campus-job-application",
+      "title": "Applying for a campus job",
+      "context": "A senior student shares steps for applying to campus jobs.",
+      "level": "hard",
+      "sentences": [
+        { "id": "campus-job-application-01", "order": 1, "text": "Search openings on the student employment portal.", "audioUrl": "" },
+        { "id": "campus-job-application-02", "order": 2, "text": "Update your resume before submitting any application.", "audioUrl": "" },
+        { "id": "campus-job-application-03", "order": 3, "text": "Write a short cover letter for each role.", "audioUrl": "" },
+        { "id": "campus-job-application-04", "order": 4, "text": "Highlight class projects that match the job duties.", "audioUrl": "" },
+        { "id": "campus-job-application-05", "order": 5, "text": "Prepare two references who can comment on your reliability.", "audioUrl": "" },
+        { "id": "campus-job-application-06", "order": 6, "text": "During interviews, answer directly and give one specific example from experience.", "audioUrl": "" },
+        { "id": "campus-job-application-07", "order": 7, "text": "After interviewing, send a thank you email because polite follow up can improve your chance.", "audioUrl": "" }
+      ]
+    }
+  ]
+}
