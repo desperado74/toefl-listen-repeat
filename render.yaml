@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: toefl-listen-repeat
+    env: docker
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /api/health
+    disk:
+      name: toefl-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: AZURE_SPEECH_KEY
+        sync: false
+      - key: AZURE_SPEECH_REGION
+        value: eastus
+      - key: APP_ACCESS_PASSWORD
+        sync: false
+      - key: APP_SESSION_SECRET
+        sync: false
+      - key: APP_SESSION_COOKIE_SECURE
+        value: "1"
+      - key: APP_PROMPT_TTS_PROVIDER
+        value: azure
+      - key: APP_PROMPT_AZURE_VOICE
+        value: en-US-JennyNeural
+      - key: APP_DATABASE_PATH
+        value: /data/toefl_repeat.sqlite3
+      - key: APP_ATTEMPTS_DIR
+        value: /data/attempts
+      - key: APP_PROMPT_AUDIO_DIR
+        value: /data/audio/generated
