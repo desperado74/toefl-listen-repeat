@@ -170,6 +170,23 @@ export type ReadingSetSummary = {
   sectionTypes: ReadingSectionType[];
 };
 
+export type ReadingModuleSummary = ReadingSetSummary & {
+  stage: "router" | "second";
+  path: "router" | "lower" | "upper";
+};
+
+export type ReadingAdaptiveSession = {
+  id: string;
+  title: string;
+  descriptionZh: string;
+  estimatedMinutes: number;
+  routeThresholdAccuracy: number;
+  officialAlgorithmDisclaimerZh: string;
+  routerModule: ReadingModuleSummary;
+  lowerModule: ReadingModuleSummary;
+  upperModule: ReadingModuleSummary;
+};
+
 export type ReadingSectionType = "complete_words" | "daily_life" | "academic_passage";
 
 export type ReadingSet = {
@@ -179,6 +196,12 @@ export type ReadingSet = {
   estimatedMinutes: number;
   descriptionZh: string;
   sections: ReadingSection[];
+};
+
+export type ReadingModule = ReadingSet & {
+  stage: "router" | "second";
+  path: "router" | "lower" | "upper";
+  sourcePolicy: string;
 };
 
 export type ReadingSection = {
@@ -228,6 +251,22 @@ export type ReadingAttemptResult = {
   skillBreakdown: Record<string, ReadingBreakdown>;
   missed: ReadingMissedQuestion[];
   summaryZh: string;
+};
+
+export type ReadingRouterResult = {
+  result: ReadingAttemptResult;
+  routePath: "lower" | "upper";
+  thresholdAccuracy: number;
+  nextModule: ReadingModuleSummary;
+  disclaimerZh: string;
+};
+
+export type ReadingAdaptiveCompleteResult = {
+  id: string;
+  routePath: "lower" | "upper";
+  routerResult: ReadingAttemptResult;
+  secondResult: ReadingAttemptResult;
+  overallResult: ReadingAttemptResult;
 };
 
 export type ReadingBreakdown = {

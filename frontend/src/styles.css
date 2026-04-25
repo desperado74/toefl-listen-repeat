@@ -135,6 +135,24 @@ input {
   justify-content: flex-start;
 }
 
+.modeTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.modeTabs button {
+  min-height: 36px;
+  padding: 0 10px;
+}
+
+.modeTabs button.active {
+  border-color: #1d7f63;
+  background: #eaf6f1;
+  color: #155c43;
+}
+
 .brand strong,
 .brand span {
   display: block;
@@ -156,6 +174,13 @@ input {
 
 .progressBlock {
   margin: 24px 0;
+}
+
+.miniNotice {
+  margin: 16px 0 0;
+  color: #64717f;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .progressTop {

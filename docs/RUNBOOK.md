@@ -173,6 +173,7 @@ Outputs:
    - unlock page appears if password enabled
    - complete one sentence scoring cycle
    - complete one Interview answer and confirm transcript + DeepSeek training score
+   - complete Reading Router and confirm it routes to Lower/Upper, then submit the full 50-item simulation
    - open in another browser/incognito session and confirm attempts start empty
 
 ## Git Push (Google Login Account)

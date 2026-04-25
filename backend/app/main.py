@@ -191,6 +191,144 @@ def reading_set(set_id: str) -> dict[str, object]:
     return {"set": item}
 
 
+@app.get("/api/reading/adaptive")
+def reading_adaptive_sessions() -> dict[str, object]:
+    bank = _load_reading_bank()
+    modules_by_id = {str(item.get("id")): item for item in bank.get("adaptiveModules", [])}
+    sessions = []
+    for item in bank.get("adaptiveSessions", []):
+        router = modules_by_id.get(str(item.get("routerModuleId", "")))
+        lower = modules_by_id.get(str(item.get("lowerModuleId", "")))
+        upper = modules_by_id.get(str(item.get("upperModuleId", "")))
+        sessions.append(
+            {
+                "id": item.get("id"),
+                "title": item.get("title"),
+                "descriptionZh": item.get("descriptionZh", ""),
+                "estimatedMinutes": item.get("estimatedMinutes", 30),
+                "routeThresholdAccuracy": item.get("routeThresholdAccuracy", 70),
+                "officialAlgorithmDisclaimerZh": item.get(
+                    "officialAlgorithmDisclaimerZh",
+                    "训练模拟路由，非 ETS 官方自适应算法。",
+                ),
+                "routerModule": _reading_module_summary(router) if router else None,
+                "lowerModule": _reading_module_summary(lower) if lower else None,
+                "upperModule": _reading_module_summary(upper) if upper else None,
+            }
+        )
+    return {"sessions": sessions}
+
+
+@app.get("/api/reading/modules/{module_id}")
+def reading_module(module_id: str) -> dict[str, object]:
+    item = _find_reading_module(module_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail="Reading module not found")
+    return {"module": item}
+
+
+@app.post("/api/reading/adaptive/router")
+async def submit_reading_router(request: Request) -> dict[str, object]:
+    payload = await request.json()
+    session_id = str(payload.get("sessionId", "")).strip()
+    module_id = str(payload.get("moduleId", "")).strip()
+    answers = payload.get("answers", {})
+    elapsed_ms = int(payload.get("elapsedMs", 0) or 0)
+    if not session_id or not module_id:
+        raise HTTPException(status_code=400, detail="sessionId and moduleId are required")
+    if not isinstance(answers, dict):
+        raise HTTPException(status_code=400, detail="answers must be an object")
+
+    session = _find_reading_adaptive_session(session_id)
+    module = _find_reading_module(module_id)
+    if session is None or module is None or session.get("routerModuleId") != module_id or module.get("stage") != "router":
+        raise HTTPException(status_code=404, detail="Reading router module not found")
+
+    result = _score_reading_attempt(module, answers, elapsed_ms)
+    threshold = int(session.get("routeThresholdAccuracy", 70) or 70)
+    route_path = "upper" if int(result["accuracy"]) >= threshold else "lower"
+    next_module_id = str(session.get("upperModuleId" if route_path == "upper" else "lowerModuleId", ""))
+    next_module = _find_reading_module(next_module_id)
+    return {
+        "result": result,
+        "routePath": route_path,
+        "thresholdAccuracy": threshold,
+        "nextModule": _reading_module_summary(next_module) if next_module else None,
+        "disclaimerZh": session.get("officialAlgorithmDisclaimerZh", "训练模拟路由，非 ETS 官方自适应算法。"),
+    }
+
+
+@app.post("/api/reading/adaptive/complete")
+async def complete_reading_adaptive_session(request: Request) -> dict[str, object]:
+    payload = await request.json()
+    session_id = str(payload.get("sessionId", "")).strip()
+    router_module_id = str(payload.get("routerModuleId", "")).strip()
+    second_module_id = str(payload.get("secondModuleId", "")).strip()
+    route_path = str(payload.get("routePath", "")).strip()
+    router_answers = payload.get("routerAnswers", {})
+    second_answers = payload.get("secondAnswers", {})
+    router_elapsed_ms = int(payload.get("routerElapsedMs", 0) or 0)
+    second_elapsed_ms = int(payload.get("secondElapsedMs", 0) or 0)
+    if not all([session_id, router_module_id, second_module_id, route_path]):
+        raise HTTPException(status_code=400, detail="session/module fields are required")
+    if route_path not in {"lower", "upper"}:
+        raise HTTPException(status_code=400, detail="routePath must be lower or upper")
+    if not isinstance(router_answers, dict) or not isinstance(second_answers, dict):
+        raise HTTPException(status_code=400, detail="answers must be objects")
+
+    session = _find_reading_adaptive_session(session_id)
+    router = _find_reading_module(router_module_id)
+    second = _find_reading_module(second_module_id)
+    expected_second = "upperModuleId" if route_path == "upper" else "lowerModuleId"
+    if (
+        session is None
+        or router is None
+        or second is None
+        or session.get("routerModuleId") != router_module_id
+        or session.get(expected_second) != second_module_id
+    ):
+        raise HTTPException(status_code=404, detail="Reading adaptive session/module not found")
+
+    router_result = _score_reading_attempt(router, router_answers, router_elapsed_ms)
+    second_result = _score_reading_attempt(second, second_answers, second_elapsed_ms)
+    overall_result = _combine_reading_results(
+        session_title=str(session.get("title", "Reading Adaptive Simulation")),
+        router_result=router_result,
+        second_result=second_result,
+        elapsed_ms=router_elapsed_ms + second_elapsed_ms,
+    )
+    attempt_id = str(uuid.uuid4())
+    with connect(settings.database_path) as conn:
+        conn.execute(
+            """
+            INSERT INTO reading_adaptive_sessions (
+                id, session_template_id, router_module_id, second_module_id, route_path,
+                router_result_json, second_result_json, overall_result_json, elapsed_ms, client_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                attempt_id,
+                session_id,
+                router_module_id,
+                second_module_id,
+                route_path,
+                json.dumps(router_result, ensure_ascii=False),
+                json.dumps(second_result, ensure_ascii=False),
+                json.dumps(overall_result, ensure_ascii=False),
+                router_elapsed_ms + second_elapsed_ms,
+                _visitor_id(request),
+            ),
+        )
+    return {
+        "id": attempt_id,
+        "routePath": route_path,
+        "routerResult": router_result,
+        "secondResult": second_result,
+        "overallResult": overall_result,
+    }
+
+
 @app.get("/api/interview/sets")
 def interview_sets() -> dict[str, object]:
     bank = _load_interview_bank()
@@ -701,6 +839,22 @@ def _find_reading_set(set_id: str) -> dict[str, object] | None:
     return None
 
 
+def _find_reading_module(module_id: str) -> dict[str, object] | None:
+    bank = _load_reading_bank()
+    for item in bank.get("adaptiveModules", []):
+        if item.get("id") == module_id:
+            return item
+    return None
+
+
+def _find_reading_adaptive_session(session_id: str) -> dict[str, object] | None:
+    bank = _load_reading_bank()
+    for item in bank.get("adaptiveSessions", []):
+        if item.get("id") == session_id:
+            return item
+    return None
+
+
 def _find_interview_set(set_id: str) -> dict[str, object] | None:
     bank = _load_interview_bank()
     for item in bank.get("sets", []):
@@ -742,6 +896,22 @@ def _reading_question_count(reading_set: dict[str, object]) -> int:
         else:
             total += len(section.get("questions", []))
     return total
+
+
+def _reading_module_summary(module: dict[str, object] | None) -> dict[str, object] | None:
+    if module is None:
+        return None
+    return {
+        "id": module.get("id"),
+        "title": module.get("title"),
+        "stage": module.get("stage", "router"),
+        "path": module.get("path", "router"),
+        "difficulty": module.get("difficulty", "medium"),
+        "estimatedMinutes": module.get("estimatedMinutes", 15),
+        "descriptionZh": module.get("descriptionZh", ""),
+        "questionCount": _reading_question_count(module),
+        "sectionTypes": [section.get("type", "") for section in module.get("sections", [])],
+    }
 
 
 def _score_reading_attempt(
@@ -847,6 +1017,60 @@ def _score_reading_attempt(
         "missed": missed,
         "summaryZh": _reading_summary(correct, total, accuracy),
     }
+
+
+def _combine_reading_results(
+    *,
+    session_title: str,
+    router_result: dict[str, object],
+    second_result: dict[str, object],
+    elapsed_ms: int,
+) -> dict[str, object]:
+    correct = int(router_result.get("correct", 0) or 0) + int(second_result.get("correct", 0) or 0)
+    total = int(router_result.get("total", 0) or 0) + int(second_result.get("total", 0) or 0)
+    accuracy = round((correct / total) * 100) if total else 0
+    section_breakdown = _merge_breakdowns(
+        router_result.get("sectionBreakdown", {}),
+        second_result.get("sectionBreakdown", {}),
+    )
+    skill_breakdown = _merge_breakdowns(
+        router_result.get("skillBreakdown", {}),
+        second_result.get("skillBreakdown", {}),
+    )
+    missed = []
+    for item in router_result.get("missed", []):
+        if isinstance(item, dict):
+            missed.append({"moduleStage": "router", **item})
+    for item in second_result.get("missed", []):
+        if isinstance(item, dict):
+            missed.append({"moduleStage": "second", **item})
+    return {
+        "setId": "adaptive_session",
+        "title": session_title,
+        "correct": correct,
+        "total": total,
+        "accuracy": accuracy,
+        "estimatedBand": _estimated_reading_band(accuracy),
+        "elapsedMs": elapsed_ms,
+        "sectionBreakdown": section_breakdown,
+        "skillBreakdown": skill_breakdown,
+        "missed": missed,
+        "summaryZh": _reading_summary(correct, total, accuracy),
+    }
+
+
+def _merge_breakdowns(*breakdowns: object) -> dict[str, dict[str, int]]:
+    merged: dict[str, dict[str, int]] = {}
+    for breakdown in breakdowns:
+        if not isinstance(breakdown, dict):
+            continue
+        for key, value in breakdown.items():
+            if not isinstance(value, dict):
+                continue
+            item = merged.setdefault(str(key), {"correct": 0, "total": 0})
+            item["correct"] += int(value.get("correct", 0) or 0)
+            item["total"] += int(value.get("total", 0) or 0)
+    return _with_accuracy(merged)
 
 
 INTERVIEW_WORD_RE = re.compile(r"[A-Za-z]+(?:'[A-Za-z]+)?")

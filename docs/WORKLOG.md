@@ -4,6 +4,10 @@ Append-only log. Keep each entry short (3-8 lines).
 
 ## 2026-04-25
 
+- Added Reading adaptive simulation v1 with original public content only: Router module plus Lower/Upper second modules.
+- Added 50-item full Reading paths calibrated to ETS public structure: 30 Complete the Words items plus Daily Life/Academic items.
+- Added adaptive Reading APIs, SQLite session persistence, frontend Adaptive/Single Set modes, and stricter Reading bank validation.
+
 - Added Speaking Interview v1 alongside Listen and Repeat under the Speaking column.
 - Added 12 original Interview sets with 4 theme-linked questions each and 45-second answer timing.
 - Added Interview API and SQLite persistence with reserved transcript, AI feedback, rubric score, and scoring status fields.

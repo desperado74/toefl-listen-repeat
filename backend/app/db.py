@@ -78,6 +78,29 @@ def init_db(database_path: Path) -> None:
         )
         conn.execute(
             """
+            CREATE TABLE IF NOT EXISTS reading_adaptive_sessions (
+                id TEXT PRIMARY KEY,
+                session_template_id TEXT NOT NULL,
+                router_module_id TEXT NOT NULL,
+                second_module_id TEXT NOT NULL,
+                route_path TEXT NOT NULL,
+                router_result_json TEXT NOT NULL,
+                second_result_json TEXT NOT NULL,
+                overall_result_json TEXT NOT NULL,
+                elapsed_ms INTEGER NOT NULL,
+                client_id TEXT NOT NULL DEFAULT '',
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_reading_adaptive_client_created
+            ON reading_adaptive_sessions(client_id, created_at)
+            """
+        )
+        conn.execute(
+            """
             CREATE TABLE IF NOT EXISTS interview_attempts (
                 id TEXT PRIMARY KEY,
                 set_id TEXT NOT NULL,
