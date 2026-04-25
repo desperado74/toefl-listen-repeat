@@ -26,10 +26,12 @@ def init_db(database_path: Path) -> None:
                 azure_raw_json TEXT NOT NULL,
                 normalized_json TEXT NOT NULL,
                 tags_json TEXT NOT NULL,
+                client_id TEXT NOT NULL DEFAULT '',
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
             """
         )
+        _ensure_column(conn, "attempts", "client_id", "TEXT NOT NULL DEFAULT ''")
         conn.execute(
             """
             CREATE INDEX IF NOT EXISTS idx_attempts_sentence_created
@@ -44,20 +46,34 @@ def init_db(database_path: Path) -> None:
         )
         conn.execute(
             """
+            CREATE INDEX IF NOT EXISTS idx_attempts_client_created
+            ON attempts(client_id, created_at)
+            """
+        )
+        conn.execute(
+            """
             CREATE TABLE IF NOT EXISTS reading_attempts (
                 id TEXT PRIMARY KEY,
                 set_id TEXT NOT NULL,
                 answers_json TEXT NOT NULL,
                 result_json TEXT NOT NULL,
                 elapsed_ms INTEGER NOT NULL,
+                client_id TEXT NOT NULL DEFAULT '',
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
             """
         )
+        _ensure_column(conn, "reading_attempts", "client_id", "TEXT NOT NULL DEFAULT ''")
         conn.execute(
             """
             CREATE INDEX IF NOT EXISTS idx_reading_attempts_created
             ON reading_attempts(created_at)
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_reading_attempts_client_created
+            ON reading_attempts(client_id, created_at)
             """
         )
         conn.execute(
@@ -72,10 +88,12 @@ def init_db(database_path: Path) -> None:
                 ai_feedback_json TEXT NOT NULL DEFAULT '{}',
                 rubric_scores_json TEXT NOT NULL DEFAULT '{}',
                 scoring_status TEXT NOT NULL DEFAULT 'not_scored',
+                client_id TEXT NOT NULL DEFAULT '',
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
             """
         )
+        _ensure_column(conn, "interview_attempts", "client_id", "TEXT NOT NULL DEFAULT ''")
         conn.execute(
             """
             CREATE INDEX IF NOT EXISTS idx_interview_attempts_question_created
@@ -86,6 +104,12 @@ def init_db(database_path: Path) -> None:
             """
             CREATE INDEX IF NOT EXISTS idx_interview_attempts_created
             ON interview_attempts(created_at)
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_interview_attempts_client_created
+            ON interview_attempts(client_id, created_at)
             """
         )
         conn.execute(
@@ -110,6 +134,12 @@ def init_db(database_path: Path) -> None:
             ON interview_reference_answers(set_id, question_id, provider, model, target_level)
             """
         )
+
+
+def _ensure_column(conn: sqlite3.Connection, table: str, column: str, definition: str) -> None:
+    columns = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})")}
+    if column not in columns:
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
 
 
 def row_to_dict(row: sqlite3.Row) -> dict[str, Any]:

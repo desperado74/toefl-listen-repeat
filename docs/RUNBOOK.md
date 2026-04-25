@@ -143,6 +143,7 @@ Outputs:
 - `APP_PROMPT_AUDIO_DIR=/data/audio/generated`
 - `APP_ACCESS_PASSWORD` (optional, recommended)
 - `APP_SESSION_SECRET` (required when password enabled)
+- `APP_VISITOR_COOKIE_NAME=trainer_visitor` (anonymous per-browser attempt isolation)
 - `APP_SESSION_COOKIE_SECURE=1` (HTTPS)
 
 ## Render Deploy Steps
@@ -160,6 +161,7 @@ Outputs:
    - `DEEPSEEK_MODEL=deepseek-v4-flash`
    - `APP_ACCESS_PASSWORD`
    - `APP_SESSION_SECRET`
+   - `APP_VISITOR_COOKIE_NAME=trainer_visitor`
    - `APP_SESSION_COOKIE_SECURE=1`
    - `APP_DATABASE_PATH=/data/toefl_repeat.sqlite3`
    - `APP_ATTEMPTS_DIR=/data/attempts`
@@ -171,6 +173,7 @@ Outputs:
    - unlock page appears if password enabled
    - complete one sentence scoring cycle
    - complete one Interview answer and confirm transcript + DeepSeek training score
+   - open in another browser/incognito session and confirm attempts start empty
 
 ## Git Push (Google Login Account)
 

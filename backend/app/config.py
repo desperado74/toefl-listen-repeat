@@ -31,6 +31,7 @@ class Settings:
     )
     access_password: str = os.getenv("APP_ACCESS_PASSWORD", "")
     session_cookie_name: str = os.getenv("APP_SESSION_COOKIE_NAME", "trainer_session")
+    visitor_cookie_name: str = os.getenv("APP_VISITOR_COOKIE_NAME", "trainer_visitor")
     session_cookie_secure: bool = os.getenv("APP_SESSION_COOKIE_SECURE", "0") == "1"
     session_secret: str = os.getenv("APP_SESSION_SECRET", "replace-me")
     scenarios_path: Path = Path("data/scenarios/listen_repeat.json")
