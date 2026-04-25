@@ -162,6 +162,7 @@ input {
 }
 
 .planPanel,
+.analyticsPanel,
 .examSurface,
 .setupBanner,
 .widePanel,
@@ -175,6 +176,11 @@ input {
 
 .planPanel {
   margin-top: 24px;
+  padding: 16px;
+}
+
+.analyticsPanel {
+  margin-top: 18px;
   padding: 16px;
 }
 
@@ -199,6 +205,88 @@ input {
   gap: 8px;
 }
 
+.reviewQueue {
+  display: grid;
+  gap: 10px;
+}
+
+.reviewSummary {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f7f9fb;
+  color: #2d3844;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.reviewCard {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  justify-content: stretch;
+}
+
+.reviewCard p,
+.reviewCard small {
+  margin: 0;
+}
+
+.reviewCard p {
+  color: #2d3844;
+  font-size: 13px;
+}
+
+.reviewAction {
+  color: #155c43;
+}
+
+.reviewCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.priorityBadge {
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid #dce3e9;
+  background: #f7f9fb;
+  color: #475463;
+  white-space: nowrap;
+}
+
+.priorityBadge.now {
+  border-color: #f2b8b5;
+  background: #fff0ee;
+  color: #b42318;
+}
+
+.priorityBadge.next {
+  border-color: #f4cf89;
+  background: #fff8e8;
+  color: #9a6700;
+}
+
+.priorityBadge.later {
+  border-color: #aad8c6;
+  background: #eef8f3;
+  color: #155c43;
+}
+
+.compactTags {
+  gap: 6px;
+}
+
+.compactTags span {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
 .drillQueue button {
   justify-content: space-between;
   align-items: center;
@@ -212,6 +300,90 @@ input {
 .drillQueue small {
   color: #64717f;
   font-size: 12px;
+}
+
+.analyticsSummary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.miniMetric {
+  border: 1px solid #dce3e9;
+  border-radius: 8px;
+  background: #f7f9fb;
+  padding: 10px;
+}
+
+.miniMetric span {
+  display: block;
+  color: #64717f;
+  font-size: 12px;
+}
+
+.miniMetric strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 22px;
+}
+
+.trendList {
+  display: grid;
+  gap: 8px;
+}
+
+.trendItem {
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 10px;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
+.trendItem div {
+  min-width: 0;
+}
+
+.trendItem strong,
+.trendItem small {
+  display: block;
+}
+
+.trendItem strong {
+  font-size: 13px;
+  color: #2d3844;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trendItem small {
+  color: #64717f;
+  font-size: 12px;
+}
+
+.analyticsQueue button span,
+.analyticsQueue button small {
+  display: block;
+}
+
+.analyticsQueue button {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.analyticsChip {
+  border: 1px solid #dce3e9;
+  background: #f7f9fb;
+  border-radius: 999px;
+  padding: 5px 10px;
+  min-height: auto;
+}
+
+.analyticsChip small {
+  color: #64717f;
 }
 
 .panelTitle {

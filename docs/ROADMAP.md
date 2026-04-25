@@ -16,16 +16,17 @@
 
 ## Stage 2 (Listen+Repeat Strengthening)
 
-1. Add larger scenario pool (difficulty ladders)
-2. Add spaced review by weak words/phonemes
+1. Optimize reinforcement specificity on top of the 180-scenario bank
+2. Add spaced review / review queue by weak words and phonemes
 3. Add retry strategy and queue for Azure errors/timeouts
-4. Add per-session analytics dashboard
+4. Deepen analytics dashboard with filters and longer-term trends
 
 ## Stage 3 (Reading Expansion)
 
-1. Reading practice module with timed passages
-2. Question bank + answer review + error taxonomy
-3. Link reading mistakes to vocabulary reinforcement deck
+1. Re-plan Reading in a dedicated session before implementation
+2. Reading practice module with timed passages
+3. Question bank + answer review + error taxonomy
+4. Link reading mistakes to vocabulary reinforcement deck
 
 ## Stage 4 (Writing Expansion)
 
@@ -40,4 +41,5 @@ Before ending any major session:
 1. Update `docs/HANDOFF.md`
 2. Update `docs/ROADMAP.md` if priorities changed
 3. Add operational changes into `docs/RUNBOOK.md`
-4. Commit with a small, explicit message
+4. Append session notes into `docs/WORKLOG.md`
+5. Commit with a small, explicit message

@@ -1,0 +1,38 @@
+{
+  "scenarioCount": 180,
+  "levelCounts": {
+    "easy": 45,
+    "hard": 45,
+    "medium": 90
+  },
+  "topicCounts": {
+    "academic-advising": 13,
+    "campus-safety": 12,
+    "campus-technology": 13,
+    "career-services": 13,
+    "community-engagement": 12,
+    "coursework": 1,
+    "dining-and-sustainability": 4,
+    "international-services": 12,
+    "library-services": 13,
+    "recreation-center": 12,
+    "research-support": 12,
+    "residence-life": 13,
+    "student-finance": 12,
+    "student-health": 12,
+    "student-organizations": 13,
+    "transportation": 13
+  },
+  "sourceTypeCounts": {
+    "curated": 180
+  },
+  "sentenceCountDistribution": {
+    "7": 180
+  },
+  "duplicateScenarioIds": [],
+  "duplicateSentenceCount": 0,
+  "sampleDuplicateSentences": {},
+  "missingTopicCount": 0,
+  "missingSourceTypeCount": 0,
+  "errors": []
+}
