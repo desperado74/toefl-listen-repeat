@@ -19,7 +19,7 @@ import requests
 from .config import get_settings
 from .db import connect, init_db, row_to_dict
 from .scoring import AzurePronunciationProvider
-from .training import build_reinforcement_scenario, build_training_plan
+from .training import build_reinforcement_scenario, build_session_analytics, build_training_plan
 
 
 settings = get_settings()
@@ -111,10 +111,7 @@ def scenarios() -> dict[str, object]:
     if not settings.scenarios_path.exists():
         raise HTTPException(status_code=404, detail="Scenario file not found")
     data = _load_scenarios()
-    for scenario in data["scenarios"]:
-        for sentence in scenario["sentences"]:
-            if not sentence.get("audioUrl"):
-                sentence["audioUrl"] = f"/api/prompt-audio-file/{sentence['id']}.mp3"
+    data["scenarios"] = [_hydrate_scenario_defaults(scenario) for scenario in data["scenarios"]]
     return data
 
 
@@ -122,7 +119,12 @@ def scenarios() -> dict[str, object]:
 def reinforcement_scenario() -> dict[str, object]:
     with connect(settings.database_path) as conn:
         rows = conn.execute(
-            "SELECT sentence_id, normalized_json FROM attempts ORDER BY created_at DESC LIMIT 600"
+            """
+            SELECT sentence_id, reference_text, normalized_json, created_at
+            FROM attempts
+            ORDER BY created_at DESC
+            LIMIT 600
+            """
         ).fetchall()
     scenario = build_reinforcement_scenario([row_to_dict(row) for row in rows])
     for sentence in scenario["sentences"]:
@@ -274,10 +276,30 @@ def attempts(limit: int = 100) -> dict[str, object]:
 def training_plan(limit: int = 200) -> dict[str, object]:
     with connect(settings.database_path) as conn:
         rows = conn.execute(
-            "SELECT sentence_id, normalized_json FROM attempts ORDER BY created_at DESC LIMIT ?",
+            """
+            SELECT sentence_id, reference_text, normalized_json, created_at
+            FROM attempts
+            ORDER BY created_at DESC
+            LIMIT ?
+            """,
             (min(limit, 1000),),
         ).fetchall()
     return build_training_plan([row_to_dict(row) for row in rows])
+
+
+@app.get("/api/session-analytics")
+def session_analytics(limit: int = 120) -> dict[str, object]:
+    with connect(settings.database_path) as conn:
+        rows = conn.execute(
+            """
+            SELECT id, sentence_id, reference_text, normalized_json, created_at
+            FROM attempts
+            ORDER BY created_at DESC
+            LIMIT ?
+            """,
+            (min(limit, 500),),
+        ).fetchall()
+    return build_session_analytics([row_to_dict(row) for row in rows])
 
 
 def _tags_for(normalized: dict[str, object]) -> list[str]:
@@ -303,6 +325,20 @@ def _tags_for(normalized: dict[str, object]) -> list[str]:
 
 def _load_scenarios() -> dict[str, object]:
     return json.loads(settings.scenarios_path.read_text(encoding="utf-8"))
+
+
+def _hydrate_scenario_defaults(scenario: dict[str, object]) -> dict[str, object]:
+    hydrated = dict(scenario)
+    hydrated.setdefault("topic", "general")
+    hydrated.setdefault("sourceType", "curated")
+    sentences = []
+    for sentence in hydrated.get("sentences", []):
+        sentence_item = dict(sentence)
+        if not sentence_item.get("audioUrl"):
+            sentence_item["audioUrl"] = f"/api/prompt-audio-file/{sentence_item['id']}.mp3"
+        sentences.append(sentence_item)
+    hydrated["sentences"] = sentences
+    return hydrated
 
 
 def _find_sentence(sentence_id: str) -> dict[str, str] | None:

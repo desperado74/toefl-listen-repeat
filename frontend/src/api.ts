@@ -1,4 +1,4 @@
-import type { AppConfig, AttemptResult, AzureToken, ScenarioPack, TrainingPlan } from "./types";
+import type { AppConfig, AttemptResult, AzureToken, ScenarioPack, SessionAnalytics, TrainingPlan } from "./types";
 
 export async function fetchScenarios(): Promise<ScenarioPack[]> {
   const response = await fetch("/api/scenarios");
@@ -21,7 +21,7 @@ export async function fetchAzureToken(): Promise<AzureToken> {
   const response = await fetch("/api/azure-token");
   if (!response.ok) {
     const body = await response.json().catch(() => null);
-    throw new Error(body?.detail ?? "Unable to fetch Azure token");
+    throw new Error(body?.detail ?? "获取 Azure token 失败");
   }
   return response.json();
 }
@@ -48,13 +48,21 @@ export async function saveAttempt(params: {
   });
   if (!response.ok) {
     const body = await response.json().catch(() => null);
-    throw new Error(body?.detail ?? "Unable to save attempt");
+    throw new Error(body?.detail ?? "保存练习记录失败");
   }
   return response.json();
 }
 
 export async function fetchTrainingPlan(): Promise<TrainingPlan> {
   const response = await fetch("/api/training-plan");
+  if (!response.ok) {
+    throw new Error(await response.text());
+  }
+  return response.json();
+}
+
+export async function fetchSessionAnalytics(): Promise<SessionAnalytics> {
+  const response = await fetch("/api/session-analytics");
   if (!response.ok) {
     throw new Error(await response.text());
   }
@@ -89,6 +97,6 @@ export async function loginWithPassword(password: string): Promise<void> {
   });
   if (!response.ok) {
     const body = await response.json().catch(() => null);
-    throw new Error(body?.detail ?? "Unable to unlock app");
+    throw new Error(body?.detail ?? "应用解锁失败");
   }
 }

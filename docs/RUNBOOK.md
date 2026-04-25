@@ -26,6 +26,19 @@ npm --prefix frontend run build
 python3 -m compileall backend/app
 ```
 
+## Listen and Repeat Content Maintenance
+
+```bash
+cd /Users/wuliuqi/Documents/New\ project
+python3 data/tools/build_listen_repeat_bank.py
+python3 data/tools/validate_listen_repeat_bank.py
+```
+
+Outputs:
+
+- Scenario bank: `data/scenarios/listen_repeat.json`
+- Validation report: `data/reports/listen_repeat_bank_report.json`
+
 ## Key Runtime Env Vars
 
 - `AZURE_SPEECH_KEY`
