@@ -21,6 +21,13 @@
 3. Add retry strategy and queue for Azure errors/timeouts
 4. Deepen analytics dashboard with filters and longer-term trends
 
+## Stage 2B (Speaking Interview)
+
+1. Expand Interview set count after v1 flow feedback
+2. Improve open-response transcription fallback and retry controls
+3. Add optional AI rubric feedback through a cost-controlled provider
+4. Track Interview history by theme and question focus
+
 ## Stage 3 (Reading Expansion)
 
 1. Re-plan Reading in a dedicated session before implementation

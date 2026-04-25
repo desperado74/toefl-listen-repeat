@@ -1,6 +1,7 @@
 node_modules/
 frontend/node_modules/
 frontend/dist/
+.venv/
 .env
 data/*.sqlite3
 data/*.sqlite3-*
@@ -9,3 +10,20 @@ attempts/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Local research / scratch artifacts
+.tmp_refs/
+ocr/
+transcripts/
+*.danmaku.xml
+*.m4a
+bili_cookies.txt
+bilibili_*_charging_for_claude.csv
+bilibili_*_charging_for_claude.md
+bilibili_*_charging_titles.txt
+bilibili_*_charging_videos.csv
+bilibili_*_charging_videos.json
+failed_vocabulary_booklet.pdf
+fresh-space.js
+make_vocab_pdf.py
+小吕需要的书籍/

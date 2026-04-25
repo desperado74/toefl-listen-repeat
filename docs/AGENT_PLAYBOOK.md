@@ -1,11 +1,23 @@
 # AGENT PLAYBOOK
 
-Last updated: 2026-04-24
+Last updated: 2026-04-25
 Workspace: `/Users/wuliuqi/Documents/New project`
 
 ## Goal
 
 Use a stable multi-agent workflow to keep context clean, avoid long-thread drift, and ship features continuously.
+
+## Runtime Placement
+
+- Default execution target is Windows remote `toefl-win`.
+- Mac should be treated as a control plane for chat, SSH, lightweight file edits, and browser access.
+- Heavy commands must run on Windows unless the user explicitly asks otherwise:
+  - frontend build / dev server
+  - backend compile / dev server
+  - API smoke tests
+  - content validation and bulk data processing
+- Use `scripts/windows_first.sh` from the Mac workspace for sync and remote checks.
+- Windows project path: `D:\Projects\toefl-listen-repeat`
 
 ## Topology
 
@@ -85,8 +97,8 @@ No long narrative. No unrelated refactor.
 Before integrating any worker result:
 
 1. Build checks
-- `npm --prefix frontend run build`
-- `python3 -m compileall backend/app`
+- `scripts/windows_first.sh build`
+- `scripts/windows_first.sh compile`
 
 2. Smoke checks
 - `GET /api/health` returns `ok`
@@ -96,6 +108,7 @@ Before integrating any worker result:
 3. Data checks (if DATA touched)
 - Scenario JSON parses
 - Reinforcement scenario endpoint returns valid payload
+- Reading bank changes pass `scripts/windows_first.sh validate-reading`
 
 ## Branching Model
 
@@ -150,4 +163,3 @@ If worker output conflicts with current local state:
 2. Expand scenario bank and reinforcement drills.
 3. Improve feedback specificity (word/phoneme/actionable drills).
 4. Add session analytics view.
-

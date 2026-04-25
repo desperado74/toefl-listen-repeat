@@ -2,8 +2,8 @@
   "scenarioCount": 180,
   "levelCounts": {
     "easy": 45,
-    "hard": 45,
-    "medium": 90
+    "medium": 90,
+    "hard": 45
   },
   "topicCounts": {
     "academic-advising": 13,
@@ -34,5 +34,41 @@
   "sampleDuplicateSentences": {},
   "missingTopicCount": 0,
   "missingSourceTypeCount": 0,
+  "syllableDistribution": {
+    "easy": {
+      "min": 9,
+      "max": 11,
+      "count": 360
+    },
+    "hard": {
+      "min": 19,
+      "max": 23,
+      "count": 360
+    },
+    "medium": {
+      "min": 14,
+      "max": 16,
+      "count": 540
+    }
+  },
+  "wordCountDistribution": {
+    "easy": {
+      "min": 5,
+      "max": 8,
+      "count": 360
+    },
+    "hard": {
+      "min": 13,
+      "max": 15,
+      "count": 360
+    },
+    "medium": {
+      "min": 8,
+      "max": 11,
+      "count": 540
+    }
+  },
+  "maxSameLevelRun": 1,
+  "wordCountWarnings": [],
   "errors": []
 }
