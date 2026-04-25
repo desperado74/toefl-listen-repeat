@@ -19,6 +19,11 @@ class Settings:
     prompt_rate: str = os.getenv("APP_PROMPT_RATE", "150")
     prompt_tts_provider: str = os.getenv("APP_PROMPT_TTS_PROVIDER", "auto").lower()
     prompt_azure_voice: str = os.getenv("APP_PROMPT_AZURE_VOICE", "en-US-JennyNeural")
+    interview_ai_provider: str = os.getenv("INTERVIEW_AI_PROVIDER", "none").lower()
+    interview_reference_provider: str = os.getenv("INTERVIEW_REFERENCE_PROVIDER", "local").lower()
+    deepseek_api_key: str = os.getenv("DEEPSEEK_API_KEY", "")
+    deepseek_base_url: str = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+    deepseek_model: str = os.getenv("DEEPSEEK_MODEL", "deepseek-v4-flash")
     frontend_dist_dir: Path = Path(os.getenv("APP_FRONTEND_DIST_DIR", "frontend/dist"))
     cors_allow_origins: str = os.getenv(
         "APP_CORS_ALLOW_ORIGINS",
@@ -29,6 +34,8 @@ class Settings:
     session_cookie_secure: bool = os.getenv("APP_SESSION_COOKIE_SECURE", "0") == "1"
     session_secret: str = os.getenv("APP_SESSION_SECRET", "replace-me")
     scenarios_path: Path = Path("data/scenarios/listen_repeat.json")
+    reading_bank_path: Path = Path("data/reading/reading_bank.json")
+    interview_bank_path: Path = Path("data/interview/interview_bank.json")
 
     @property
     def azure_configured(self) -> bool:

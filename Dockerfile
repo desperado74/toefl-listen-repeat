@@ -15,10 +15,12 @@ COPY backend/requirements.txt /app/backend/requirements.txt
 RUN pip install -r /app/backend/requirements.txt
 
 COPY backend /app/backend
+COPY data/interview /app/data/interview
+COPY data/reading /app/data/reading
 COPY data/scenarios /app/data/scenarios
 COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 
-RUN mkdir -p /app/attempts /app/data/audio/generated /app/data
+RUN mkdir -p /data/attempts /data/audio/generated /app/data
 
 EXPOSE 8000
 

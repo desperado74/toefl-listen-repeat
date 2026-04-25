@@ -24,9 +24,21 @@ services:
         value: azure
       - key: APP_PROMPT_AZURE_VOICE
         value: en-US-JennyNeural
+      - key: INTERVIEW_AI_PROVIDER
+        value: deepseek
+      - key: INTERVIEW_REFERENCE_PROVIDER
+        value: deepseek
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_MODEL
+        value: deepseek-v4-flash
+      - key: DEEPSEEK_BASE_URL
+        value: https://api.deepseek.com
       - key: APP_DATABASE_PATH
         value: /data/toefl_repeat.sqlite3
       - key: APP_ATTEMPTS_DIR
         value: /data/attempts
       - key: APP_PROMPT_AUDIO_DIR
         value: /data/audio/generated
+      - key: APP_FRONTEND_DIST_DIR
+        value: frontend/dist
