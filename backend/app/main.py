@@ -53,11 +53,17 @@ def startup() -> None:
 @app.middleware("http")
 async def access_guard(request: Request, call_next):
     if not settings.access_protection_enabled:
-        return await call_next(request)
+        _ensure_visitor_id(request)
+        response = await call_next(request)
+        _set_visitor_cookie(response, request)
+        return response
     if not _path_requires_auth(request.url.path):
         return await call_next(request)
     if _is_authenticated(request):
-        return await call_next(request)
+        _ensure_visitor_id(request)
+        response = await call_next(request)
+        _set_visitor_cookie(response, request)
+        return response
     return JSONResponse({"detail": "Access password required."}, status_code=401)
 
 
@@ -217,6 +223,7 @@ def interview_set(set_id: str) -> dict[str, object]:
 
 @app.post("/api/interview/attempts")
 async def create_interview_attempt(
+    request: Request,
     set_id: str = Form(...),
     question_id: str = Form(...),
     duration_ms: int = Form(...),
@@ -284,9 +291,9 @@ async def create_interview_attempt(
             """
             INSERT INTO interview_attempts (
                 id, set_id, question_id, audio_path, duration_ms, transcript,
-                ai_feedback_json, rubric_scores_json, scoring_status
+                ai_feedback_json, rubric_scores_json, scoring_status, client_id
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 attempt_id,
@@ -298,6 +305,7 @@ async def create_interview_attempt(
                 json.dumps(generated_feedback, ensure_ascii=False),
                 json.dumps(rubric_scores, ensure_ascii=False),
                 status_value,
+                _visitor_id(request),
             ),
         )
 
@@ -318,11 +326,11 @@ async def create_interview_attempt(
 
 
 @app.get("/api/interview/attempts")
-def interview_attempts(limit: int = 80) -> dict[str, object]:
+def interview_attempts(request: Request, limit: int = 80) -> dict[str, object]:
     with connect(settings.database_path) as conn:
         rows = conn.execute(
-            "SELECT * FROM interview_attempts ORDER BY created_at DESC LIMIT ?",
-            (min(limit, 300),),
+            "SELECT * FROM interview_attempts WHERE client_id = ? ORDER BY created_at DESC LIMIT ?",
+            (_visitor_id(request), min(limit, 300)),
         ).fetchall()
     attempts = []
     for row in rows:
@@ -331,6 +339,7 @@ def interview_attempts(limit: int = 80) -> dict[str, object]:
         item["questionId"] = item.pop("question_id")
         item["durationMs"] = item.pop("duration_ms")
         item["audioPath"] = item.pop("audio_path")
+        item.pop("client_id", None)
         item["aiFeedback"] = json.loads(item.pop("ai_feedback_json") or "{}")
         item["rubricScores"] = json.loads(item.pop("rubric_scores_json") or "{}")
         item["scoringStatus"] = item.pop("scoring_status")
@@ -359,9 +368,9 @@ async def interview_reference_answer(request: Request) -> dict[str, object]:
         attempt = conn.execute(
             """
             SELECT id FROM interview_attempts
-            WHERE id = ? AND set_id = ? AND question_id = ?
+            WHERE id = ? AND set_id = ? AND question_id = ? AND client_id = ?
             """,
-            (attempt_id, set_id, question_id),
+            (attempt_id, set_id, question_id, _visitor_id(request)),
         ).fetchone()
         if attempt is None:
             raise HTTPException(status_code=403, detail="Complete this question before viewing a reference answer.")
@@ -428,8 +437,8 @@ async def create_reading_attempt(request: Request) -> dict[str, object]:
     with connect(settings.database_path) as conn:
         conn.execute(
             """
-            INSERT INTO reading_attempts (id, set_id, answers_json, result_json, elapsed_ms)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO reading_attempts (id, set_id, answers_json, result_json, elapsed_ms, client_id)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
             (
                 attempt_id,
@@ -437,22 +446,25 @@ async def create_reading_attempt(request: Request) -> dict[str, object]:
                 json.dumps(answers, ensure_ascii=False),
                 json.dumps(result, ensure_ascii=False),
                 elapsed_ms,
+                _visitor_id(request),
             ),
         )
     return {"id": attempt_id, "result": result}
 
 
 @app.get("/api/reinforcement-scenario")
-def reinforcement_scenario() -> dict[str, object]:
+def reinforcement_scenario(request: Request) -> dict[str, object]:
     current_sentence_ids = _current_sentence_ids()
     with connect(settings.database_path) as conn:
         rows = conn.execute(
             """
             SELECT sentence_id, reference_text, normalized_json, created_at
             FROM attempts
+            WHERE client_id = ?
             ORDER BY created_at DESC
             LIMIT 600
-            """
+            """,
+            (_visitor_id(request),),
         ).fetchall()
     scenario = build_reinforcement_scenario(_current_attempt_dicts(rows, current_sentence_ids))
     for sentence in scenario["sentences"]:
@@ -527,6 +539,7 @@ def azure_token() -> dict[str, str]:
 
 @app.post("/api/attempts")
 async def create_attempt(
+    request: Request,
     scenario_id: str = Form(...),
     sentence_id: str = Form(...),
     reference_text: str = Form(...),
@@ -557,9 +570,9 @@ async def create_attempt(
             """
             INSERT INTO attempts (
                 id, scenario_id, sentence_id, reference_text, audio_path, duration_ms,
-                azure_raw_json, normalized_json, tags_json
+                azure_raw_json, normalized_json, tags_json, client_id
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 attempt_id,
@@ -571,6 +584,7 @@ async def create_attempt(
                 json.dumps(raw, ensure_ascii=False),
                 json.dumps(normalized, ensure_ascii=False),
                 json.dumps(tags, ensure_ascii=False),
+                _visitor_id(request),
             ),
         )
 
@@ -584,12 +598,12 @@ async def create_attempt(
 
 
 @app.get("/api/attempts")
-def attempts(limit: int = 100) -> dict[str, object]:
+def attempts(request: Request, limit: int = 100) -> dict[str, object]:
     current_sentence_ids = _current_sentence_ids()
     with connect(settings.database_path) as conn:
         rows = conn.execute(
-            "SELECT * FROM attempts ORDER BY created_at DESC LIMIT ?",
-            (min(limit, 500),),
+            "SELECT * FROM attempts WHERE client_id = ? ORDER BY created_at DESC LIMIT ?",
+            (_visitor_id(request), min(limit, 500)),
         ).fetchall()
     items = _current_attempt_dicts(rows, current_sentence_ids)
     for item in items:
@@ -597,38 +611,41 @@ def attempts(limit: int = 100) -> dict[str, object]:
         item["normalized"] = _upgrade_normalized(normalized)
         item["tags"] = json.loads(item.pop("tags_json"))
         item.pop("azure_raw_json", None)
+        item.pop("client_id", None)
         item["audioUrl"] = f"/recordings/{item['scenario_id']}/{item['id']}.wav"
     return {"attempts": items}
 
 
 @app.get("/api/training-plan")
-def training_plan(limit: int = 200) -> dict[str, object]:
+def training_plan(request: Request, limit: int = 200) -> dict[str, object]:
     current_sentence_ids = _current_sentence_ids()
     with connect(settings.database_path) as conn:
         rows = conn.execute(
             """
             SELECT sentence_id, reference_text, normalized_json, created_at
             FROM attempts
+            WHERE client_id = ?
             ORDER BY created_at DESC
             LIMIT ?
             """,
-            (min(limit, 1000),),
+            (_visitor_id(request), min(limit, 1000)),
         ).fetchall()
     return build_training_plan(_current_attempt_dicts(rows, current_sentence_ids))
 
 
 @app.get("/api/session-analytics")
-def session_analytics(limit: int = 120) -> dict[str, object]:
+def session_analytics(request: Request, limit: int = 120) -> dict[str, object]:
     current_sentence_ids = _current_sentence_ids()
     with connect(settings.database_path) as conn:
         rows = conn.execute(
             """
             SELECT id, sentence_id, reference_text, normalized_json, created_at
             FROM attempts
+            WHERE client_id = ?
             ORDER BY created_at DESC
             LIMIT ?
             """,
-            (min(limit, 500),),
+            (_visitor_id(request), min(limit, 500)),
         ).fetchall()
     return build_session_analytics(_current_attempt_dicts(rows, current_sentence_ids))
 
@@ -1745,6 +1762,47 @@ def _is_authenticated(request: Request) -> bool:
         return True
     token = request.cookies.get(settings.session_cookie_name, "")
     return token == settings.access_session_token
+
+
+def _ensure_visitor_id(request: Request) -> str:
+    existing = getattr(request.state, "visitor_id", None)
+    if isinstance(existing, str) and existing:
+        return existing
+    candidate = request.cookies.get(settings.visitor_cookie_name, "")
+    if not _is_valid_visitor_id(candidate):
+        candidate = str(uuid.uuid4())
+        request.state.visitor_cookie_needs_set = True
+    request.state.visitor_id = candidate
+    return candidate
+
+
+def _set_visitor_cookie(response, request: Request) -> None:
+    visitor_id = _ensure_visitor_id(request)
+    if not getattr(request.state, "visitor_cookie_needs_set", False):
+        return
+    response.set_cookie(
+        key=settings.visitor_cookie_name,
+        value=visitor_id,
+        httponly=True,
+        secure=settings.session_cookie_secure,
+        samesite="lax",
+        max_age=60 * 60 * 24 * 365,
+        path="/",
+    )
+
+
+def _visitor_id(request: Request) -> str:
+    return _ensure_visitor_id(request)
+
+
+def _is_valid_visitor_id(value: str) -> bool:
+    if not value:
+        return False
+    try:
+        uuid.UUID(value)
+    except ValueError:
+        return False
+    return True
 
 
 def _upgrade_normalized(normalized: dict[str, object]) -> dict[str, object]:
