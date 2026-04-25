@@ -2,8 +2,14 @@ import type { PracticeSentence } from "./types";
 
 export async function playPrompt(sentence: PracticeSentence): Promise<void> {
   if (sentence.audioUrl) {
-    await playAudio(sentence.audioUrl);
-    return;
+    try {
+      await playAudio(sentence.audioUrl);
+      return;
+    } catch {
+      // Keep practice flowing even when backend prompt-audio is unavailable.
+      await speak(sentence.text);
+      return;
+    }
   }
   await speak(sentence.text);
 }
