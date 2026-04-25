@@ -7,7 +7,10 @@ import {
   fetchInterviewAttempts,
   fetchInterviewSet,
   fetchInterviewSets,
+  completeReadingAdaptiveSession,
   generateInterviewReferenceAnswer,
+  fetchReadingAdaptiveSessions,
+  fetchReadingModule,
   fetchReadingSet,
   fetchReadingSets,
   fetchReinforcementScenario,
@@ -18,6 +21,7 @@ import {
   saveAttempt,
   saveDeepSeekConfig,
   saveInterviewAttempt,
+  submitReadingRouter,
   submitReadingAttempt,
 } from "./api";
 import { assessPronunciation } from "./azurePronunciation";
@@ -31,7 +35,11 @@ import type {
   InterviewSet,
   InterviewSetSummary,
   PracticeSentence,
+  ReadingAdaptiveCompleteResult,
+  ReadingAdaptiveSession,
   ReadingAttemptResult,
+  ReadingModule,
+  ReadingRouterResult,
   ReadingSection,
   ReadingSet,
   ReadingSetSummary,
@@ -60,6 +68,7 @@ function App() {
   const [speakingMode, setSpeakingMode] = useState<SpeakingMode>("listen");
   const [scenarios, setScenarios] = useState<ScenarioPack[]>([]);
   const [readingSets, setReadingSets] = useState<ReadingSetSummary[]>([]);
+  const [readingAdaptiveSessions, setReadingAdaptiveSessions] = useState<ReadingAdaptiveSession[]>([]);
   const [interviewSets, setInterviewSets] = useState<InterviewSetSummary[]>([]);
   const [scenarioIndex, setScenarioIndex] = useState(0);
   const [sentenceIndex, setSentenceIndex] = useState(0);
@@ -127,9 +136,13 @@ function App() {
 
   async function loadReadingData(disposed = false) {
     try {
-      const readingItems = await fetchReadingSets();
+      const [readingItems, adaptiveItems] = await Promise.all([
+        fetchReadingSets(),
+        fetchReadingAdaptiveSessions(),
+      ]);
       if (disposed) return;
       setReadingSets(readingItems);
+      setReadingAdaptiveSessions(adaptiveItems);
       setReadingLoadError("");
     } catch (err) {
       if (disposed) return;
@@ -412,6 +425,7 @@ function App() {
         appModule={module}
         onSwitchModule={setModule}
         readingSets={readingSets}
+        adaptiveSessions={readingAdaptiveSessions}
         loadError={readingLoadError}
         onReload={() => loadReadingData(false)}
       />
@@ -1404,15 +1418,18 @@ function ReadingPractice({
   appModule,
   onSwitchModule,
   readingSets,
+  adaptiveSessions,
   loadError,
   onReload,
 }: {
   appModule: AppModule;
   onSwitchModule: (module: AppModule) => void;
   readingSets: ReadingSetSummary[];
+  adaptiveSessions: ReadingAdaptiveSession[];
   loadError: string;
   onReload: () => Promise<void>;
 }) {
+  const [readingMode, setReadingMode] = useState<"adaptive" | "single">("adaptive");
   const [selectedSetId, setSelectedSetId] = useState("");
   const [readingSet, setReadingSet] = useState<ReadingSet | null>(null);
   const [answers, setAnswers] = useState<Record<string, number | string>>({});
@@ -1504,34 +1521,47 @@ function ReadingPractice({
         </div>
         <ModuleSwitcher activeModule={appModule} onSwitch={onSwitchModule} />
 
-        <label className="fieldLabel" htmlFor="reading-set">
-          阅读套题
-        </label>
-        <select
-          id="reading-set"
-          value={activeSetId}
-          onChange={(event) => setSelectedSetId(event.target.value)}
-          disabled={!readingSets.length}
-        >
-          {readingSets.map((item, index) => (
-            <option value={item.id} key={item.id}>
-              {readingSetLabel(item, index)}
-            </option>
-          ))}
-        </select>
+        <div className="modeTabs">
+          <button className={readingMode === "adaptive" ? "active" : ""} onClick={() => setReadingMode("adaptive")}>
+            Adaptive
+          </button>
+          <button className={readingMode === "single" ? "active" : ""} onClick={() => setReadingMode("single")}>
+            Single Set
+          </button>
+        </div>
+
+        {readingMode === "single" ? (
+          <>
+            <label className="fieldLabel" htmlFor="reading-set">
+              阅读套题
+            </label>
+            <select
+              id="reading-set"
+              value={activeSetId}
+              onChange={(event) => setSelectedSetId(event.target.value)}
+              disabled={!readingSets.length}
+            >
+              {readingSets.map((item, index) => (
+                <option value={item.id} key={item.id}>
+                  {readingSetLabel(item, index)}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : null}
 
         <section className="planPanel">
           <div className="panelTitle">
             <Clock size={16} />
             阅读计划
           </div>
-          <p>{readingSet?.descriptionZh || "先选择一套阅读短练，完成后查看技能拆解。"}</p>
+          <p>{readingMode === "adaptive" ? adaptiveSessions[0]?.descriptionZh || "先完成 Router，再进入 Lower/Upper 第二模块。" : readingSet?.descriptionZh || "先选择一套阅读短练，完成后查看技能拆解。"}</p>
           <div className="tagList">
-            <span>{totalQuestions || readingSets[0]?.questionCount || 0} 题</span>
-            <span>{readingSet?.estimatedMinutes || readingSets[0]?.estimatedMinutes || 10} 分钟</span>
-            <span>{levelLabel((readingSet?.difficulty || readingSets[0]?.difficulty || "medium") as ScenarioPack["level"])}</span>
+            <span>{readingMode === "adaptive" ? "50 题" : `${totalQuestions || readingSets[0]?.questionCount || 0} 题`}</span>
+            <span>{readingMode === "adaptive" ? `${adaptiveSessions[0]?.estimatedMinutes || 30} 分钟` : `${readingSet?.estimatedMinutes || readingSets[0]?.estimatedMinutes || 10} 分钟`}</span>
+            <span>{readingMode === "adaptive" ? "Router + Lower/Upper" : levelLabel((readingSet?.difficulty || readingSets[0]?.difficulty || "medium") as ScenarioPack["level"])}</span>
           </div>
-          <div className="progressBlock">
+          {readingMode === "single" ? <div className="progressBlock">
             <div className="progressTop">
               <span>已作答 {answeredCount}/{totalQuestions}</span>
               <span>{formatDuration(elapsedMs)}</span>
@@ -1539,12 +1569,14 @@ function ReadingPractice({
             <div className="progressTrack">
               <div style={{ width: totalQuestions ? `${(answeredCount / totalQuestions) * 100}%` : "0%" }} />
             </div>
-          </div>
+          </div> : <p className="miniNotice">训练模拟路由，非 ETS 官方自适应算法。</p>}
           <button onClick={() => void onReload()}>刷新题库</button>
         </section>
       </aside>
 
-      <section className="practice readingPractice">
+      {readingMode === "adaptive" ? (
+        <AdaptiveReadingPractice adaptiveSessions={adaptiveSessions} loadError={loadError} />
+      ) : <section className="practice readingPractice">
         <header className="practiceHeader">
           <div>
             <span className="eyebrow">Complete the Words · Daily Life · Academic Passage</span>
@@ -1632,8 +1664,298 @@ function ReadingPractice({
         ) : null}
 
         {result ? <ReadingResult result={result} /> : null}
-      </section>
+      </section>}
     </main>
+  );
+}
+
+function AdaptiveReadingPractice({
+  adaptiveSessions,
+  loadError,
+}: {
+  adaptiveSessions: ReadingAdaptiveSession[];
+  loadError: string;
+}) {
+  const session = adaptiveSessions[0] ?? null;
+  const [routerModule, setRouterModule] = useState<ReadingModule | null>(null);
+  const [secondModule, setSecondModule] = useState<ReadingModule | null>(null);
+  const [routerAnswers, setRouterAnswers] = useState<Record<string, number | string>>({});
+  const [secondAnswers, setSecondAnswers] = useState<Record<string, number | string>>({});
+  const [routerResult, setRouterResult] = useState<ReadingAttemptResult | null>(null);
+  const [routeInfo, setRouteInfo] = useState<ReadingRouterResult | null>(null);
+  const [finalResult, setFinalResult] = useState<ReadingAdaptiveCompleteResult | null>(null);
+  const [startedAt, setStartedAt] = useState(Date.now());
+  const [secondStartedAt, setSecondStartedAt] = useState<number | null>(null);
+  const [routerElapsedMs, setRouterElapsedMs] = useState(0);
+  const [secondElapsedMs, setSecondElapsedMs] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!session?.routerModule?.id) return;
+    let disposed = false;
+    async function loadRouter() {
+      setLoading(true);
+      setError("");
+      try {
+        const item = await fetchReadingModule(session.routerModule.id);
+        if (disposed) return;
+        setRouterModule(item);
+        setSecondModule(null);
+        setRouterAnswers({});
+        setSecondAnswers({});
+        setRouterResult(null);
+        setRouteInfo(null);
+        setFinalResult(null);
+        setStartedAt(Date.now());
+        setSecondStartedAt(null);
+        setRouterElapsedMs(0);
+        setSecondElapsedMs(0);
+      } catch (err) {
+        if (!disposed) setError(errorMessage(err));
+      } finally {
+        if (!disposed) setLoading(false);
+      }
+    }
+    void loadRouter();
+    return () => {
+      disposed = true;
+    };
+  }, [session?.routerModule?.id]);
+
+  useEffect(() => {
+    if (routerResult) return;
+    const timer = window.setInterval(() => setRouterElapsedMs(Date.now() - startedAt), 1000);
+    return () => window.clearInterval(timer);
+  }, [routerResult, startedAt]);
+
+  useEffect(() => {
+    if (secondStartedAt == null || finalResult) return;
+    const timer = window.setInterval(() => setSecondElapsedMs(Date.now() - secondStartedAt), 1000);
+    return () => window.clearInterval(timer);
+  }, [finalResult, secondStartedAt]);
+
+  const activeModule = routerResult ? secondModule : routerModule;
+  const activeAnswers = routerResult ? secondAnswers : routerAnswers;
+  const activeResult = routerResult ? finalResult?.secondResult ?? null : routerResult;
+  const totalQuestions = useMemo(() => activeModule?.sections.reduce((sum, section) => sum + readingSectionItemCount(section), 0) ?? 0, [activeModule]);
+  const answeredCount = useMemo(() => countReadingAnswers(activeModule, activeAnswers), [activeAnswers, activeModule]);
+  const remainingCount = Math.max(totalQuestions - answeredCount, 0);
+
+  async function submitRouterStep() {
+    if (!session || !routerModule) return;
+    if (remainingCount > 0) {
+      setError(`Router 还有 ${remainingCount} 题未完成。`);
+      return;
+    }
+    setSubmitting(true);
+    setError("");
+    try {
+      const routed = await submitReadingRouter({
+        sessionId: session.id,
+        moduleId: routerModule.id,
+        answers: routerAnswers,
+        elapsedMs: routerElapsedMs,
+      });
+      const next = await fetchReadingModule(routed.nextModule.id);
+      setRouterResult(routed.result);
+      setRouteInfo(routed);
+      setSecondModule(next);
+      setSecondStartedAt(Date.now());
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function submitFinalStep() {
+    if (!session || !routerModule || !secondModule || !routeInfo) return;
+    if (remainingCount > 0) {
+      setError(`第二模块还有 ${remainingCount} 题未完成。`);
+      return;
+    }
+    setSubmitting(true);
+    setError("");
+    try {
+      const completed = await completeReadingAdaptiveSession({
+        sessionId: session.id,
+        routerModuleId: routerModule.id,
+        secondModuleId: secondModule.id,
+        routePath: routeInfo.routePath,
+        routerAnswers,
+        secondAnswers,
+        routerElapsedMs,
+        secondElapsedMs,
+      });
+      setFinalResult(completed);
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  if (!session) {
+    return <section className="practice readingPractice"><section className="emptyState">还没有可用 Reading 自适应题库。</section></section>;
+  }
+
+  return (
+    <section className="practice readingPractice">
+      <header className="practiceHeader">
+        <div>
+          <span className="eyebrow">Two-stage adaptive · Router → Lower/Upper</span>
+          <h1>{session.title}</h1>
+        </div>
+        <div className="statePill">
+          <Activity size={15} />
+          {finalResult ? `总正确率 ${finalResult.overallResult.accuracy}%` : routerResult ? `${routeInfo?.routePath === "upper" ? "Upper" : "Lower"} Module` : "Router Module"}
+        </div>
+      </header>
+
+      {loadError ? <div className="errorBox">{loadError}</div> : null}
+      {error ? <div className="errorBox">{error}</div> : null}
+      {loading ? <section className="emptyState">正在加载 Reading Router...</section> : null}
+      {routeInfo ? (
+        <section className="widePanel">
+          <h2>Router 结果</h2>
+          <p>
+            Router 正确率 {routeInfo.result.accuracy}%，训练路由进入 {routeInfo.routePath === "upper" ? "Upper Module" : "Lower Module"}。
+            阈值为 {routeInfo.thresholdAccuracy}%。{routeInfo.disclaimerZh}
+          </p>
+          <div className="tagList">
+            <span>Router {routeInfo.result.correct}/{routeInfo.result.total}</span>
+            <span>{routeInfo.nextModule.title}</span>
+          </div>
+        </section>
+      ) : null}
+
+      {activeModule ? (
+        <>
+          <ReadingModuleContent
+            module={activeModule}
+            answers={activeAnswers}
+            result={activeResult}
+            onAnswer={(id, value) => {
+              if (routerResult) {
+                setSecondAnswers((current) => ({ ...current, [id]: value }));
+              } else {
+                setRouterAnswers((current) => ({ ...current, [id]: value }));
+              }
+            }}
+          />
+          <section className="readingSubmitBar">
+            <div>
+              <strong>{finalResult ? "自适应阅读已完成" : `已作答 ${answeredCount}/${totalQuestions}`}</strong>
+              <span>{finalResult ? finalResult.overallResult.summaryZh : remainingCount ? `还差 ${remainingCount} 题。` : "已答完，可以提交当前模块。"}</span>
+            </div>
+            {!routerResult ? (
+              <button onClick={submitRouterStep} disabled={submitting || remainingCount > 0}>
+                {submitting ? "提交中..." : "提交 Router 并路由"}
+              </button>
+            ) : (
+              <button onClick={submitFinalStep} disabled={submitting || finalResult != null || remainingCount > 0}>
+                {submitting ? "提交中..." : "提交第二模块并复盘"}
+              </button>
+            )}
+          </section>
+        </>
+      ) : null}
+
+      {finalResult ? (
+        <>
+          <section className="widePanel">
+            <h2>完整 50 题复盘</h2>
+            <div className="tagList">
+              <span>Router：{finalResult.routerResult.correct}/{finalResult.routerResult.total}</span>
+              <span>Module 2：{finalResult.secondResult.correct}/{finalResult.secondResult.total}</span>
+              <span>总分：{finalResult.overallResult.correct}/{finalResult.overallResult.total}</span>
+              <span>路径：{finalResult.routePath === "upper" ? "Upper" : "Lower"}</span>
+            </div>
+          </section>
+          <ReadingResult result={finalResult.overallResult} />
+        </>
+      ) : null}
+    </section>
+  );
+}
+
+function ReadingModuleContent({
+  module,
+  answers,
+  result,
+  onAnswer,
+}: {
+  module: ReadingSet | ReadingModule;
+  answers: Record<string, number | string>;
+  result: ReadingAttemptResult | null;
+  onAnswer: (id: string, value: number | string) => void;
+}) {
+  return (
+    <>
+      <section className="widePanel">
+        <h2>{module.title}</h2>
+        <p>{module.descriptionZh}</p>
+        <div className="tagList">
+          <span>{module.sections.reduce((sum, section) => sum + readingSectionItemCount(section), 0)} 题</span>
+          <span>{module.estimatedMinutes} 分钟</span>
+          <span>{levelLabel(module.difficulty)}</span>
+        </div>
+      </section>
+      {module.sections.map((section) => (
+        <section className="readingSection" key={section.id}>
+          <div className="readingSectionHeader">
+            <div>
+              <span className="eyebrow">{sectionTypeLabel(section.type)}</span>
+              <h2>{section.title}</h2>
+            </div>
+            <span>{section.instructionsZh}</span>
+          </div>
+          {section.type === "complete_words" ? (
+            <CompleteWordsSection answers={answers} result={result} section={section} onAnswer={(blankId, value) => onAnswer(blankId, value)} />
+          ) : (
+            <>
+              <div className="readingPassage">{section.passage}</div>
+              <div className="readingQuestions">
+                {section.questions.map((question, questionIndex) => (
+                  <div className="readingQuestion" key={question.id}>
+                    <h3>
+                      {questionIndex + 1}. {question.prompt}
+                    </h3>
+                    <div className="optionGrid">
+                      {question.options.map((option, optionIndex) => {
+                        const selected = answers[question.id] === optionIndex;
+                        const revealed = result != null;
+                        const isAnswer = question.answer === optionIndex;
+                        return (
+                          <button
+                            key={option}
+                            className={`answerOption${selected ? " selected" : ""}${revealed && isAnswer ? " correct" : ""}${revealed && selected && !isAnswer ? " wrong" : ""}`}
+                            onClick={() => onAnswer(question.id, optionIndex)}
+                            disabled={revealed}
+                          >
+                            <strong>{String.fromCharCode(65 + optionIndex)}</strong>
+                            <span>{option}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {result ? (
+                      <div className="explanationBox">
+                        <strong>解析：</strong>
+                        {question.explanationZh}
+                        <p>证据：{question.evidence}</p>
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </section>
+      ))}
+    </>
   );
 }
 

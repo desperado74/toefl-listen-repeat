@@ -7,6 +7,10 @@ import type {
   InterviewSet,
   InterviewSetSummary,
   ReadingAttemptResult,
+  ReadingAdaptiveCompleteResult,
+  ReadingAdaptiveSession,
+  ReadingModule,
+  ReadingRouterResult,
   ReadingSet,
   ReadingSetSummary,
   ScenarioPack,
@@ -219,6 +223,68 @@ export async function fetchReadingSet(setId: string): Promise<ReadingSet> {
   }
   const data = await response.json();
   return data.set;
+}
+
+export async function fetchReadingAdaptiveSessions(): Promise<ReadingAdaptiveSession[]> {
+  const response = await fetch("/api/reading/adaptive");
+  if (!response.ok) {
+    throw new Error(await response.text());
+  }
+  const data = await response.json();
+  return data.sessions;
+}
+
+export async function fetchReadingModule(moduleId: string): Promise<ReadingModule> {
+  const response = await fetch(`/api/reading/modules/${moduleId}`);
+  if (!response.ok) {
+    throw new Error(await response.text());
+  }
+  const data = await response.json();
+  return data.module;
+}
+
+export async function submitReadingRouter(params: {
+  sessionId: string;
+  moduleId: string;
+  answers: Record<string, number | string>;
+  elapsedMs: number;
+}): Promise<ReadingRouterResult> {
+  const response = await fetch("/api/reading/adaptive/router", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(params)
+  });
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    throw new Error(body?.detail ?? "提交 Router 失败");
+  }
+  return response.json();
+}
+
+export async function completeReadingAdaptiveSession(params: {
+  sessionId: string;
+  routerModuleId: string;
+  secondModuleId: string;
+  routePath: "lower" | "upper";
+  routerAnswers: Record<string, number | string>;
+  secondAnswers: Record<string, number | string>;
+  routerElapsedMs: number;
+  secondElapsedMs: number;
+}): Promise<ReadingAdaptiveCompleteResult> {
+  const response = await fetch("/api/reading/adaptive/complete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(params)
+  });
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    throw new Error(body?.detail ?? "提交自适应阅读失败");
+  }
+  return response.json();
 }
 
 export async function submitReadingAttempt(params: {

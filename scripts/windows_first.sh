@@ -75,7 +75,28 @@ smoke_reading() {
     \$payload = @{ setId = \$set.id; answers = \$answers; elapsedMs = 60000 } | ConvertTo-Json -Depth 8; \
     \$attempt = Invoke-RestMethod -Method Post -Uri \"\$api/api/reading/attempts\" -ContentType 'application/json' -Body \$payload; \
     if (-not \$attempt.result -or \$attempt.result.total -lt 1) { throw 'Reading attempt did not return a scored result' }; \
-    Write-Output ('Reading API smoke OK: {0} sets, first attempt total={1}, accuracy={2}%' -f \$setsResponse.sets.Count, \$attempt.result.total, \$attempt.result.accuracy)"
+    \$adaptive = Invoke-RestMethod -Uri \"\$api/api/reading/adaptive\"; \
+    if (-not \$adaptive.sessions -or \$adaptive.sessions.Count -lt 1) { throw 'No adaptive reading sessions returned' }; \
+    \$session = \$adaptive.sessions[0]; \
+    \$router = Invoke-RestMethod -Uri \"\$api/api/reading/modules/\$([uri]::EscapeDataString(\$session.routerModule.id))\"; \
+    \$routerAnswers = @{}; \
+    foreach (\$section in \$router.module.sections) { \
+      if (\$section.type -eq 'complete_words') { foreach (\$blank in \$section.blanks) { \$routerAnswers[\$blank.id] = \$blank.answer } } \
+      else { foreach (\$question in \$section.questions) { \$routerAnswers[\$question.id] = 0 } } \
+    }; \
+    \$routerPayload = @{ sessionId = \$session.id; moduleId = \$router.module.id; answers = \$routerAnswers; elapsedMs = 900000 } | ConvertTo-Json -Depth 10; \
+    \$route = Invoke-RestMethod -Method Post -Uri \"\$api/api/reading/adaptive/router\" -ContentType 'application/json' -Body \$routerPayload; \
+    if (-not \$route.result -or \$route.result.total -ne 25) { throw 'Adaptive router did not return 25 items' }; \
+    \$second = Invoke-RestMethod -Uri \"\$api/api/reading/modules/\$([uri]::EscapeDataString(\$route.nextModule.id))\"; \
+    \$secondAnswers = @{}; \
+    foreach (\$section in \$second.module.sections) { \
+      if (\$section.type -eq 'complete_words') { foreach (\$blank in \$section.blanks) { \$secondAnswers[\$blank.id] = \$blank.answer } } \
+      else { foreach (\$question in \$section.questions) { \$secondAnswers[\$question.id] = 0 } } \
+    }; \
+    \$completePayload = @{ sessionId = \$session.id; routerModuleId = \$router.module.id; secondModuleId = \$second.module.id; routePath = \$route.routePath; routerAnswers = \$routerAnswers; secondAnswers = \$secondAnswers; routerElapsedMs = 900000; secondElapsedMs = 900000 } | ConvertTo-Json -Depth 12; \
+    \$complete = Invoke-RestMethod -Method Post -Uri \"\$api/api/reading/adaptive/complete\" -ContentType 'application/json' -Body \$completePayload; \
+    if (-not \$complete.overallResult -or \$complete.overallResult.total -ne 50) { throw 'Adaptive complete did not return 50 items' }; \
+    Write-Output ('Reading API smoke OK: {0} sets, single total={1}, adaptive total={2}, route={3}' -f \$setsResponse.sets.Count, \$attempt.result.total, \$complete.overallResult.total, \$route.routePath)"
 }
 
 case "${1:-}" in

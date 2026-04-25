@@ -1,7 +1,7 @@
 {
-  "version": "toefl-reading-v1-seed-2026-04",
-  "sourcePolicy": "Original TOEFL-style practice content; not copied from official tests, TPO, paid banks, or third-party copyrighted questions.",
-  "practiceMode": "shortened",
+  "version": "toefl-reading-adaptive-v1-2026-04",
+  "sourcePolicy": "original_toefl_style_no_official_items",
+  "practiceMode": "adaptive_and_single_set",
   "sets": [
     {
       "id": "reading_seed_001_campus_sustainability",
@@ -18,17 +18,180 @@
           "passage": "The university is {{rs001_cw_b01}} a {{rs001_cw_b02}} program that asks students to {{rs001_cw_b03}} waste, {{rs001_cw_b04}} energy, and report {{rs001_cw_b05}} problems. Student {{rs001_cw_b06}} will receive weekly {{rs001_cw_b07}} comparing residence halls. The committee hopes that small, {{rs001_cw_b08}} choices will create a {{rs001_cw_b09}} effect across {{rs001_cw_b10}}.",
           "questions": [],
           "blanks": [
-            {"id":"rs001_cw_b01","prefix":"exp","answer":"anding","fullWord":"expanding","explanationZh":"expand 表示扩大项目，句中 is expanding 是现在进行时。","evidence":"is ... a program","skillTags":["c-test","spelling","verb-form"],"errorTags":["word-form"],"difficulty":"medium"},
-            {"id":"rs001_cw_b02","prefix":"sustain","answer":"ability","fullWord":"sustainability","explanationZh":"sustainability program 表示可持续发展项目，是校园环保语境中的固定表达。","evidence":"reduce waste; conserve energy","skillTags":["c-test","academic-vocabulary","context"],"errorTags":["suffix-error"],"difficulty":"medium"},
-            {"id":"rs001_cw_b03","prefix":"red","answer":"uce","fullWord":"reduce","explanationZh":"reduce waste 表示减少浪费，符合环保项目目标。","evidence":"waste","skillTags":["c-test","collocation"],"errorTags":["semantic-mismatch"],"difficulty":"easy"},
-            {"id":"rs001_cw_b04","prefix":"con","answer":"serve","fullWord":"conserve","explanationZh":"conserve energy 表示节约能源，和 reduce waste 并列。","evidence":"energy","skillTags":["c-test","collocation"],"errorTags":["near-sounding-word"],"difficulty":"medium"},
-            {"id":"rs001_cw_b05","prefix":"maint","answer":"enance","fullWord":"maintenance","explanationZh":"maintenance problems 指维修问题，影响资源使用。","evidence":"report ... problems","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"medium"},
-            {"id":"rs001_cw_b06","prefix":"vol","answer":"unteers","fullWord":"volunteers","explanationZh":"student volunteers 指学生志愿者，后文说明他们会收到报告。","evidence":"Student ... will receive","skillTags":["c-test","noun-form"],"errorTags":["plural-form"],"difficulty":"medium"},
-            {"id":"rs001_cw_b07","prefix":"rep","answer":"orts","fullWord":"reports","explanationZh":"weekly reports 指每周报告，用来比较宿舍楼。","evidence":"weekly ... comparing residence halls","skillTags":["c-test","context"],"errorTags":["plural-form"],"difficulty":"easy"},
-            {"id":"rs001_cw_b08","prefix":"dai","answer":"ly","fullWord":"daily","explanationZh":"daily choices 表示日常选择，和 small 并列修饰 choices。","evidence":"small ... choices","skillTags":["c-test","word-form"],"errorTags":["suffix-error"],"difficulty":"easy"},
-            {"id":"rs001_cw_b09","prefix":"cum","answer":"ulative","fullWord":"cumulative","explanationZh":"cumulative effect 表示累积效应，符合小选择逐渐产生影响。","evidence":"small ... choices will create","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"hard"},
-            {"id":"rs001_cw_b10","prefix":"cam","answer":"pus","fullWord":"campus","explanationZh":"across campus 表示在整个校园范围内。","evidence":"across ...","skillTags":["c-test","context"],"errorTags":["completion-error"],"difficulty":"easy"}
-          ]
+            {
+              "id": "rs001_cw_b01",
+              "prefix": "exp",
+              "answer": "anding",
+              "fullWord": "expanding",
+              "explanationZh": "expand 表示扩大项目，句中 is expanding 是现在进行时。",
+              "evidence": "is ... a program",
+              "skillTags": [
+                "c-test",
+                "spelling",
+                "verb-form"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b02",
+              "prefix": "sustain",
+              "answer": "ability",
+              "fullWord": "sustainability",
+              "explanationZh": "sustainability program 表示可持续发展项目，是校园环保语境中的固定表达。",
+              "evidence": "reduce waste; conserve energy",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "suffix-error"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b03",
+              "prefix": "red",
+              "answer": "uce",
+              "fullWord": "reduce",
+              "explanationZh": "reduce waste 表示减少浪费，符合环保项目目标。",
+              "evidence": "waste",
+              "skillTags": [
+                "c-test",
+                "collocation"
+              ],
+              "errorTags": [
+                "semantic-mismatch"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b04",
+              "prefix": "con",
+              "answer": "serve",
+              "fullWord": "conserve",
+              "explanationZh": "conserve energy 表示节约能源，和 reduce waste 并列。",
+              "evidence": "energy",
+              "skillTags": [
+                "c-test",
+                "collocation"
+              ],
+              "errorTags": [
+                "near-sounding-word"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b05",
+              "prefix": "maint",
+              "answer": "enance",
+              "fullWord": "maintenance",
+              "explanationZh": "maintenance problems 指维修问题，影响资源使用。",
+              "evidence": "report ... problems",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b06",
+              "prefix": "vol",
+              "answer": "unteers",
+              "fullWord": "volunteers",
+              "explanationZh": "student volunteers 指学生志愿者，后文说明他们会收到报告。",
+              "evidence": "Student ... will receive",
+              "skillTags": [
+                "c-test",
+                "noun-form"
+              ],
+              "errorTags": [
+                "plural-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b07",
+              "prefix": "rep",
+              "answer": "orts",
+              "fullWord": "reports",
+              "explanationZh": "weekly reports 指每周报告，用来比较宿舍楼。",
+              "evidence": "weekly ... comparing residence halls",
+              "skillTags": [
+                "c-test",
+                "context"
+              ],
+              "errorTags": [
+                "plural-form"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b08",
+              "prefix": "dai",
+              "answer": "ly",
+              "fullWord": "daily",
+              "explanationZh": "daily choices 表示日常选择，和 small 并列修饰 choices。",
+              "evidence": "small ... choices",
+              "skillTags": [
+                "c-test",
+                "word-form"
+              ],
+              "errorTags": [
+                "suffix-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b09",
+              "prefix": "cum",
+              "answer": "ulative",
+              "fullWord": "cumulative",
+              "explanationZh": "cumulative effect 表示累积效应，符合小选择逐渐产生影响。",
+              "evidence": "small ... choices will create",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_cw_b10",
+              "prefix": "cam",
+              "answer": "pus",
+              "fullWord": "campus",
+              "explanationZh": "across campus 表示在整个校园范围内。",
+              "evidence": "across ...",
+              "skillTags": [
+                "c-test",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         },
         {
           "id": "rs001_daily_life",
@@ -37,10 +200,77 @@
           "instructionsZh": "阅读校园生活场景短文，选择最佳答案。",
           "passage": "Maya finds a note from her residence assistant about a new composting station in the lobby. The note says students should place fruit peels, coffee grounds, and uncoated paper napkins in the green bin, but they should not include meat, plastic forks, or glossy takeout boxes. A volunteer will be in the lobby on Monday evening to answer questions. The note adds that the station is a pilot project; if contamination stays low for six weeks, the university will add bins to two more residence halls.",
           "questions": [
-            {"id":"rs001_dl_q01","type":"daily_life","prompt":"What is the main purpose of the note?","options":["To explain how students should use a new composting station","To announce that all dining halls will stop serving meat","To ask students to volunteer for a city recycling center","To compare several residence halls' waste levels"],"answer":0,"explanationZh":"短文主要说明新堆肥站能放什么、不能放什么以及试点条件。B 夸大为食堂停止供肉，文中只是说肉不能进堆肥桶。","evidence":"new composting station; should place; should not include","skillTags":["main-idea","campus-notice"],"errorTags":["overgeneralization"],"difficulty":"easy"},
-            {"id":"rs001_dl_q02","type":"daily_life","prompt":"According to the note, which item belongs in the green bin?","options":["Coffee grounds","Plastic forks","Glossy takeout boxes","Meat scraps"],"answer":0,"explanationZh":"文中明确列出 coffee grounds 可以放入绿色桶。plastic forks、glossy takeout boxes 和 meat 都被列为不应放入的物品。","evidence":"place fruit peels, coffee grounds, and uncoated paper napkins in the green bin","skillTags":["detail","scanning"],"errorTags":["confused-list-item"],"difficulty":"easy"},
-            {"id":"rs001_dl_q03","type":"daily_life","prompt":"Why will a volunteer be in the lobby on Monday evening?","options":["To answer students' questions","To collect room keys","To sell reusable containers","To inspect every student's trash"],"answer":0,"explanationZh":"志愿者在大厅的目的就是 answer questions。D 把“回答问题”误解成逐一检查垃圾，文中没有这种要求。","evidence":"A volunteer will be in the lobby on Monday evening to answer questions.","skillTags":["purpose","detail"],"errorTags":["unsupported-inference"],"difficulty":"easy"}
-          ]
+            {
+              "id": "rs001_dl_q01",
+              "type": "daily_life",
+              "prompt": "What is the main purpose of the note?",
+              "options": [
+                "To explain how students should use a new composting station",
+                "To announce that all dining halls will stop serving meat",
+                "To ask students to volunteer for a city recycling center",
+                "To compare several residence halls' waste levels"
+              ],
+              "answer": 0,
+              "explanationZh": "短文主要说明新堆肥站能放什么、不能放什么以及试点条件。B 夸大为食堂停止供肉，文中只是说肉不能进堆肥桶。",
+              "evidence": "new composting station; should place; should not include",
+              "skillTags": [
+                "main-idea",
+                "campus-notice"
+              ],
+              "errorTags": [
+                "overgeneralization"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_dl_q02",
+              "type": "daily_life",
+              "prompt": "According to the note, which item belongs in the green bin?",
+              "options": [
+                "Coffee grounds",
+                "Plastic forks",
+                "Glossy takeout boxes",
+                "Meat scraps"
+              ],
+              "answer": 0,
+              "explanationZh": "文中明确列出 coffee grounds 可以放入绿色桶。plastic forks、glossy takeout boxes 和 meat 都被列为不应放入的物品。",
+              "evidence": "place fruit peels, coffee grounds, and uncoated paper napkins in the green bin",
+              "skillTags": [
+                "detail",
+                "scanning"
+              ],
+              "errorTags": [
+                "confused-list-item"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_dl_q03",
+              "type": "daily_life",
+              "prompt": "Why will a volunteer be in the lobby on Monday evening?",
+              "options": [
+                "To answer students' questions",
+                "To collect room keys",
+                "To sell reusable containers",
+                "To inspect every student's trash"
+              ],
+              "answer": 0,
+              "explanationZh": "志愿者在大厅的目的就是 answer questions。D 把“回答问题”误解成逐一检查垃圾，文中没有这种要求。",
+              "evidence": "A volunteer will be in the lobby on Monday evening to answer questions.",
+              "skillTags": [
+                "purpose",
+                "detail"
+              ],
+              "errorTags": [
+                "unsupported-inference"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         },
         {
           "id": "rs001_academic_passage",
@@ -49,14 +279,126 @@
           "instructionsZh": "阅读学术型短文，回答主旨、细节、推断、词义和修辞目的题。",
           "passage": "Universities often begin sustainability efforts by purchasing efficient equipment, yet equipment alone rarely produces the largest possible savings. Buildings are used by people whose routines determine when lights, computers, and heating systems operate. For this reason, many campuses now combine technical upgrades with behavioral programs. One common strategy is feedback: residence halls receive weekly reports showing electricity use compared with similar buildings. The comparison is not meant to shame students; rather, it makes an invisible resource visible. When occupants see that a neighboring hall used less energy during the same cold week, they may look for practical explanations, such as open windows or unused devices left on overnight. However, feedback must be designed carefully. If a report only praises the most efficient hall, students in other buildings may feel the goal is unreachable. Successful programs therefore emphasize specific actions and short time frames. A message such as 'turn off desk lamps before breakfast this week' is easier to act on than a broad request to 'save the planet.'",
           "questions": [
-            {"id":"rs001_ap_q01","type":"academic_passage","prompt":"What is the main idea of the passage?","options":["Campus energy savings improve when technology is paired with behavior-focused feedback","Universities should avoid buying efficient equipment for residence halls","Students generally refuse to participate in sustainability programs","Heating systems are the only major cause of campus energy waste"],"answer":0,"explanationZh":"全文强调设备升级之外，还要通过反馈改变使用习惯。B 说不应购买设备，和第一句不符；D 把问题缩小到供暖，过窄。","evidence":"combine technical upgrades with behavioral programs","skillTags":["main-idea","synthesis"],"errorTags":["too-narrow","contradiction"],"difficulty":"medium"},
-            {"id":"rs001_ap_q02","type":"academic_passage","prompt":"The word 'occupants' in the passage is closest in meaning to","options":["people who use a building","machines that measure heat","official campus rules","reports sent by managers"],"answer":0,"explanationZh":"occupants 指建筑中的使用者或居住者，对应前文 buildings are used by people。B 把词误解成设备，不符合句子主语。","evidence":"Buildings are used by people... When occupants see","skillTags":["vocabulary-in-context"],"errorTags":["referent-confusion"],"difficulty":"easy"},
-            {"id":"rs001_ap_q03","type":"academic_passage","prompt":"Why does the author mention a neighboring hall that used less energy?","options":["To illustrate how comparison can prompt students to examine their routines","To prove that old buildings can never be efficient","To argue that cold weather has no effect on electricity use","To show that weekly reports are illegal in some dormitories"],"answer":0,"explanationZh":"相邻宿舍的比较让学生寻找开放窗户、设备未关等实际原因，说明反馈如何引发行为检查。B 和 D 没有依据；C 还与 cold week 的背景不符。","evidence":"they may look for practical explanations, such as open windows","skillTags":["rhetorical-purpose","inference"],"errorTags":["unsupported-detail"],"difficulty":"medium"},
-            {"id":"rs001_ap_q04","type":"academic_passage","prompt":"According to the passage, what is a risk of praising only the most efficient hall?","options":["Other students may think improvement is impossible","The efficient hall will stop receiving electricity","Reports will become too short to read","The university will cancel all technical upgrades"],"answer":0,"explanationZh":"原文说其他楼学生可能觉得目标 unreachable。B、C、D 都错在是原文没有提到的夸张后果。","evidence":"students in other buildings may feel the goal is unreachable","skillTags":["detail","cause-effect"],"errorTags":["unsupported-inference"],"difficulty":"medium"},
-            {"id":"rs001_ap_q05","type":"academic_passage","prompt":"Which recommendation is most consistent with the passage?","options":["Give students concrete weekly actions connected to energy reports","Send one general environmental slogan at the start of the year","Hide building-level energy data to avoid competition","Focus only on replacing equipment and ignore routines"],"answer":0,"explanationZh":"结尾明确支持具体行动和短时间框架。B 的 broad request 正是作者认为不如具体提示有效；D 忽视行为，与全文主旨相反。","evidence":"emphasize specific actions and short time frames","skillTags":["application","author-view"],"errorTags":["opposite-idea"],"difficulty":"medium"}
-          ]
+            {
+              "id": "rs001_ap_q01",
+              "type": "academic_passage",
+              "prompt": "What is the main idea of the passage?",
+              "options": [
+                "Campus energy savings improve when technology is paired with behavior-focused feedback",
+                "Universities should avoid buying efficient equipment for residence halls",
+                "Students generally refuse to participate in sustainability programs",
+                "Heating systems are the only major cause of campus energy waste"
+              ],
+              "answer": 0,
+              "explanationZh": "全文强调设备升级之外，还要通过反馈改变使用习惯。B 说不应购买设备，和第一句不符；D 把问题缩小到供暖，过窄。",
+              "evidence": "combine technical upgrades with behavioral programs",
+              "skillTags": [
+                "main-idea",
+                "synthesis"
+              ],
+              "errorTags": [
+                "too-narrow",
+                "contradiction"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_ap_q02",
+              "type": "academic_passage",
+              "prompt": "The word 'occupants' in the passage is closest in meaning to",
+              "options": [
+                "people who use a building",
+                "machines that measure heat",
+                "official campus rules",
+                "reports sent by managers"
+              ],
+              "answer": 0,
+              "explanationZh": "occupants 指建筑中的使用者或居住者，对应前文 buildings are used by people。B 把词误解成设备，不符合句子主语。",
+              "evidence": "Buildings are used by people... When occupants see",
+              "skillTags": [
+                "vocabulary-in-context"
+              ],
+              "errorTags": [
+                "referent-confusion"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_ap_q03",
+              "type": "academic_passage",
+              "prompt": "Why does the author mention a neighboring hall that used less energy?",
+              "options": [
+                "To illustrate how comparison can prompt students to examine their routines",
+                "To prove that old buildings can never be efficient",
+                "To argue that cold weather has no effect on electricity use",
+                "To show that weekly reports are illegal in some dormitories"
+              ],
+              "answer": 0,
+              "explanationZh": "相邻宿舍的比较让学生寻找开放窗户、设备未关等实际原因，说明反馈如何引发行为检查。B 和 D 没有依据；C 还与 cold week 的背景不符。",
+              "evidence": "they may look for practical explanations, such as open windows",
+              "skillTags": [
+                "rhetorical-purpose",
+                "inference"
+              ],
+              "errorTags": [
+                "unsupported-detail"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_ap_q04",
+              "type": "academic_passage",
+              "prompt": "According to the passage, what is a risk of praising only the most efficient hall?",
+              "options": [
+                "Other students may think improvement is impossible",
+                "The efficient hall will stop receiving electricity",
+                "Reports will become too short to read",
+                "The university will cancel all technical upgrades"
+              ],
+              "answer": 0,
+              "explanationZh": "原文说其他楼学生可能觉得目标 unreachable。B、C、D 都错在是原文没有提到的夸张后果。",
+              "evidence": "students in other buildings may feel the goal is unreachable",
+              "skillTags": [
+                "detail",
+                "cause-effect"
+              ],
+              "errorTags": [
+                "unsupported-inference"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs001_ap_q05",
+              "type": "academic_passage",
+              "prompt": "Which recommendation is most consistent with the passage?",
+              "options": [
+                "Give students concrete weekly actions connected to energy reports",
+                "Send one general environmental slogan at the start of the year",
+                "Hide building-level energy data to avoid competition",
+                "Focus only on replacing equipment and ignore routines"
+              ],
+              "answer": 0,
+              "explanationZh": "结尾明确支持具体行动和短时间框架。B 的 broad request 正是作者认为不如具体提示有效；D 忽视行为，与全文主旨相反。",
+              "evidence": "emphasize specific actions and short time frames",
+              "skillTags": [
+                "application",
+                "author-view"
+              ],
+              "errorTags": [
+                "opposite-idea"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         }
-      ]
+      ],
+      "sourcePolicy": "original_toefl_style_no_official_items"
     },
     {
       "id": "reading_seed_002_library_research",
@@ -73,17 +415,178 @@
           "passage": "The library research desk helps students {{rs002_cw_b01}} sources, {{rs002_cw_b02}} information, and organize {{rs002_cw_b03}} for class projects. A librarian may suggest {{rs002_cw_b04}} keywords, show how to use {{rs002_cw_b05}} filters, and explain why some websites are less {{rs002_cw_b06}}. Students should keep a {{rs002_cw_b07}} record of search terms so they can {{rs002_cw_b08}} a successful search and {{rs002_cw_b09}} sources before writing a final {{rs002_cw_b10}}.",
           "questions": [],
           "blanks": [
-            {"id":"rs002_cw_b01","prefix":"loc","answer":"ate","fullWord":"locate","explanationZh":"locate sources 表示找到资料来源，是图书馆研究支持的核心动作。","evidence":"sources","skillTags":["c-test","academic-vocabulary"],"errorTags":["semantic-mismatch"],"difficulty":"easy"},
-            {"id":"rs002_cw_b02","prefix":"eval","answer":"uate","fullWord":"evaluate","explanationZh":"evaluate information 表示评估信息可靠性。","evidence":"information","skillTags":["c-test","information-literacy"],"errorTags":["spelling"],"difficulty":"medium"},
-            {"id":"rs002_cw_b03","prefix":"cit","answer":"ations","fullWord":"citations","explanationZh":"organize citations 表示整理引用信息，符合 class projects 语境。","evidence":"organize ... for class projects","skillTags":["c-test","academic-vocabulary"],"errorTags":["plural-form"],"difficulty":"medium"},
-            {"id":"rs002_cw_b04","prefix":"alt","answer":"ernative","fullWord":"alternative","explanationZh":"alternative keywords 指可替换关键词，帮助缩小或调整搜索。","evidence":"suggest ... keywords","skillTags":["c-test","context"],"errorTags":["suffix-error"],"difficulty":"hard"},
-            {"id":"rs002_cw_b05","prefix":"data","answer":"base","fullWord":"database","explanationZh":"database filters 指数据库筛选器。","evidence":"filters","skillTags":["c-test","academic-tools"],"errorTags":["compound-word"],"difficulty":"medium"},
-            {"id":"rs002_cw_b06","prefix":"rel","answer":"iable","fullWord":"reliable","explanationZh":"less reliable 指不太可靠的网站，符合评估信息质量。","evidence":"some websites are less","skillTags":["c-test","information-literacy"],"errorTags":["spelling"],"difficulty":"medium"},
-            {"id":"rs002_cw_b07","prefix":"sys","answer":"tematic","fullWord":"systematic","explanationZh":"systematic record 表示有系统的记录，方便复现搜索。","evidence":"record of search terms","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"hard"},
-            {"id":"rs002_cw_b08","prefix":"rep","answer":"eat","fullWord":"repeat","explanationZh":"repeat a successful search 表示重复一次有效搜索。","evidence":"a successful search","skillTags":["c-test","context"],"errorTags":["near-sounding-word"],"difficulty":"easy"},
-            {"id":"rs002_cw_b09","prefix":"comp","answer":"are","fullWord":"compare","explanationZh":"compare sources 表示比较资料来源。","evidence":"sources before writing","skillTags":["c-test","verb-form"],"errorTags":["completion-error"],"difficulty":"medium"},
-            {"id":"rs002_cw_b10","prefix":"repo","answer":"rt","fullWord":"report","explanationZh":"final report 指最终报告，是 class project 的常见产出。","evidence":"writing a final","skillTags":["c-test","context"],"errorTags":["completion-error"],"difficulty":"easy"}
-          ]
+            {
+              "id": "rs002_cw_b01",
+              "prefix": "loc",
+              "answer": "ate",
+              "fullWord": "locate",
+              "explanationZh": "locate sources 表示找到资料来源，是图书馆研究支持的核心动作。",
+              "evidence": "sources",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "semantic-mismatch"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b02",
+              "prefix": "eval",
+              "answer": "uate",
+              "fullWord": "evaluate",
+              "explanationZh": "evaluate information 表示评估信息可靠性。",
+              "evidence": "information",
+              "skillTags": [
+                "c-test",
+                "information-literacy"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b03",
+              "prefix": "cit",
+              "answer": "ations",
+              "fullWord": "citations",
+              "explanationZh": "organize citations 表示整理引用信息，符合 class projects 语境。",
+              "evidence": "organize ... for class projects",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "plural-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b04",
+              "prefix": "alt",
+              "answer": "ernative",
+              "fullWord": "alternative",
+              "explanationZh": "alternative keywords 指可替换关键词，帮助缩小或调整搜索。",
+              "evidence": "suggest ... keywords",
+              "skillTags": [
+                "c-test",
+                "context"
+              ],
+              "errorTags": [
+                "suffix-error"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b05",
+              "prefix": "data",
+              "answer": "base",
+              "fullWord": "database",
+              "explanationZh": "database filters 指数据库筛选器。",
+              "evidence": "filters",
+              "skillTags": [
+                "c-test",
+                "academic-tools"
+              ],
+              "errorTags": [
+                "compound-word"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b06",
+              "prefix": "rel",
+              "answer": "iable",
+              "fullWord": "reliable",
+              "explanationZh": "less reliable 指不太可靠的网站，符合评估信息质量。",
+              "evidence": "some websites are less",
+              "skillTags": [
+                "c-test",
+                "information-literacy"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b07",
+              "prefix": "sys",
+              "answer": "tematic",
+              "fullWord": "systematic",
+              "explanationZh": "systematic record 表示有系统的记录，方便复现搜索。",
+              "evidence": "record of search terms",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b08",
+              "prefix": "rep",
+              "answer": "eat",
+              "fullWord": "repeat",
+              "explanationZh": "repeat a successful search 表示重复一次有效搜索。",
+              "evidence": "a successful search",
+              "skillTags": [
+                "c-test",
+                "context"
+              ],
+              "errorTags": [
+                "near-sounding-word"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b09",
+              "prefix": "comp",
+              "answer": "are",
+              "fullWord": "compare",
+              "explanationZh": "compare sources 表示比较资料来源。",
+              "evidence": "sources before writing",
+              "skillTags": [
+                "c-test",
+                "verb-form"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_cw_b10",
+              "prefix": "repo",
+              "answer": "rt",
+              "fullWord": "report",
+              "explanationZh": "final report 指最终报告，是 class project 的常见产出。",
+              "evidence": "writing a final",
+              "skillTags": [
+                "c-test",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         },
         {
           "id": "rs002_daily_life",
@@ -92,10 +595,77 @@
           "instructionsZh": "阅读校园生活场景短文，选择最佳答案。",
           "passage": "Omar needs sources for a sociology presentation, but the library website lists hundreds of database results. He opens the research support page and sees that students can book a twenty-minute appointment with a subject librarian. The appointment can be online or at the reference desk. Students are asked to upload their assignment prompt and two keywords before the meeting, so the librarian can prepare examples. Same-day appointments are sometimes available, but the page recommends booking two days ahead during midterm week.",
           "questions": [
-            {"id":"rs002_dl_q01","type":"daily_life","prompt":"Why is Omar likely using the research support page?","options":["He needs help narrowing database results for a presentation","He wants to reserve a group study room for a party","He is applying for a job at the library","He needs to pay a fine for an overdue book"],"answer":0,"explanationZh":"Omar 的问题是数据库结果太多且要做 sociology presentation，因此预约学科馆员最合理。B、C、D 都不是短文中的需求。","evidence":"needs sources for a sociology presentation; hundreds of database results","skillTags":["problem-solution","inference"],"errorTags":["irrelevant-detail"],"difficulty":"easy"},
-            {"id":"rs002_dl_q02","type":"daily_life","prompt":"What must students upload before the meeting?","options":["The assignment prompt and two keywords","A complete bibliography and a photo ID","Their class schedule and dorm address","A recording of their presentation"],"answer":0,"explanationZh":"短文明确说上传 assignment prompt and two keywords。B 错在 bibliography 可能和研究有关但文中没有要求。","evidence":"upload their assignment prompt and two keywords before the meeting","skillTags":["detail","scanning"],"errorTags":["plausible-but-unsupported"],"difficulty":"easy"},
-            {"id":"rs002_dl_q03","type":"daily_life","prompt":"Why does the page recommend booking two days ahead during midterm week?","options":["Appointments may be harder to get at that busy time","The library closes for the entire week","Librarians refuse to meet online during exams","Students need two days to receive a library card"],"answer":0,"explanationZh":"期中周需求高，所以建议提前两天预约。B、C、D 都错在没有文本依据，也过于绝对。","evidence":"Same-day appointments are sometimes available, but... booking two days ahead during midterm week","skillTags":["inference","campus-service"],"errorTags":["unsupported-extreme"],"difficulty":"medium"}
-          ]
+            {
+              "id": "rs002_dl_q01",
+              "type": "daily_life",
+              "prompt": "Why is Omar likely using the research support page?",
+              "options": [
+                "He needs help narrowing database results for a presentation",
+                "He wants to reserve a group study room for a party",
+                "He is applying for a job at the library",
+                "He needs to pay a fine for an overdue book"
+              ],
+              "answer": 0,
+              "explanationZh": "Omar 的问题是数据库结果太多且要做 sociology presentation，因此预约学科馆员最合理。B、C、D 都不是短文中的需求。",
+              "evidence": "needs sources for a sociology presentation; hundreds of database results",
+              "skillTags": [
+                "problem-solution",
+                "inference"
+              ],
+              "errorTags": [
+                "irrelevant-detail"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_dl_q02",
+              "type": "daily_life",
+              "prompt": "What must students upload before the meeting?",
+              "options": [
+                "The assignment prompt and two keywords",
+                "A complete bibliography and a photo ID",
+                "Their class schedule and dorm address",
+                "A recording of their presentation"
+              ],
+              "answer": 0,
+              "explanationZh": "短文明确说上传 assignment prompt and two keywords。B 错在 bibliography 可能和研究有关但文中没有要求。",
+              "evidence": "upload their assignment prompt and two keywords before the meeting",
+              "skillTags": [
+                "detail",
+                "scanning"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_dl_q03",
+              "type": "daily_life",
+              "prompt": "Why does the page recommend booking two days ahead during midterm week?",
+              "options": [
+                "Appointments may be harder to get at that busy time",
+                "The library closes for the entire week",
+                "Librarians refuse to meet online during exams",
+                "Students need two days to receive a library card"
+              ],
+              "answer": 0,
+              "explanationZh": "期中周需求高，所以建议提前两天预约。B、C、D 都错在没有文本依据，也过于绝对。",
+              "evidence": "Same-day appointments are sometimes available, but... booking two days ahead during midterm week",
+              "skillTags": [
+                "inference",
+                "campus-service"
+              ],
+              "errorTags": [
+                "unsupported-extreme"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         },
         {
           "id": "rs002_academic_passage",
@@ -104,14 +674,125 @@
           "instructionsZh": "阅读学术型短文，回答主旨、细节、推断、词义和修辞目的题。",
           "passage": "Digital libraries have made scholarly material easier to reach, but easy access does not always produce effective research. A student who types a broad phrase into a search box may receive thousands of results, many only loosely connected to the topic. Librarians therefore teach search as an iterative process. Researchers begin with a tentative question, test several keywords, examine the language used in promising articles, and then revise the search. This cycle is especially useful because academic fields often use specialized terms. For example, articles about city parks may discuss 'urban green space,' while a student may initially search only for 'parks.' Another important strategy is filtering. Date limits, peer-review options, and subject categories can remove irrelevant material, but filters should not be applied mechanically. A narrow date range may exclude a classic study that later research continues to cite. Effective searching is thus neither a single click nor a random exploration; it is a controlled process of adjustment.",
           "questions": [
-            {"id":"rs002_ap_q01","type":"academic_passage","prompt":"What is the passage mainly about?","options":["Why effective digital research requires repeated adjustment of searches","Why students should avoid using online library databases","How librarians decide which books to buy each year","How city parks are designed in modern urban planning"],"answer":0,"explanationZh":"全文围绕 iterative process、关键词修订和过滤器调整，说明数字研究需要反复调整。D 只是例子中的内容，不是主旨。","evidence":"search as an iterative process; controlled process of adjustment","skillTags":["main-idea","synthesis"],"errorTags":["example-as-main-idea"],"difficulty":"medium"},
-            {"id":"rs002_ap_q02","type":"academic_passage","prompt":"The word 'tentative' in the passage is closest in meaning to","options":["preliminary","permanent","unrelated","illegal"],"answer":0,"explanationZh":"tentative question 指初步问题，之后会测试和修改。B permanent 错在与后文 revise the search 的过程相反。","evidence":"begin with a tentative question... then revise the search","skillTags":["vocabulary-in-context"],"errorTags":["opposite-meaning"],"difficulty":"medium"},
-            {"id":"rs002_ap_q03","type":"academic_passage","prompt":"Why does the author mention 'urban green space'?","options":["To show that scholarly articles may use terms students do not initially search for","To argue that parks are not appropriate research topics","To explain why databases contain no articles about cities","To recommend replacing all keywords with longer phrases"],"answer":0,"explanationZh":"这个例子说明学术领域常用专门术语，学生需要从相关文章中发现并调整关键词。D 过度推断，并不是所有关键词都要变长。","evidence":"academic fields often use specialized terms","skillTags":["rhetorical-purpose","example"],"errorTags":["overgeneralization"],"difficulty":"medium"},
-            {"id":"rs002_ap_q04","type":"academic_passage","prompt":"According to the passage, what is a possible problem with a narrow date filter?","options":["It may exclude an older study that remains influential","It always increases the number of irrelevant results","It prevents students from seeing peer-reviewed articles","It changes article titles into unfamiliar terms"],"answer":0,"explanationZh":"原文指出窄日期范围可能排除仍被引用的经典研究。B 的 always 绝对化，且与过滤器通常减少结果不符。","evidence":"A narrow date range may exclude a classic study that later research continues to cite.","skillTags":["detail","cause-effect"],"errorTags":["absolute-language"],"difficulty":"medium"},
-            {"id":"rs002_ap_q05","type":"academic_passage","prompt":"Which statement best reflects the author's view of filters?","options":["They are useful when applied thoughtfully","They should replace keyword revision entirely","They are harmful in every scholarly search","They matter only for printed books"],"answer":0,"explanationZh":"作者承认过滤器能去除无关材料，但提醒不要机械使用，所以应“谨慎、有思考地使用”。C 说总是有害，和前半句矛盾。","evidence":"filters can remove irrelevant material, but filters should not be applied mechanically","skillTags":["author-view","inference"],"errorTags":["contradiction"],"difficulty":"medium"}
-          ]
+            {
+              "id": "rs002_ap_q01",
+              "type": "academic_passage",
+              "prompt": "What is the passage mainly about?",
+              "options": [
+                "Why effective digital research requires repeated adjustment of searches",
+                "Why students should avoid using online library databases",
+                "How librarians decide which books to buy each year",
+                "How city parks are designed in modern urban planning"
+              ],
+              "answer": 0,
+              "explanationZh": "全文围绕 iterative process、关键词修订和过滤器调整，说明数字研究需要反复调整。D 只是例子中的内容，不是主旨。",
+              "evidence": "search as an iterative process; controlled process of adjustment",
+              "skillTags": [
+                "main-idea",
+                "synthesis"
+              ],
+              "errorTags": [
+                "example-as-main-idea"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_ap_q02",
+              "type": "academic_passage",
+              "prompt": "The word 'tentative' in the passage is closest in meaning to",
+              "options": [
+                "preliminary",
+                "permanent",
+                "unrelated",
+                "illegal"
+              ],
+              "answer": 0,
+              "explanationZh": "tentative question 指初步问题，之后会测试和修改。B permanent 错在与后文 revise the search 的过程相反。",
+              "evidence": "begin with a tentative question... then revise the search",
+              "skillTags": [
+                "vocabulary-in-context"
+              ],
+              "errorTags": [
+                "opposite-meaning"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_ap_q03",
+              "type": "academic_passage",
+              "prompt": "Why does the author mention 'urban green space'?",
+              "options": [
+                "To show that scholarly articles may use terms students do not initially search for",
+                "To argue that parks are not appropriate research topics",
+                "To explain why databases contain no articles about cities",
+                "To recommend replacing all keywords with longer phrases"
+              ],
+              "answer": 0,
+              "explanationZh": "这个例子说明学术领域常用专门术语，学生需要从相关文章中发现并调整关键词。D 过度推断，并不是所有关键词都要变长。",
+              "evidence": "academic fields often use specialized terms",
+              "skillTags": [
+                "rhetorical-purpose",
+                "example"
+              ],
+              "errorTags": [
+                "overgeneralization"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_ap_q04",
+              "type": "academic_passage",
+              "prompt": "According to the passage, what is a possible problem with a narrow date filter?",
+              "options": [
+                "It may exclude an older study that remains influential",
+                "It always increases the number of irrelevant results",
+                "It prevents students from seeing peer-reviewed articles",
+                "It changes article titles into unfamiliar terms"
+              ],
+              "answer": 0,
+              "explanationZh": "原文指出窄日期范围可能排除仍被引用的经典研究。B 的 always 绝对化，且与过滤器通常减少结果不符。",
+              "evidence": "A narrow date range may exclude a classic study that later research continues to cite.",
+              "skillTags": [
+                "detail",
+                "cause-effect"
+              ],
+              "errorTags": [
+                "absolute-language"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs002_ap_q05",
+              "type": "academic_passage",
+              "prompt": "Which statement best reflects the author's view of filters?",
+              "options": [
+                "They are useful when applied thoughtfully",
+                "They should replace keyword revision entirely",
+                "They are harmful in every scholarly search",
+                "They matter only for printed books"
+              ],
+              "answer": 0,
+              "explanationZh": "作者承认过滤器能去除无关材料，但提醒不要机械使用，所以应“谨慎、有思考地使用”。C 说总是有害，和前半句矛盾。",
+              "evidence": "filters can remove irrelevant material, but filters should not be applied mechanically",
+              "skillTags": [
+                "author-view",
+                "inference"
+              ],
+              "errorTags": [
+                "contradiction"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         }
-      ]
+      ],
+      "sourcePolicy": "original_toefl_style_no_official_items"
     },
     {
       "id": "reading_seed_003_biology_lab_safety",
@@ -128,17 +809,178 @@
           "passage": "Introductory biology students must learn basic {{rs003_cw_b01}} routines before handling {{rs003_cw_b02}}, stains, glassware, or electrical {{rs003_cw_b03}}. Goggles are required when liquid may {{rs003_cw_b04}}, and broken glass belongs in a {{rs003_cw_b05}} container. The instructor will {{rs003_cw_b06}} each procedure, keep labels {{rs003_cw_b07}}, and ask students to report spills {{rs003_cw_b08}}. These habits reduce {{rs003_cw_b09}} and support careful {{rs003_cw_b10}}.",
           "questions": [],
           "blanks": [
-            {"id":"rs003_cw_b01","prefix":"safe","answer":"ty","fullWord":"safety","explanationZh":"safety routines 指安全流程，是实验室主题核心。","evidence":"before handling specimens","skillTags":["c-test","context"],"errorTags":["completion-error"],"difficulty":"easy"},
-            {"id":"rs003_cw_b02","prefix":"spec","answer":"imens","fullWord":"specimens","explanationZh":"specimens 指实验样本，和 stains、glassware 并列。","evidence":"stains, glassware","skillTags":["c-test","academic-vocabulary"],"errorTags":["plural-form"],"difficulty":"medium"},
-            {"id":"rs003_cw_b03","prefix":"equip","answer":"ment","fullWord":"equipment","explanationZh":"electrical equipment 指电气设备，实验室安全中常见。","evidence":"electrical","skillTags":["c-test","academic-vocabulary"],"errorTags":["suffix-error"],"difficulty":"medium"},
-            {"id":"rs003_cw_b04","prefix":"spl","answer":"ash","fullWord":"splash","explanationZh":"liquid may splash 表示液体可能飞溅，因此需要护目镜。","evidence":"Goggles are required","skillTags":["c-test","lab-safety"],"errorTags":["semantic-mismatch"],"difficulty":"easy"},
-            {"id":"rs003_cw_b05","prefix":"desig","answer":"nated","fullWord":"designated","explanationZh":"designated container 表示指定容器，符合碎玻璃处理规则。","evidence":"broken glass belongs in","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"hard"},
-            {"id":"rs003_cw_b06","prefix":"dem","answer":"onstrate","fullWord":"demonstrate","explanationZh":"instructor will demonstrate 表示教师会演示步骤。","evidence":"each procedure","skillTags":["c-test","verb-form"],"errorTags":["near-sounding-word"],"difficulty":"medium"},
-            {"id":"rs003_cw_b07","prefix":"leg","answer":"ible","fullWord":"legible","explanationZh":"labels legible 表示标签清晰可读。","evidence":"keep labels","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"medium"},
-            {"id":"rs003_cw_b08","prefix":"imm","answer":"ediately","fullWord":"immediately","explanationZh":"report spills immediately 表示溢洒后立即报告。","evidence":"report spills","skillTags":["c-test","adverb-meaning"],"errorTags":["spelling"],"difficulty":"hard"},
-            {"id":"rs003_cw_b09","prefix":"uncer","answer":"tainty","fullWord":"uncertainty","explanationZh":"reduce uncertainty 表示减少不确定性，呼应安全习惯的作用。","evidence":"These habits reduce","skillTags":["c-test","academic-vocabulary"],"errorTags":["suffix-error"],"difficulty":"hard"},
-            {"id":"rs003_cw_b10","prefix":"obser","answer":"vation","fullWord":"observation","explanationZh":"careful observation 指细致观察，是实验课目标。","evidence":"support careful","skillTags":["c-test","academic-vocabulary"],"errorTags":["word-form"],"difficulty":"medium"}
-          ]
+            {
+              "id": "rs003_cw_b01",
+              "prefix": "safe",
+              "answer": "ty",
+              "fullWord": "safety",
+              "explanationZh": "safety routines 指安全流程，是实验室主题核心。",
+              "evidence": "before handling specimens",
+              "skillTags": [
+                "c-test",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b02",
+              "prefix": "spec",
+              "answer": "imens",
+              "fullWord": "specimens",
+              "explanationZh": "specimens 指实验样本，和 stains、glassware 并列。",
+              "evidence": "stains, glassware",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "plural-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b03",
+              "prefix": "equip",
+              "answer": "ment",
+              "fullWord": "equipment",
+              "explanationZh": "electrical equipment 指电气设备，实验室安全中常见。",
+              "evidence": "electrical",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "suffix-error"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b04",
+              "prefix": "spl",
+              "answer": "ash",
+              "fullWord": "splash",
+              "explanationZh": "liquid may splash 表示液体可能飞溅，因此需要护目镜。",
+              "evidence": "Goggles are required",
+              "skillTags": [
+                "c-test",
+                "lab-safety"
+              ],
+              "errorTags": [
+                "semantic-mismatch"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b05",
+              "prefix": "desig",
+              "answer": "nated",
+              "fullWord": "designated",
+              "explanationZh": "designated container 表示指定容器，符合碎玻璃处理规则。",
+              "evidence": "broken glass belongs in",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b06",
+              "prefix": "dem",
+              "answer": "onstrate",
+              "fullWord": "demonstrate",
+              "explanationZh": "instructor will demonstrate 表示教师会演示步骤。",
+              "evidence": "each procedure",
+              "skillTags": [
+                "c-test",
+                "verb-form"
+              ],
+              "errorTags": [
+                "near-sounding-word"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b07",
+              "prefix": "leg",
+              "answer": "ible",
+              "fullWord": "legible",
+              "explanationZh": "labels legible 表示标签清晰可读。",
+              "evidence": "keep labels",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b08",
+              "prefix": "imm",
+              "answer": "ediately",
+              "fullWord": "immediately",
+              "explanationZh": "report spills immediately 表示溢洒后立即报告。",
+              "evidence": "report spills",
+              "skillTags": [
+                "c-test",
+                "adverb-meaning"
+              ],
+              "errorTags": [
+                "spelling"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b09",
+              "prefix": "uncer",
+              "answer": "tainty",
+              "fullWord": "uncertainty",
+              "explanationZh": "reduce uncertainty 表示减少不确定性，呼应安全习惯的作用。",
+              "evidence": "These habits reduce",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "suffix-error"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_cw_b10",
+              "prefix": "obser",
+              "answer": "vation",
+              "fullWord": "observation",
+              "explanationZh": "careful observation 指细致观察，是实验课目标。",
+              "evidence": "support careful",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         },
         {
           "id": "rs003_daily_life",
@@ -147,10 +989,77 @@
           "instructionsZh": "阅读校园生活场景短文，选择最佳答案。",
           "passage": "Before her first biology lab, Lina reads a message from the teaching assistant. Students should arrive ten minutes early to store backpacks along the side wall, put on closed-toe shoes, and review the safety quiz. Food and drinks are not allowed at the benches. The message also says that anyone who missed the online safety quiz may still attend class, but must complete the quiz on a lab computer before touching any materials. Extra goggles are available near the entrance.",
           "questions": [
-            {"id":"rs003_dl_q01","type":"daily_life","prompt":"What should students do with backpacks?","options":["Store them along the side wall","Keep them under the lab bench","Hang them on microscope handles","Leave them outside the building"],"answer":0,"explanationZh":"信息明确要求把背包放在 side wall。B 错在文中没有说放桌下，且实验室安全通常避免堵塞工作区。","evidence":"store backpacks along the side wall","skillTags":["detail","campus-instruction"],"errorTags":["plausible-but-unsupported"],"difficulty":"easy"},
-            {"id":"rs003_dl_q02","type":"daily_life","prompt":"What happens if a student missed the online safety quiz?","options":["The student must finish it before handling materials","The student is permanently removed from the course","The student may skip goggles for that class","The student must bring food for the group"],"answer":0,"explanationZh":"未完成线上安全测验的人仍可上课，但接触材料前必须在实验室电脑完成。B 错在 permanently removed 过度夸张。","evidence":"must complete the quiz on a lab computer before touching any materials","skillTags":["conditional-logic","detail"],"errorTags":["overstatement"],"difficulty":"medium"},
-            {"id":"rs003_dl_q03","type":"daily_life","prompt":"Why should students arrive ten minutes early?","options":["To complete preparation steps before lab work begins","To watch a film unrelated to the course","To clean the entire laboratory alone","To meet in the cafeteria before class"],"answer":0,"explanationZh":"提前到达是为了存包、穿合适鞋子、复习安全测验等准备事项。C 错在把准备工作夸大成独自清洁整个实验室，文中没有依据。","evidence":"arrive ten minutes early to store backpacks... put on closed-toe shoes, and review the safety quiz","skillTags":["purpose","inference"],"errorTags":["unsupported-inference"],"difficulty":"easy"}
-          ]
+            {
+              "id": "rs003_dl_q01",
+              "type": "daily_life",
+              "prompt": "What should students do with backpacks?",
+              "options": [
+                "Store them along the side wall",
+                "Keep them under the lab bench",
+                "Hang them on microscope handles",
+                "Leave them outside the building"
+              ],
+              "answer": 0,
+              "explanationZh": "信息明确要求把背包放在 side wall。B 错在文中没有说放桌下，且实验室安全通常避免堵塞工作区。",
+              "evidence": "store backpacks along the side wall",
+              "skillTags": [
+                "detail",
+                "campus-instruction"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_dl_q02",
+              "type": "daily_life",
+              "prompt": "What happens if a student missed the online safety quiz?",
+              "options": [
+                "The student must finish it before handling materials",
+                "The student is permanently removed from the course",
+                "The student may skip goggles for that class",
+                "The student must bring food for the group"
+              ],
+              "answer": 0,
+              "explanationZh": "未完成线上安全测验的人仍可上课，但接触材料前必须在实验室电脑完成。B 错在 permanently removed 过度夸张。",
+              "evidence": "must complete the quiz on a lab computer before touching any materials",
+              "skillTags": [
+                "conditional-logic",
+                "detail"
+              ],
+              "errorTags": [
+                "overstatement"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_dl_q03",
+              "type": "daily_life",
+              "prompt": "Why should students arrive ten minutes early?",
+              "options": [
+                "To complete preparation steps before lab work begins",
+                "To watch a film unrelated to the course",
+                "To clean the entire laboratory alone",
+                "To meet in the cafeteria before class"
+              ],
+              "answer": 0,
+              "explanationZh": "提前到达是为了存包、穿合适鞋子、复习安全测验等准备事项。C 错在把准备工作夸大成独自清洁整个实验室，文中没有依据。",
+              "evidence": "arrive ten minutes early to store backpacks... put on closed-toe shoes, and review the safety quiz",
+              "skillTags": [
+                "purpose",
+                "inference"
+              ],
+              "errorTags": [
+                "unsupported-inference"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         },
         {
           "id": "rs003_academic_passage",
@@ -159,14 +1068,1791 @@
           "instructionsZh": "阅读学术型短文，回答主旨、细节、推断、词义和修辞目的题。",
           "passage": "Safety instruction in introductory biology laboratories is sometimes mistaken for a set of arbitrary rules. In fact, these routines reflect the way risk is managed in scientific work. Many first-year experiments use familiar materials, such as plant tissues or food coloring, but familiarity can create false confidence. A student who casually carries a beaker across a crowded room may not consider that wet glass is slippery or that a small spill can damage electrical equipment. Safety rules therefore aim to make hazards visible before an accident occurs. Personal protective equipment is only one part of this system. Clear labels, uncluttered benches, and immediate reporting of spills all reduce uncertainty. The goal is not to make students fearful; it is to help them develop habits that allow careful observation and collaboration. When safety becomes routine, students spend less attention wondering what to do in an emergency and more attention on the biological question being tested.",
           "questions": [
-            {"id":"rs003_ap_q01","type":"academic_passage","prompt":"What is the main idea of the passage?","options":["Lab safety routines help students manage risk and focus on scientific work","Introductory biology labs should avoid all familiar materials","Personal protective equipment is unnecessary in first-year courses","Most accidents are caused by food coloring"],"answer":0,"explanationZh":"文章说明安全规则并非任意规定，而是风险管理和形成科研习惯的方式。B 误解 familiar materials 的例子；D 把一个材料例子当成事故主因。","evidence":"routines reflect the way risk is managed; develop habits","skillTags":["main-idea","synthesis"],"errorTags":["example-as-main-idea"],"difficulty":"medium"},
-            {"id":"rs003_ap_q02","type":"academic_passage","prompt":"The word 'arbitrary' in the passage is closest in meaning to","options":["based on no clear reason","carefully tested","required by electricity","easy to observe"],"answer":0,"explanationZh":"arbitrary rules 指看似没有明确理由的规定；后文 in fact 转折说明其实有风险管理原因。B 与转折前的 mistaken view 不一致。","evidence":"mistaken for a set of arbitrary rules. In fact, these routines reflect... risk","skillTags":["vocabulary-in-context","contrast"],"errorTags":["opposite-meaning"],"difficulty":"medium"},
-            {"id":"rs003_ap_q03","type":"academic_passage","prompt":"Why does the author discuss a student carrying a beaker across a crowded room?","options":["To illustrate how ordinary actions can involve overlooked hazards","To prove that beakers should never be used in biology","To suggest that crowded rooms improve collaboration","To show that electrical equipment is always wet"],"answer":0,"explanationZh":"烧杯例子说明熟悉材料会带来虚假自信，普通动作也可能有被忽视的危险。B 错在 never 过度绝对，文中只是说明风险。","evidence":"familiarity can create false confidence; may not consider that wet glass is slippery","skillTags":["rhetorical-purpose","example"],"errorTags":["absolute-language"],"difficulty":"medium"},
-            {"id":"rs003_ap_q04","type":"academic_passage","prompt":"According to the passage, which practice reduces uncertainty?","options":["Keeping labels clear","Leaving benches crowded","Reporting spills at the end of the semester","Avoiding collaboration during experiments"],"answer":0,"explanationZh":"文章列出 clear labels、整洁台面和立即报告溢洒都能减少不确定性。B 与 uncluttered benches 相反；C 与 immediate reporting 相反。","evidence":"Clear labels, uncluttered benches, and immediate reporting of spills all reduce uncertainty.","skillTags":["detail","parallel-list"],"errorTags":["opposite-detail"],"difficulty":"easy"},
-            {"id":"rs003_ap_q05","type":"academic_passage","prompt":"What can be inferred about well-practiced safety routines?","options":["They free students' attention for the experiment's scientific question","They eliminate the need for instructors in the laboratory","They make students more fearful of ordinary materials","They replace the need to observe biological results"],"answer":0,"explanationZh":"结尾说安全成为常规后，学生能把更多注意力放在被测试的生物学问题上。C 错在与 The goal is not to make students fearful 相反。","evidence":"more attention on the biological question being tested","skillTags":["inference","author-view"],"errorTags":["contradiction"],"difficulty":"medium"}
-          ]
+            {
+              "id": "rs003_ap_q01",
+              "type": "academic_passage",
+              "prompt": "What is the main idea of the passage?",
+              "options": [
+                "Lab safety routines help students manage risk and focus on scientific work",
+                "Introductory biology labs should avoid all familiar materials",
+                "Personal protective equipment is unnecessary in first-year courses",
+                "Most accidents are caused by food coloring"
+              ],
+              "answer": 0,
+              "explanationZh": "文章说明安全规则并非任意规定，而是风险管理和形成科研习惯的方式。B 误解 familiar materials 的例子；D 把一个材料例子当成事故主因。",
+              "evidence": "routines reflect the way risk is managed; develop habits",
+              "skillTags": [
+                "main-idea",
+                "synthesis"
+              ],
+              "errorTags": [
+                "example-as-main-idea"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_ap_q02",
+              "type": "academic_passage",
+              "prompt": "The word 'arbitrary' in the passage is closest in meaning to",
+              "options": [
+                "based on no clear reason",
+                "carefully tested",
+                "required by electricity",
+                "easy to observe"
+              ],
+              "answer": 0,
+              "explanationZh": "arbitrary rules 指看似没有明确理由的规定；后文 in fact 转折说明其实有风险管理原因。B 与转折前的 mistaken view 不一致。",
+              "evidence": "mistaken for a set of arbitrary rules. In fact, these routines reflect... risk",
+              "skillTags": [
+                "vocabulary-in-context",
+                "contrast"
+              ],
+              "errorTags": [
+                "opposite-meaning"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_ap_q03",
+              "type": "academic_passage",
+              "prompt": "Why does the author discuss a student carrying a beaker across a crowded room?",
+              "options": [
+                "To illustrate how ordinary actions can involve overlooked hazards",
+                "To prove that beakers should never be used in biology",
+                "To suggest that crowded rooms improve collaboration",
+                "To show that electrical equipment is always wet"
+              ],
+              "answer": 0,
+              "explanationZh": "烧杯例子说明熟悉材料会带来虚假自信，普通动作也可能有被忽视的危险。B 错在 never 过度绝对，文中只是说明风险。",
+              "evidence": "familiarity can create false confidence; may not consider that wet glass is slippery",
+              "skillTags": [
+                "rhetorical-purpose",
+                "example"
+              ],
+              "errorTags": [
+                "absolute-language"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_ap_q04",
+              "type": "academic_passage",
+              "prompt": "According to the passage, which practice reduces uncertainty?",
+              "options": [
+                "Keeping labels clear",
+                "Leaving benches crowded",
+                "Reporting spills at the end of the semester",
+                "Avoiding collaboration during experiments"
+              ],
+              "answer": 0,
+              "explanationZh": "文章列出 clear labels、整洁台面和立即报告溢洒都能减少不确定性。B 与 uncluttered benches 相反；C 与 immediate reporting 相反。",
+              "evidence": "Clear labels, uncluttered benches, and immediate reporting of spills all reduce uncertainty.",
+              "skillTags": [
+                "detail",
+                "parallel-list"
+              ],
+              "errorTags": [
+                "opposite-detail"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rs003_ap_q05",
+              "type": "academic_passage",
+              "prompt": "What can be inferred about well-practiced safety routines?",
+              "options": [
+                "They free students' attention for the experiment's scientific question",
+                "They eliminate the need for instructors in the laboratory",
+                "They make students more fearful of ordinary materials",
+                "They replace the need to observe biological results"
+              ],
+              "answer": 0,
+              "explanationZh": "结尾说安全成为常规后，学生能把更多注意力放在被测试的生物学问题上。C 错在与 The goal is not to make students fearful 相反。",
+              "evidence": "more attention on the biological question being tested",
+              "skillTags": [
+                "inference",
+                "author-view"
+              ],
+              "errorTags": [
+                "contradiction"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        }
+      ],
+      "sourcePolicy": "original_toefl_style_no_official_items"
+    }
+  ],
+  "officialCalibrationNotes": [
+    "ETS public 2026 materials describe Reading as a two-stage adaptive test with a router plus lower or upper module.",
+    "Public app content is original TOEFL-style practice only; no official item text is copied into this bank.",
+    "Full adaptive practice targets 50 machine-scored items: 30 Complete the Words and 20 Daily Life/Academic items."
+  ],
+  "adaptiveModules": [
+    {
+      "id": "read_adapt_router_01",
+      "title": "Reading Adaptive Router: Campus Evidence and Planning",
+      "stage": "router",
+      "path": "router",
+      "difficulty": "medium",
+      "estimatedMinutes": 15,
+      "descriptionZh": "原创 TOEFL-style 两阶段自适应阅读模块；用于公开训练，不包含官方真题。",
+      "sourcePolicy": "original_toefl_style_no_official_items",
+      "sections": [
+        {
+          "id": "read_adapt_router_01_complete_words_1",
+          "type": "complete_words",
+          "title": "Complete the Words: Campus Archive Notice",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "The campus archive is {{read_adapt_router_01_cw1_b01}} a digital {{read_adapt_router_01_cw1_b02}} that helps students {{read_adapt_router_01_cw1_b03}} local history, {{read_adapt_router_01_cw1_b04}} photographs, and compare {{read_adapt_router_01_cw1_b05}} records. Volunteers will {{read_adapt_router_01_cw1_b06}} fragile papers, add brief {{read_adapt_router_01_cw1_b07}}, and flag materials that need {{read_adapt_router_01_cw1_b08}} review. The project makes scattered evidence more {{read_adapt_router_01_cw1_b09}} for classes across several {{read_adapt_router_01_cw1_b10}}.",
+          "questions": [],
+          "blanks": [
+            {
+              "id": "read_adapt_router_01_cw1_b01",
+              "prefix": "creat",
+              "answer": "ing",
+              "fullWord": "creating",
+              "explanationZh": "creating 符合本句语境；根据前后搭配可判断缺失部分为 ing。",
+              "evidence": "creating",
+              "skillTags": [
+                "c-test",
+                "verb-form",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b02",
+              "prefix": "collec",
+              "answer": "tion",
+              "fullWord": "collection",
+              "explanationZh": "collection 符合本句语境；根据前后搭配可判断缺失部分为 tion。",
+              "evidence": "collection",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b03",
+              "prefix": "expl",
+              "answer": "ore",
+              "fullWord": "explore",
+              "explanationZh": "explore 符合本句语境；根据前后搭配可判断缺失部分为 ore。",
+              "evidence": "explore",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b04",
+              "prefix": "pres",
+              "answer": "erve",
+              "fullWord": "preserve",
+              "explanationZh": "preserve 符合本句语境；根据前后搭配可判断缺失部分为 erve。",
+              "evidence": "preserve",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b05",
+              "prefix": "hist",
+              "answer": "orical",
+              "fullWord": "historical",
+              "explanationZh": "historical 符合本句语境；根据前后搭配可判断缺失部分为 orical。",
+              "evidence": "historical",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b06",
+              "prefix": "sc",
+              "answer": "an",
+              "fullWord": "scan",
+              "explanationZh": "scan 符合本句语境；根据前后搭配可判断缺失部分为 。",
+              "evidence": "scan",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b07",
+              "prefix": "descrip",
+              "answer": "tions",
+              "fullWord": "descriptions",
+              "explanationZh": "descriptions 符合本句语境；根据前后搭配可判断缺失部分为 tions。",
+              "evidence": "descriptions",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b08",
+              "prefix": "addi",
+              "answer": "tional",
+              "fullWord": "additional",
+              "explanationZh": "additional 符合本句语境；根据前后搭配可判断缺失部分为 tional。",
+              "evidence": "additional",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b09",
+              "prefix": "access",
+              "answer": "ible",
+              "fullWord": "accessible",
+              "explanationZh": "accessible 符合本句语境；根据前后搭配可判断缺失部分为 ible。",
+              "evidence": "accessible",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_router_01_cw1_b10",
+              "prefix": "discipl",
+              "answer": "ines",
+              "fullWord": "disciplines",
+              "explanationZh": "disciplines 符合本句语境；根据前后搭配可判断缺失部分为 ines。",
+              "evidence": "disciplines",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_router_01_daily_life_1",
+          "type": "daily_life",
+          "title": "Daily Life: Archive Workshop",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "Nina receives an email about a Saturday workshop at the campus archive. Students will learn how to handle old photographs, scan documents, and write short descriptions for a public collection. The email says participants do not need previous experience, but they should bring a laptop if possible. Because space is limited, students must register by Thursday afternoon. Anyone who registers and later cannot attend should cancel online so another student can use the seat.",
+          "questions": [
+            {
+              "id": "rar_dl1_q01",
+              "type": "daily_life",
+              "prompt": "What is the main purpose of the email?",
+              "options": [
+                "To invite students to a workshop about archive materials",
+                "To announce that the archive is closed on Saturday",
+                "To require all students to donate family photographs",
+                "To explain a new rule for laptop loans"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：Students will learn how to handle old photographs, scan documents, and write short descriptions。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "Students will learn how to handle old photographs, scan documents, and write short descriptions",
+              "skillTags": [
+                "main-idea",
+                "campus-notice"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_dl1_q02",
+              "type": "daily_life",
+              "prompt": "What should students do if they cannot attend after registering?",
+              "options": [
+                "Cancel online",
+                "Bring two laptops",
+                "Call every participant",
+                "Submit a research paper"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：should cancel online so another student can use the seat。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "should cancel online so another student can use the seat",
+              "skillTags": [
+                "detail",
+                "conditional-logic"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_dl1_q03",
+              "type": "daily_life",
+              "prompt": "Why is registration required by Thursday?",
+              "options": [
+                "Space in the workshop is limited",
+                "The archive will move to a new building",
+                "Students need previous experience",
+                "The event is only for graduate students"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：Because space is limited, students must register by Thursday afternoon。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "Because space is limited, students must register by Thursday afternoon",
+              "skillTags": [
+                "cause-effect",
+                "detail"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_router_01_daily_life_2",
+          "type": "daily_life",
+          "title": "Daily Life: Advising Message",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "A note on the advising office door says walk-in hours will start thirty minutes later on Friday because staff members are attending a training session. Students with urgent schedule problems may email the front desk and include their student ID number. Regular appointments in the afternoon will not change.",
+          "questions": [
+            {
+              "id": "rar_dl2_q01",
+              "type": "daily_life",
+              "prompt": "What change is announced in the note?",
+              "options": [
+                "Friday walk-in hours will begin later than usual",
+                "All afternoon appointments are canceled",
+                "Students must choose new ID numbers",
+                "The advising office is moving"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：walk-in hours will start thirty minutes later on Friday。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "walk-in hours will start thirty minutes later on Friday",
+              "skillTags": [
+                "detail",
+                "campus-notice"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_dl2_q02",
+              "type": "daily_life",
+              "prompt": "What should students with urgent schedule problems do?",
+              "options": [
+                "Email the front desk with their student ID number",
+                "Wait until the next semester",
+                "Attend the staff training session",
+                "Cancel their afternoon appointments"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：may email the front desk and include their student ID number。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "may email the front desk and include their student ID number",
+              "skillTags": [
+                "detail",
+                "problem-solution"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_router_01_academic_passage_1",
+          "type": "academic_passage",
+          "title": "Academic Passage: Archives as Research Systems",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "In many university courses, archives are introduced as places where rare documents are stored. Yet archives are not simply storage rooms. They are systems for preserving evidence and making it usable. A letter, photograph, or map becomes more valuable for research when it is described accurately, connected to related materials, and protected from damage. Digitization has expanded this work. Scanned images allow students to examine documents without repeatedly touching fragile originals. However, digitization does not remove the need for human judgment. Someone must decide which details to describe, which names require clarification, and how uncertain dates should be recorded. If descriptions are too general, researchers may never find relevant items. If descriptions are too narrow, users may miss broader connections. Effective archival work therefore combines technical tools with careful interpretation. In classroom projects, these choices also teach students that evidence is not neutral until it is organized. A poorly labeled photograph can remain invisible even when the image file is technically available. Careful metadata, by contrast, lets students ask broader questions about change over time, community memory, and the limits of surviving records.",
+          "questions": [
+            {
+              "id": "rar_ap1_q01",
+              "type": "academic_passage",
+              "prompt": "What is the main idea of the passage?",
+              "options": [
+                "Archives become useful through preservation, description, and interpretation",
+                "Archives are mainly storage rooms for maps",
+                "Digitization eliminates the need for archivists",
+                "Students should avoid using original documents"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：systems for preserving evidence and making it usable。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "systems for preserving evidence and making it usable",
+              "skillTags": [
+                "main-idea",
+                "synthesis"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap1_q02",
+              "type": "academic_passage",
+              "prompt": "Why does the author mention scanned images?",
+              "options": [
+                "To show how digitization can reduce handling of fragile originals",
+                "To argue that digital copies are always more accurate",
+                "To explain why all paper documents should be destroyed",
+                "To show that students dislike archives"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：without repeatedly touching fragile originals。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "without repeatedly touching fragile originals",
+              "skillTags": [
+                "rhetorical-purpose",
+                "example"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap1_q03",
+              "type": "academic_passage",
+              "prompt": "The word \"fragile\" is closest in meaning to",
+              "options": [
+                "easily damaged",
+                "recently purchased",
+                "difficult to read",
+                "highly popular"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：protected from damage; fragile originals。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "protected from damage; fragile originals",
+              "skillTags": [
+                "vocabulary-in-context"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap1_q04",
+              "type": "academic_passage",
+              "prompt": "According to the passage, what can happen if descriptions are too general?",
+              "options": [
+                "Researchers may not find relevant items",
+                "Documents become physically stronger",
+                "Maps lose their dates automatically",
+                "Students stop using digital tools"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：researchers may never find relevant items。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "researchers may never find relevant items",
+              "skillTags": [
+                "detail",
+                "cause-effect"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap1_q05",
+              "type": "academic_passage",
+              "prompt": "What does the passage imply about archival decisions?",
+              "options": [
+                "They require judgment about how materials will be found and understood",
+                "They can be made entirely by scanners",
+                "They are unrelated to research needs",
+                "They should avoid recording uncertainty"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：human judgment; uncertain dates should be recorded。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "human judgment; uncertain dates should be recorded",
+              "skillTags": [
+                "inference",
+                "author-view"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_router_01_academic_passage_2",
+          "type": "academic_passage",
+          "title": "Academic Passage: Desire Paths on Campus",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "Campus planners often study how students move through outdoor spaces before changing walkways or seating areas. A path that looks efficient on a map may not match the route students actually take between classes. For this reason, planners sometimes observe informal trails across lawns. These trails, often called desire paths, reveal repeated choices made by pedestrians. They do not automatically prove that a sidewalk should be built in the same place. A trail may cross a sensitive planting area, create drainage problems, or conflict with accessibility requirements. Still, ignoring such patterns can lead to designs that people avoid. Good planning treats observed behavior as one source of evidence. It combines that evidence with safety, environmental, and accessibility considerations before a final design is selected. For example, a route that saves two minutes for most students might be difficult for wheelchair users or might damage soil after heavy rain. Planners therefore treat the visible trail as a question rather than an answer. They ask why the route exists, who uses it, and what costs a permanent walkway might create. The result is usually a compromise.",
+          "questions": [
+            {
+              "id": "rar_ap2_q01",
+              "type": "academic_passage",
+              "prompt": "What is the passage mainly about?",
+              "options": [
+                "How planners use observed walking patterns as one kind of evidence",
+                "Why students should be punished for walking on lawns",
+                "Why maps are more reliable than observation",
+                "How campuses can remove all outdoor seating"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：observed behavior as one source of evidence。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "observed behavior as one source of evidence",
+              "skillTags": [
+                "main-idea",
+                "synthesis"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap2_q02",
+              "type": "academic_passage",
+              "prompt": "The phrase \"desire paths\" refers to",
+              "options": [
+                "informal trails created by repeated pedestrian choices",
+                "official roads designed for cars",
+                "areas where plants are watered",
+                "maps used in planning meetings"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：informal trails across lawns... reveal repeated choices。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "informal trails across lawns... reveal repeated choices",
+              "skillTags": [
+                "vocabulary-in-context",
+                "reference"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap2_q03",
+              "type": "academic_passage",
+              "prompt": "Why might planners decide not to build a sidewalk on a desire path?",
+              "options": [
+                "The trail may create environmental or accessibility problems",
+                "Students never use desire paths between classes",
+                "Maps cannot show outdoor spaces",
+                "Sidewalks are not allowed near classrooms"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：sensitive planting area, drainage problems, or accessibility requirements。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "sensitive planting area, drainage problems, or accessibility requirements",
+              "skillTags": [
+                "detail",
+                "cause-effect"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap2_q04",
+              "type": "academic_passage",
+              "prompt": "What is the author’s attitude toward ignoring observed walking patterns?",
+              "options": [
+                "It can produce designs that people avoid",
+                "It is always necessary for safety",
+                "It is the best way to protect lawns",
+                "It makes planning faster and more accurate"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：ignoring such patterns can lead to designs that people avoid。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "ignoring such patterns can lead to designs that people avoid",
+              "skillTags": [
+                "author-view",
+                "inference"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rar_ap2_q05",
+              "type": "academic_passage",
+              "prompt": "Which approach is most consistent with the passage?",
+              "options": [
+                "Balance student behavior with safety and environmental concerns",
+                "Build every informal path into a sidewalk immediately",
+                "Ban students from crossing any open space",
+                "Use only computer maps to design campuses"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：combines that evidence with safety, environmental, and accessibility considerations。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "combines that evidence with safety, environmental, and accessibility considerations",
+              "skillTags": [
+                "application",
+                "synthesis"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
         }
       ]
+    },
+    {
+      "id": "read_adapt_lower_01",
+      "title": "Reading Adaptive Lower Module: Support Services and Gardens",
+      "stage": "second",
+      "path": "lower",
+      "difficulty": "easy",
+      "estimatedMinutes": 15,
+      "descriptionZh": "原创 TOEFL-style 两阶段自适应阅读模块；用于公开训练，不包含官方真题。",
+      "sourcePolicy": "original_toefl_style_no_official_items",
+      "sections": [
+        {
+          "id": "read_adapt_lower_01_complete_words_1",
+          "type": "complete_words",
+          "title": "Complete the Words: Tutoring Center Update",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "The tutoring center will {{read_adapt_lower_01_cw1_b01}} evening hours during midterms so students can {{read_adapt_lower_01_cw1_b02}} essays, solve {{read_adapt_lower_01_cw1_b03}} problems, and ask {{read_adapt_lower_01_cw1_b04}} questions. Tutors recommend bringing {{read_adapt_lower_01_cw1_b05}} drafts or class notes because specific materials make a session more {{read_adapt_lower_01_cw1_b06}}. Students who need {{read_adapt_lower_01_cw1_b07}} help may reserve two short meetings instead of one long {{read_adapt_lower_01_cw1_b08}}. This schedule gives learners steady {{read_adapt_lower_01_cw1_b09}} without making appointments feel {{read_adapt_lower_01_cw1_b10}}.",
+          "questions": [],
+          "blanks": [
+            {
+              "id": "read_adapt_lower_01_cw1_b01",
+              "prefix": "ext",
+              "answer": "end",
+              "fullWord": "extend",
+              "explanationZh": "extend 符合本句语境；根据前后搭配可判断缺失部分为 end。",
+              "evidence": "extend",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b02",
+              "prefix": "rev",
+              "answer": "ise",
+              "fullWord": "revise",
+              "explanationZh": "revise 符合本句语境；根据前后搭配可判断缺失部分为 ise。",
+              "evidence": "revise",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b03",
+              "prefix": "pract",
+              "answer": "ice",
+              "fullWord": "practice",
+              "explanationZh": "practice 符合本句语境；根据前后搭配可判断缺失部分为 ice。",
+              "evidence": "practice",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b04",
+              "prefix": "spec",
+              "answer": "ific",
+              "fullWord": "specific",
+              "explanationZh": "specific 符合本句语境；根据前后搭配可判断缺失部分为 ific。",
+              "evidence": "specific",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b05",
+              "prefix": "part",
+              "answer": "ial",
+              "fullWord": "partial",
+              "explanationZh": "partial 符合本句语境；根据前后搭配可判断缺失部分为 ial。",
+              "evidence": "partial",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b06",
+              "prefix": "prod",
+              "answer": "uctive",
+              "fullWord": "productive",
+              "explanationZh": "productive 符合本句语境；根据前后搭配可判断缺失部分为 uctive。",
+              "evidence": "productive",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b07",
+              "prefix": "freq",
+              "answer": "uent",
+              "fullWord": "frequent",
+              "explanationZh": "frequent 符合本句语境；根据前后搭配可判断缺失部分为 uent。",
+              "evidence": "frequent",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b08",
+              "prefix": "sess",
+              "answer": "ion",
+              "fullWord": "session",
+              "explanationZh": "session 符合本句语境；根据前后搭配可判断缺失部分为 ion。",
+              "evidence": "session",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b09",
+              "prefix": "supp",
+              "answer": "ort",
+              "fullWord": "support",
+              "explanationZh": "support 符合本句语境；根据前后搭配可判断缺失部分为 ort。",
+              "evidence": "support",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw1_b10",
+              "prefix": "overwhelm",
+              "answer": "ing",
+              "fullWord": "overwhelming",
+              "explanationZh": "overwhelming 符合本句语境；根据前后搭配可判断缺失部分为 ing。",
+              "evidence": "overwhelming",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_lower_01_complete_words_2",
+          "type": "complete_words",
+          "title": "Complete the Words: Campus Garden Crew",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "Students in the garden crew {{read_adapt_lower_01_cw2_b01}} soil moisture, remove {{read_adapt_lower_01_cw2_b02}} weeds, and record daily {{read_adapt_lower_01_cw2_b03}} changes. The supervisor asks each group to {{read_adapt_lower_01_cw2_b04}} tools before leaving and to keep pathways {{read_adapt_lower_01_cw2_b05}}. These routines protect young {{read_adapt_lower_01_cw2_b06}} and make the garden easier to {{read_adapt_lower_01_cw2_b07}}. At the end of the month, volunteers will {{read_adapt_lower_01_cw2_b08}} results and suggest {{read_adapt_lower_01_cw2_b09}} improvements for the next {{read_adapt_lower_01_cw2_b10}}.",
+          "questions": [],
+          "blanks": [
+            {
+              "id": "read_adapt_lower_01_cw2_b01",
+              "prefix": "mon",
+              "answer": "itor",
+              "fullWord": "monitor",
+              "explanationZh": "monitor 符合本句语境；根据前后搭配可判断缺失部分为 itor。",
+              "evidence": "monitor",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b02",
+              "prefix": "invas",
+              "answer": "ive",
+              "fullWord": "invasive",
+              "explanationZh": "invasive 符合本句语境；根据前后搭配可判断缺失部分为 ive。",
+              "evidence": "invasive",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b03",
+              "prefix": "weath",
+              "answer": "er",
+              "fullWord": "weather",
+              "explanationZh": "weather 符合本句语境；根据前后搭配可判断缺失部分为 er。",
+              "evidence": "weather",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b04",
+              "prefix": "cle",
+              "answer": "an",
+              "fullWord": "clean",
+              "explanationZh": "clean 符合本句语境；根据前后搭配可判断缺失部分为 。",
+              "evidence": "clean",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b05",
+              "prefix": "cle",
+              "answer": "ar",
+              "fullWord": "clear",
+              "explanationZh": "clear 符合本句语境；根据前后搭配可判断缺失部分为 ar。",
+              "evidence": "clear",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b06",
+              "prefix": "pla",
+              "answer": "nts",
+              "fullWord": "plants",
+              "explanationZh": "plants 符合本句语境；根据前后搭配可判断缺失部分为 s。",
+              "evidence": "plants",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b07",
+              "prefix": "maint",
+              "answer": "ain",
+              "fullWord": "maintain",
+              "explanationZh": "maintain 符合本句语境；根据前后搭配可判断缺失部分为 ain。",
+              "evidence": "maintain",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b08",
+              "prefix": "summ",
+              "answer": "arize",
+              "fullWord": "summarize",
+              "explanationZh": "summarize 符合本句语境；根据前后搭配可判断缺失部分为 arize。",
+              "evidence": "summarize",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b09",
+              "prefix": "pract",
+              "answer": "ical",
+              "fullWord": "practical",
+              "explanationZh": "practical 符合本句语境；根据前后搭配可判断缺失部分为 ical。",
+              "evidence": "practical",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_lower_01_cw2_b10",
+              "prefix": "seas",
+              "answer": "on",
+              "fullWord": "season",
+              "explanationZh": "season 符合本句语境；根据前后搭配可判断缺失部分为 。",
+              "evidence": "season",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_lower_01_daily_life_1",
+          "type": "daily_life",
+          "title": "Daily Life: Tutoring Appointment",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "Leo signs up for a writing appointment. The confirmation message says he should upload his draft before noon, even if the draft is incomplete. If he is more than ten minutes late, the appointment may be given to a student on the waiting list. The message also says online appointments use the same link all semester.",
+          "questions": [
+            {
+              "id": "ral_dl1_q01",
+              "type": "daily_life",
+              "prompt": "What should Leo upload before noon?",
+              "options": [
+                "His draft, even if it is incomplete",
+                "A final grade report",
+                "A video of his presentation",
+                "A new appointment link"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：upload his draft before noon, even if the draft is incomplete。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "upload his draft before noon, even if the draft is incomplete",
+              "skillTags": [
+                "detail",
+                "campus-service"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "ral_dl1_q02",
+              "type": "daily_life",
+              "prompt": "What may happen if Leo is more than ten minutes late?",
+              "options": [
+                "Another student may receive the appointment",
+                "The tutoring center will close for the semester",
+                "His draft will be deleted",
+                "He must attend in person"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：appointment may be given to a student on the waiting list。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "appointment may be given to a student on the waiting list",
+              "skillTags": [
+                "conditional-logic",
+                "detail"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_lower_01_academic_passage_1",
+          "type": "academic_passage",
+          "title": "Academic Passage: Peer Tutoring",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "Peer tutoring is often described as a way for students to receive quick answers, but its main value is usually different. A tutor does not simply correct a paper or solve a problem while the student watches. Instead, effective tutoring makes the student explain choices, test alternatives, and notice patterns of error. This process can be slower than receiving a direct answer, yet it builds independence. For example, a writing tutor may ask why a paragraph begins with a particular sentence. The question encourages the writer to think about organization rather than merely replace one sentence with another. Tutors also benefit from the exchange because explaining a concept often clarifies their own understanding. For this reason, peer tutoring is best understood as a guided conversation rather than a repair service. This distinction matters because students sometimes leave tutoring disappointed if they expected editing rather than learning. When expectations are clear, a session can focus on transferable strategies: reading the assignment carefully, identifying the point of confusion, and practicing a decision the student can repeat later. The conversation is successful when the learner can explain the next step independently.",
+          "questions": [
+            {
+              "id": "ral_ap1_q01",
+              "type": "academic_passage",
+              "prompt": "What is the main idea of the passage?",
+              "options": [
+                "Peer tutoring builds independence through guided conversation",
+                "Peer tutors should simply correct every error",
+                "Tutoring works only for writing courses",
+                "Students learn best by watching silently"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：guided conversation rather than a repair service。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "guided conversation rather than a repair service",
+              "skillTags": [
+                "main-idea",
+                "synthesis"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "ral_ap1_q02",
+              "type": "academic_passage",
+              "prompt": "Why does the author mention a tutor asking about a paragraph opening?",
+              "options": [
+                "To show how tutors encourage thinking about organization",
+                "To prove that first sentences are always wrong",
+                "To explain why tutors avoid writing assignments",
+                "To show that direct answers are fastest"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：think about organization rather than merely replace one sentence。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "think about organization rather than merely replace one sentence",
+              "skillTags": [
+                "rhetorical-purpose",
+                "example"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "ral_ap1_q03",
+              "type": "academic_passage",
+              "prompt": "The word \"clarifies\" is closest in meaning to",
+              "options": [
+                "makes clearer",
+                "makes shorter",
+                "hides",
+                "delays"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：explaining a concept often clarifies their own understanding。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "explaining a concept often clarifies their own understanding",
+              "skillTags": [
+                "vocabulary-in-context"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        }
+      ]
+    },
+    {
+      "id": "read_adapt_upper_01",
+      "title": "Reading Adaptive Upper Module: Urban Ecology and Data",
+      "stage": "second",
+      "path": "upper",
+      "difficulty": "hard",
+      "estimatedMinutes": 15,
+      "descriptionZh": "原创 TOEFL-style 两阶段自适应阅读模块；用于公开训练，不包含官方真题。",
+      "sourcePolicy": "original_toefl_style_no_official_items",
+      "sections": [
+        {
+          "id": "read_adapt_upper_01_complete_words_1",
+          "type": "complete_words",
+          "title": "Complete the Words: Urban Ecology Seminar",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "The seminar examines how small urban {{read_adapt_upper_01_cw1_b01}} support insects, birds, and soil {{read_adapt_upper_01_cw1_b02}}. Researchers compare isolated gardens with {{read_adapt_upper_01_cw1_b03}} corridors that allow species to {{read_adapt_upper_01_cw1_b04}} between habitats. Because city conditions change {{read_adapt_upper_01_cw1_b05}}, long-term data are {{read_adapt_upper_01_cw1_b06}} for identifying stable patterns. Students will analyze {{read_adapt_upper_01_cw1_b07}} maps, discuss competing {{read_adapt_upper_01_cw1_b08}}, and prepare a concise {{read_adapt_upper_01_cw1_b09}} explaining the ecological {{read_adapt_upper_01_cw1_b10}} of their findings.",
+          "questions": [],
+          "blanks": [
+            {
+              "id": "read_adapt_upper_01_cw1_b01",
+              "prefix": "patch",
+              "answer": "es",
+              "fullWord": "patches",
+              "explanationZh": "patches 符合本句语境；根据前后搭配可判断缺失部分为 es。",
+              "evidence": "patches",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b02",
+              "prefix": "organ",
+              "answer": "isms",
+              "fullWord": "organisms",
+              "explanationZh": "organisms 符合本句语境；根据前后搭配可判断缺失部分为 isms。",
+              "evidence": "organisms",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b03",
+              "prefix": "connect",
+              "answer": "ed",
+              "fullWord": "connected",
+              "explanationZh": "connected 符合本句语境；根据前后搭配可判断缺失部分为 ed。",
+              "evidence": "connected",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b04",
+              "prefix": "m",
+              "answer": "ove",
+              "fullWord": "move",
+              "explanationZh": "move 符合本句语境；根据前后搭配可判断缺失部分为 e。",
+              "evidence": "move",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b05",
+              "prefix": "rapid",
+              "answer": "ly",
+              "fullWord": "rapidly",
+              "explanationZh": "rapidly 符合本句语境；根据前后搭配可判断缺失部分为 ly。",
+              "evidence": "rapidly",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b06",
+              "prefix": "essent",
+              "answer": "ial",
+              "fullWord": "essential",
+              "explanationZh": "essential 符合本句语境；根据前后搭配可判断缺失部分为 ial。",
+              "evidence": "essential",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b07",
+              "prefix": "spat",
+              "answer": "ial",
+              "fullWord": "spatial",
+              "explanationZh": "spatial 符合本句语境；根据前后搭配可判断缺失部分为 ial。",
+              "evidence": "spatial",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b08",
+              "prefix": "hypoth",
+              "answer": "eses",
+              "fullWord": "hypotheses",
+              "explanationZh": "hypotheses 符合本句语境；根据前后搭配可判断缺失部分为 eses。",
+              "evidence": "hypotheses",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b09",
+              "prefix": "abstr",
+              "answer": "act",
+              "fullWord": "abstract",
+              "explanationZh": "abstract 符合本句语境；根据前后搭配可判断缺失部分为 act。",
+              "evidence": "abstract",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw1_b10",
+              "prefix": "signif",
+              "answer": "icance",
+              "fullWord": "significance",
+              "explanationZh": "significance 符合本句语境；根据前后搭配可判断缺失部分为 icance。",
+              "evidence": "significance",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_upper_01_complete_words_2",
+          "type": "complete_words",
+          "title": "Complete the Words: Museum Data Lab",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "A museum data lab uses visitor {{read_adapt_upper_01_cw2_b01}} to understand how exhibits shape {{read_adapt_upper_01_cw2_b02}}. Analysts must distinguish brief {{read_adapt_upper_01_cw2_b03}} from sustained attention because the two behaviors suggest different {{read_adapt_upper_01_cw2_b04}}. They also consider whether labels, lighting, or room {{read_adapt_upper_01_cw2_b05}} influence movement. The goal is not to make every path {{read_adapt_upper_01_cw2_b06}}, but to design displays that invite {{read_adapt_upper_01_cw2_b07}} exploration while preserving {{read_adapt_upper_01_cw2_b08}} choice. Careful interpretation prevents simple counts from becoming {{read_adapt_upper_01_cw2_b09}} conclusions about visitor {{read_adapt_upper_01_cw2_b10}}.",
+          "questions": [],
+          "blanks": [
+            {
+              "id": "read_adapt_upper_01_cw2_b01",
+              "prefix": "tra",
+              "answer": "ces",
+              "fullWord": "traces",
+              "explanationZh": "traces 符合本句语境；根据前后搭配可判断缺失部分为 ces。",
+              "evidence": "traces",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b02",
+              "prefix": "learn",
+              "answer": "ing",
+              "fullWord": "learning",
+              "explanationZh": "learning 符合本句语境；根据前后搭配可判断缺失部分为 ing。",
+              "evidence": "learning",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "completion-error"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b03",
+              "prefix": "glan",
+              "answer": "ces",
+              "fullWord": "glances",
+              "explanationZh": "glances 符合本句语境；根据前后搭配可判断缺失部分为 ces。",
+              "evidence": "glances",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b04",
+              "prefix": "motiva",
+              "answer": "tions",
+              "fullWord": "motivations",
+              "explanationZh": "motivations 符合本句语境；根据前后搭配可判断缺失部分为 tions。",
+              "evidence": "motivations",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b05",
+              "prefix": "lay",
+              "answer": "out",
+              "fullWord": "layout",
+              "explanationZh": "layout 符合本句语境；根据前后搭配可判断缺失部分为 out。",
+              "evidence": "layout",
+              "skillTags": [
+                "c-test",
+                "context",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b06",
+              "prefix": "ident",
+              "answer": "ical",
+              "fullWord": "identical",
+              "explanationZh": "identical 符合本句语境；根据前后搭配可判断缺失部分为 ical。",
+              "evidence": "identical",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b07",
+              "prefix": "sustain",
+              "answer": "ed",
+              "fullWord": "sustained",
+              "explanationZh": "sustained 符合本句语境；根据前后搭配可判断缺失部分为 ed。",
+              "evidence": "sustained",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b08",
+              "prefix": "individ",
+              "answer": "ual",
+              "fullWord": "individual",
+              "explanationZh": "individual 符合本句语境；根据前后搭配可判断缺失部分为 ual。",
+              "evidence": "individual",
+              "skillTags": [
+                "c-test",
+                "word-form",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b09",
+              "prefix": "mislead",
+              "answer": "ing",
+              "fullWord": "misleading",
+              "explanationZh": "misleading 符合本句语境；根据前后搭配可判断缺失部分为 ing。",
+              "evidence": "misleading",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "read_adapt_upper_01_cw2_b10",
+              "prefix": "engage",
+              "answer": "ment",
+              "fullWord": "engagement",
+              "explanationZh": "engagement 符合本句语境；根据前后搭配可判断缺失部分为 ment。",
+              "evidence": "engagement",
+              "skillTags": [
+                "c-test",
+                "academic-vocabulary",
+                "context"
+              ],
+              "errorTags": [
+                "word-form"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_upper_01_daily_life_1",
+          "type": "daily_life",
+          "title": "Daily Life: Seminar Reading List",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "Professor Han posts a message about next week’s urban ecology seminar. Students should read the short case study first and then skim the optional methods appendix only if they want more detail about data collection. The professor adds that the discussion will focus on how evidence supports competing explanations, not on memorizing every species name.",
+          "questions": [
+            {
+              "id": "rau_dl1_q01",
+              "type": "daily_life",
+              "prompt": "What should students read first?",
+              "options": [
+                "The short case study",
+                "The optional methods appendix",
+                "A list of every species name",
+                "A different seminar syllabus"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：read the short case study first。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "read the short case study first",
+              "skillTags": [
+                "detail",
+                "campus-instruction"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "easy",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rau_dl1_q02",
+              "type": "daily_life",
+              "prompt": "What will the discussion focus on?",
+              "options": [
+                "How evidence supports competing explanations",
+                "How to memorize every species name",
+                "Why methods appendices are forbidden",
+                "Where to buy ecology textbooks"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：focus on how evidence supports competing explanations。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "focus on how evidence supports competing explanations",
+              "skillTags": [
+                "main-idea",
+                "purpose"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        },
+        {
+          "id": "read_adapt_upper_01_academic_passage_1",
+          "type": "academic_passage",
+          "title": "Academic Passage: Urban Habitat Patches",
+          "instructionsZh": "阅读文本，选择最佳答案。",
+          "passage": "Urban ecologists increasingly study small habitat patches such as roadside plantings, vacant lots, and community gardens. Earlier research often treated these spaces as too disturbed to support meaningful biodiversity. More recent studies suggest a more complex picture. Although a single patch may contain only a limited number of species, a network of patches can support movement, feeding, and reproduction across a city. The value of such spaces depends partly on connectivity. A garden surrounded by pavement may function differently from one located near trees, drainage channels, or other vegetated areas. However, connectivity is not the only factor. Management choices, including mowing frequency and pesticide use, can alter habitat quality even when two sites appear similar on a map. Urban habitat studies therefore require both spatial analysis and close observation of local conditions. This combination is especially important because urban sites change quickly. A garden that supports insects in spring may become less useful after summer mowing, while a narrow strip of vegetation may become valuable if it links two larger patches. Researchers must therefore avoid treating a single observation as a permanent description of ecological value.",
+          "questions": [
+            {
+              "id": "rau_ap1_q01",
+              "type": "academic_passage",
+              "prompt": "What is the main idea of the passage?",
+              "options": [
+                "Urban habitat value depends on both connectivity and local management",
+                "Small city habitats never support biodiversity",
+                "Maps alone can fully explain urban ecology",
+                "Pesticide use is unrelated to habitat quality"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：require both spatial analysis and close observation of local conditions。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "require both spatial analysis and close observation of local conditions",
+              "skillTags": [
+                "main-idea",
+                "synthesis"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rau_ap1_q02",
+              "type": "academic_passage",
+              "prompt": "Why does the author mention a garden surrounded by pavement?",
+              "options": [
+                "To illustrate how nearby features can affect ecological function",
+                "To argue that pavement improves biodiversity",
+                "To show that gardens cannot exist near roads",
+                "To define mowing frequency"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：may function differently from one located near trees...。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "may function differently from one located near trees...",
+              "skillTags": [
+                "rhetorical-purpose",
+                "example"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "medium",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            },
+            {
+              "id": "rau_ap1_q03",
+              "type": "academic_passage",
+              "prompt": "What can be inferred about two sites that look similar on a map?",
+              "options": [
+                "They may differ because of management choices",
+                "They must contain the same species",
+                "They are always equally connected",
+                "They cannot be studied scientifically"
+              ],
+              "answer": 0,
+              "explanationZh": "正确答案对应原文证据：management choices... alter habitat quality even when two sites appear similar on a map。其他选项要么过度推断，要么与文本细节不符。",
+              "evidence": "management choices... alter habitat quality even when two sites appear similar on a map",
+              "skillTags": [
+                "inference",
+                "cause-effect"
+              ],
+              "errorTags": [
+                "plausible-but-unsupported"
+              ],
+              "difficulty": "hard",
+              "sourcePolicy": "original_toefl_style_no_official_items"
+            }
+          ],
+          "sourcePolicy": "original_toefl_style_no_official_items"
+        }
+      ]
+    }
+  ],
+  "adaptiveSessions": [
+    {
+      "id": "reading_adaptive_session_001",
+      "title": "Reading Adaptive Simulation 01",
+      "descriptionZh": "完整 50 题两阶段阅读训练：先完成 Router，再进入 Lower 或 Upper 第二模块。内容原创，不含官方真题。",
+      "sourcePolicy": "original_toefl_style_no_official_items",
+      "estimatedMinutes": 30,
+      "routerModuleId": "read_adapt_router_01",
+      "lowerModuleId": "read_adapt_lower_01",
+      "upperModuleId": "read_adapt_upper_01",
+      "routeThresholdAccuracy": 70,
+      "officialAlgorithmDisclaimerZh": "训练模拟路由，非 ETS 官方自适应算法。"
     }
   ]
 }

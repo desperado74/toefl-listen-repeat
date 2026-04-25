@@ -41,10 +41,12 @@ Repo: `https://github.com/desperado74/toefl-listen-repeat`
   - frontend unlock screen
 - Reading v1:
   - 3 original shortened seed sets / 54 scoring items
+  - adaptive Reading simulation v1 adds Router -> Lower/Upper modules for a 50-item full practice path
+  - adaptive content is original TOEFL-style only; official ETS materials are used for calibration, not copied into the public bank
   - Complete the Words now uses short C-test style passages with 10 typed word-completion blanks per set
   - Read in Daily Life now uses 3 questions per set, plus Academic Passage sections
   - timed practice UI, complete-before-submit flow, Chinese explanations, score review, missed-answer text, and skill breakdown
-  - `/api/reading/sets`, `/api/reading/sets/{set_id}`, `/api/reading/attempts`
+  - `/api/reading/sets`, `/api/reading/sets/{set_id}`, `/api/reading/adaptive`, `/api/reading/modules/{module_id}`, `/api/reading/attempts`
 - Speaking Interview v1:
   - Speaking now contains Listen and Repeat plus Interview modes
   - 12 original Interview sets / 48 questions
