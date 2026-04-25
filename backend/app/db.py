@@ -42,6 +42,74 @@ def init_db(database_path: Path) -> None:
             ON attempts(created_at)
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS reading_attempts (
+                id TEXT PRIMARY KEY,
+                set_id TEXT NOT NULL,
+                answers_json TEXT NOT NULL,
+                result_json TEXT NOT NULL,
+                elapsed_ms INTEGER NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_reading_attempts_created
+            ON reading_attempts(created_at)
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS interview_attempts (
+                id TEXT PRIMARY KEY,
+                set_id TEXT NOT NULL,
+                question_id TEXT NOT NULL,
+                audio_path TEXT NOT NULL,
+                duration_ms INTEGER NOT NULL,
+                transcript TEXT NOT NULL DEFAULT '',
+                ai_feedback_json TEXT NOT NULL DEFAULT '{}',
+                rubric_scores_json TEXT NOT NULL DEFAULT '{}',
+                scoring_status TEXT NOT NULL DEFAULT 'not_scored',
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_interview_attempts_question_created
+            ON interview_attempts(question_id, created_at)
+            """
+        )
+        conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_interview_attempts_created
+            ON interview_attempts(created_at)
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS interview_reference_answers (
+                id TEXT PRIMARY KEY,
+                set_id TEXT NOT NULL,
+                question_id TEXT NOT NULL,
+                provider TEXT NOT NULL,
+                model TEXT NOT NULL,
+                answer_text TEXT NOT NULL,
+                learning_points_json TEXT NOT NULL,
+                target_level TEXT NOT NULL,
+                word_count INTEGER NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_interview_reference_unique
+            ON interview_reference_answers(set_id, question_id, provider, model, target_level)
+            """
+        )
 
 
 def row_to_dict(row: sqlite3.Row) -> dict[str, Any]:

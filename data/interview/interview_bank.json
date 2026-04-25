@@ -1,0 +1,463 @@
+{
+  "source": "original",
+  "sourcePolicy": "Original TOEFL-style Interview practice content. No official ETS questions are copied.",
+  "policyZh": "原创 TOEFL-style Interview 训练内容，不使用官方真题。",
+  "sets": [
+    {
+      "id": "interview-campus-study-space-001",
+      "title": "Finding a Study Space",
+      "theme": "campus life",
+      "difficulty": "easy",
+      "descriptionZh": "围绕校园学习空间选择展开，适合练习个人经历、偏好、原因和建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-campus-study-space-001-q1",
+          "order": 1,
+          "interviewerText": "I would like to ask about places where students study on campus. Tell me about a place where you usually study, and explain why it works well for you.",
+          "focus": "personal experience",
+          "reviewHintZh": "先交代地点，再给出两个具体原因，比如安静、设备、距离或氛围。"
+        },
+        {
+          "id": "interview-campus-study-space-001-q2",
+          "order": 2,
+          "interviewerText": "Some students prefer a quiet library, while others like a busy cafe. Which environment do you prefer when you need to finish important work?",
+          "focus": "preference",
+          "reviewHintZh": "明确选择一种环境，并用注意力、效率或压力管理来解释。"
+        },
+        {
+          "id": "interview-campus-study-space-001-q3",
+          "order": 3,
+          "interviewerText": "Our university is considering adding more reservable study rooms. Do you think this would help students? Please give reasons and examples.",
+          "focus": "evaluation",
+          "reviewHintZh": "回答是否有帮助，再说明对小组项目、考试周或公平使用空间的影响。"
+        },
+        {
+          "id": "interview-campus-study-space-001-q4",
+          "order": 4,
+          "interviewerText": "Imagine you could design one improvement for campus study areas. What change would you recommend, and how would it support students?",
+          "focus": "recommendation",
+          "reviewHintZh": "提出一个具体改进，并说明它解决的问题和带来的学习效果。"
+        }
+      ]
+    },
+    {
+      "id": "interview-office-hours-002",
+      "title": "Using Office Hours",
+      "theme": "academic support",
+      "difficulty": "medium",
+      "descriptionZh": "围绕 office hours 和学术支持展开，练习解释问题、比较选择和提出建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-office-hours-002-q1",
+          "order": 1,
+          "interviewerText": "Many instructors invite students to office hours. Describe a time when you asked a teacher or classmate for help with a difficult topic.",
+          "focus": "personal experience",
+          "reviewHintZh": "讲清楚困难是什么、你怎么求助、最后有什么结果。"
+        },
+        {
+          "id": "interview-office-hours-002-q2",
+          "order": 2,
+          "interviewerText": "Would you rather meet a professor in person or send questions by email? Explain which option is more useful for you.",
+          "focus": "preference",
+          "reviewHintZh": "对比当面沟通和邮件沟通，强调你选择的效率或清晰度。"
+        },
+        {
+          "id": "interview-office-hours-002-q3",
+          "order": 3,
+          "interviewerText": "Some students avoid office hours because they feel embarrassed. Why do you think this happens, and what could make them more comfortable?",
+          "focus": "cause and solution",
+          "reviewHintZh": "先分析原因，再给出降低心理压力的办法。"
+        },
+        {
+          "id": "interview-office-hours-002-q4",
+          "order": 4,
+          "interviewerText": "If you were advising a new student, how would you explain the best way to prepare for office hours?",
+          "focus": "advice",
+          "reviewHintZh": "给出可执行步骤，比如列问题、带材料、课后复盘。"
+        }
+      ]
+    },
+    {
+      "id": "interview-group-project-003",
+      "title": "Managing a Group Project",
+      "theme": "academic collaboration",
+      "difficulty": "medium",
+      "descriptionZh": "围绕小组项目合作展开，练习描述冲突、选择沟通方式和评价协作策略。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-group-project-003-q1",
+          "order": 1,
+          "interviewerText": "Think about a group project you have worked on. What role did you usually take, and how did you help the group make progress?",
+          "focus": "personal role",
+          "reviewHintZh": "说明你的角色和具体贡献，不要只说自己很努力。"
+        },
+        {
+          "id": "interview-group-project-003-q2",
+          "order": 2,
+          "interviewerText": "When a group member misses a deadline, what is the best way to handle the situation? Explain your answer with reasons.",
+          "focus": "problem solving",
+          "reviewHintZh": "强调沟通、重新分工和保留项目进度。"
+        },
+        {
+          "id": "interview-group-project-003-q3",
+          "order": 3,
+          "interviewerText": "Some courses grade students individually for group projects. Do you think this policy is fair? Why or why not?",
+          "focus": "evaluation",
+          "reviewHintZh": "表达是否公平，并说明它如何影响责任感和合作。"
+        },
+        {
+          "id": "interview-group-project-003-q4",
+          "order": 4,
+          "interviewerText": "What advice would you give to a team that wants to finish a large project without last-minute stress?",
+          "focus": "recommendation",
+          "reviewHintZh": "建议要具体，比如时间表、分工、检查点和共享文件。"
+        }
+      ]
+    },
+    {
+      "id": "interview-campus-event-004",
+      "title": "Planning a Campus Event",
+      "theme": "campus activities",
+      "difficulty": "easy",
+      "descriptionZh": "围绕校园活动策划展开，练习活动经历、偏好和推广建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-campus-event-004-q1",
+          "order": 1,
+          "interviewerText": "Tell me about a campus event or community activity you enjoyed. What happened, and why was it memorable for you?",
+          "focus": "personal experience",
+          "reviewHintZh": "用事件、细节和个人感受构成一个小故事。"
+        },
+        {
+          "id": "interview-campus-event-004-q2",
+          "order": 2,
+          "interviewerText": "Do you prefer academic talks, social events, or volunteer activities on campus? Explain your choice.",
+          "focus": "preference",
+          "reviewHintZh": "选一个类型，并解释它和你的目标或兴趣的关系。"
+        },
+        {
+          "id": "interview-campus-event-004-q3",
+          "order": 3,
+          "interviewerText": "Our student center wants more people to attend events. What problem might be keeping students away?",
+          "focus": "problem analysis",
+          "reviewHintZh": "可以从时间冲突、宣传不足或活动吸引力分析。"
+        },
+        {
+          "id": "interview-campus-event-004-q4",
+          "order": 4,
+          "interviewerText": "Suggest one practical way to make campus events more useful or more interesting for busy students.",
+          "focus": "recommendation",
+          "reviewHintZh": "建议要和 busy students 对应，例如短时段、线上报名或明确收益。"
+        }
+      ]
+    },
+    {
+      "id": "interview-feedback-on-writing-005",
+      "title": "Getting Feedback on Writing",
+      "theme": "academic skills",
+      "difficulty": "medium",
+      "descriptionZh": "围绕写作反馈展开，练习学习经历、修改偏好和反馈质量判断。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-feedback-on-writing-005-q1",
+          "order": 1,
+          "interviewerText": "Describe a time when feedback helped you improve a piece of writing or a presentation. What did you change afterward?",
+          "focus": "personal improvement",
+          "reviewHintZh": "讲清楚反馈内容和你做出的具体修改。"
+        },
+        {
+          "id": "interview-feedback-on-writing-005-q2",
+          "order": 2,
+          "interviewerText": "Would you rather receive feedback from a teacher, a classmate, or an online tool? Explain which source you trust most.",
+          "focus": "preference",
+          "reviewHintZh": "比较不同反馈来源的专业性、速度和具体程度。"
+        },
+        {
+          "id": "interview-feedback-on-writing-005-q3",
+          "order": 3,
+          "interviewerText": "Some students only look at the grade and ignore written comments. Why is this a problem for learning?",
+          "focus": "evaluation",
+          "reviewHintZh": "说明只看分数会错过哪些改进机会。"
+        },
+        {
+          "id": "interview-feedback-on-writing-005-q4",
+          "order": 4,
+          "interviewerText": "What system could a university writing center use to help students apply feedback more effectively?",
+          "focus": "solution design",
+          "reviewHintZh": "提出流程设计，例如修改计划、二次预约或反馈清单。"
+        }
+      ]
+    },
+    {
+      "id": "interview-time-management-006",
+      "title": "Managing a Busy Week",
+      "theme": "student routines",
+      "difficulty": "easy",
+      "descriptionZh": "围绕时间管理展开，练习个人习惯、取舍、原因和建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-time-management-006-q1",
+          "order": 1,
+          "interviewerText": "Students often have several deadlines in the same week. Tell me how you usually organize your time when you are busy.",
+          "focus": "personal routine",
+          "reviewHintZh": "说出一个实际方法，比如日历、任务拆分或优先级。"
+        },
+        {
+          "id": "interview-time-management-006-q2",
+          "order": 2,
+          "interviewerText": "Do you work better by finishing one task at a time or by switching among several tasks? Explain your preference.",
+          "focus": "preference",
+          "reviewHintZh": "明确你的工作方式，并说明对专注或效率的影响。"
+        },
+        {
+          "id": "interview-time-management-006-q3",
+          "order": 3,
+          "interviewerText": "What is one common distraction that makes students lose time, and how can they control it?",
+          "focus": "problem solving",
+          "reviewHintZh": "选择一个干扰源，并给出可操作的控制办法。"
+        },
+        {
+          "id": "interview-time-management-006-q4",
+          "order": 4,
+          "interviewerText": "If a first-year student asked how to balance classes, friends, and rest, what advice would you give?",
+          "focus": "advice",
+          "reviewHintZh": "建议要平衡学习、社交和休息，不要只强调多学习。"
+        }
+      ]
+    },
+    {
+      "id": "interview-lab-safety-007",
+      "title": "Learning Lab Safety",
+      "theme": "academic policy",
+      "difficulty": "hard",
+      "descriptionZh": "围绕实验室安全培训展开，练习规则理解、政策评价和改进建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-lab-safety-007-q1",
+          "order": 1,
+          "interviewerText": "Some science courses require lab safety training before students begin experiments. Describe a rule or procedure that you think is important.",
+          "focus": "specific explanation",
+          "reviewHintZh": "解释一条安全规则，并说明它防止什么风险。"
+        },
+        {
+          "id": "interview-lab-safety-007-q2",
+          "order": 2,
+          "interviewerText": "Would you prefer safety training online or in person? Explain which format would help students remember the rules better.",
+          "focus": "preference",
+          "reviewHintZh": "对比线上便利和线下演示的效果。"
+        },
+        {
+          "id": "interview-lab-safety-007-q3",
+          "order": 3,
+          "interviewerText": "If students break a minor safety rule, should the instructor stop the lab immediately? Give your opinion and reasons.",
+          "focus": "policy evaluation",
+          "reviewHintZh": "讨论安全、学习机会和规则执行之间的平衡。"
+        },
+        {
+          "id": "interview-lab-safety-007-q4",
+          "order": 4,
+          "interviewerText": "What could a department do to make safety rules feel practical instead of just like paperwork?",
+          "focus": "recommendation",
+          "reviewHintZh": "建议用真实案例、演示、检查清单或短测验。"
+        }
+      ]
+    },
+    {
+      "id": "interview-campus-transportation-008",
+      "title": "Getting Around Campus",
+      "theme": "campus services",
+      "difficulty": "medium",
+      "descriptionZh": "围绕校园交通展开，练习服务体验、偏好、问题分析和建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-campus-transportation-008-q1",
+          "order": 1,
+          "interviewerText": "Tell me how students usually get around your campus or city. What transportation option do you use most often?",
+          "focus": "personal routine",
+          "reviewHintZh": "介绍常见交通方式，再聚焦你自己的选择。"
+        },
+        {
+          "id": "interview-campus-transportation-008-q2",
+          "order": 2,
+          "interviewerText": "If you had to choose, would you improve campus buses, bike parking, or walking paths? Explain your choice.",
+          "focus": "preference",
+          "reviewHintZh": "选择一个改善对象，并说明它影响哪些学生。"
+        },
+        {
+          "id": "interview-campus-transportation-008-q3",
+          "order": 3,
+          "interviewerText": "What problem might occur if too many students drive to campus every day? Explain the effects.",
+          "focus": "cause and effect",
+          "reviewHintZh": "可从停车、拥堵、费用或环境影响展开。"
+        },
+        {
+          "id": "interview-campus-transportation-008-q4",
+          "order": 4,
+          "interviewerText": "Recommend one transportation policy that would make campus life easier without costing students too much money.",
+          "focus": "recommendation",
+          "reviewHintZh": "提出低成本方案，并说明为什么学生容易接受。"
+        }
+      ]
+    },
+    {
+      "id": "interview-library-technology-009",
+      "title": "Technology in the Library",
+      "theme": "campus resources",
+      "difficulty": "medium",
+      "descriptionZh": "围绕图书馆技术资源展开，练习资源使用、技术选择和服务评价。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-library-technology-009-q1",
+          "order": 1,
+          "interviewerText": "Many libraries now offer laptops, recording rooms, or research software. Describe a technology resource that would help your studies.",
+          "focus": "resource description",
+          "reviewHintZh": "说明资源是什么、用在什么学习任务上、为什么有帮助。"
+        },
+        {
+          "id": "interview-library-technology-009-q2",
+          "order": 2,
+          "interviewerText": "Would you rather borrow equipment from the library or use your own device? Explain the advantages of your choice.",
+          "focus": "preference",
+          "reviewHintZh": "从成本、便利、可靠性或熟悉程度进行比较。"
+        },
+        {
+          "id": "interview-library-technology-009-q3",
+          "order": 3,
+          "interviewerText": "Should libraries spend more money on digital resources than on printed books? Give your opinion with reasons.",
+          "focus": "evaluation",
+          "reviewHintZh": "可以承认两者价值，再选择重点投入方向。"
+        },
+        {
+          "id": "interview-library-technology-009-q4",
+          "order": 4,
+          "interviewerText": "How could library staff teach students to use new research tools without making the training feel too complicated?",
+          "focus": "solution design",
+          "reviewHintZh": "建议短培训、示例任务、分层指南或预约帮助。"
+        }
+      ]
+    },
+    {
+      "id": "interview-course-selection-010",
+      "title": "Choosing Courses",
+      "theme": "academic planning",
+      "difficulty": "easy",
+      "descriptionZh": "围绕选课展开，练习偏好表达、信息来源和规划建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-course-selection-010-q1",
+          "order": 1,
+          "interviewerText": "Students choose courses for many reasons. Tell me about a class you would like to take and why it interests you.",
+          "focus": "personal interest",
+          "reviewHintZh": "说明课程主题和你感兴趣的具体原因。"
+        },
+        {
+          "id": "interview-course-selection-010-q2",
+          "order": 2,
+          "interviewerText": "When choosing a course, is the professor, schedule, or subject most important to you? Explain your answer.",
+          "focus": "preference",
+          "reviewHintZh": "选择一个最重要因素，并解释它如何影响学习体验。"
+        },
+        {
+          "id": "interview-course-selection-010-q3",
+          "order": 3,
+          "interviewerText": "Some students choose easy classes to protect their grades. Do you think this is a good strategy?",
+          "focus": "evaluation",
+          "reviewHintZh": "讨论成绩、挑战和长期能力之间的取舍。"
+        },
+        {
+          "id": "interview-course-selection-010-q4",
+          "order": 4,
+          "interviewerText": "What advice would you give to someone building a balanced course schedule for the first time?",
+          "focus": "advice",
+          "reviewHintZh": "建议结合难度、兴趣、时间安排和休息空间。"
+        }
+      ]
+    },
+    {
+      "id": "interview-sustainability-campus-011",
+      "title": "Sustainability on Campus",
+      "theme": "campus policy",
+      "difficulty": "hard",
+      "descriptionZh": "围绕校园可持续发展展开，练习政策评价、行为改变和建议。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-sustainability-campus-011-q1",
+          "order": 1,
+          "interviewerText": "Many schools encourage students to reduce waste. Describe one habit that could make campus life more sustainable.",
+          "focus": "specific habit",
+          "reviewHintZh": "选择一个具体习惯，并说明它如何减少浪费。"
+        },
+        {
+          "id": "interview-sustainability-campus-011-q2",
+          "order": 2,
+          "interviewerText": "Would students respond better to rewards for sustainable behavior or penalties for wasteful behavior? Explain your view.",
+          "focus": "preference",
+          "reviewHintZh": "对比奖励和惩罚对学生行为的影响。"
+        },
+        {
+          "id": "interview-sustainability-campus-011-q3",
+          "order": 3,
+          "interviewerText": "Should universities require all students to take a short sustainability workshop? Why or why not?",
+          "focus": "policy evaluation",
+          "reviewHintZh": "从教育效果、时间成本和校园责任展开。"
+        },
+        {
+          "id": "interview-sustainability-campus-011-q4",
+          "order": 4,
+          "interviewerText": "Recommend one realistic sustainability project that students could help run during a regular semester.",
+          "focus": "recommendation",
+          "reviewHintZh": "项目要现实可执行，比如回收、二手交换或节能宣传。"
+        }
+      ]
+    },
+    {
+      "id": "interview-career-preparation-012",
+      "title": "Preparing for a Career",
+      "theme": "career development",
+      "difficulty": "medium",
+      "descriptionZh": "围绕职业准备展开，练习经历描述、选择实习或课程、评价支持服务。",
+      "answerSeconds": 45,
+      "questions": [
+        {
+          "id": "interview-career-preparation-012-q1",
+          "order": 1,
+          "interviewerText": "Tell me about a skill you are trying to develop for your future career. Why is this skill important to you?",
+          "focus": "personal goal",
+          "reviewHintZh": "说明技能名称、职业关联和你正在怎样提升。"
+        },
+        {
+          "id": "interview-career-preparation-012-q2",
+          "order": 2,
+          "interviewerText": "Would you rather gain experience through an internship, a part-time job, or a campus project? Explain your choice.",
+          "focus": "preference",
+          "reviewHintZh": "对比实践方式，并说明你选择的学习价值。"
+        },
+        {
+          "id": "interview-career-preparation-012-q3",
+          "order": 3,
+          "interviewerText": "Some students wait until their final year to visit the career center. Why might this be a disadvantage?",
+          "focus": "problem analysis",
+          "reviewHintZh": "说明太晚准备会错过哪些机会或反馈。"
+        },
+        {
+          "id": "interview-career-preparation-012-q4",
+          "order": 4,
+          "interviewerText": "What service should a career center offer to help students feel more confident before interviews?",
+          "focus": "recommendation",
+          "reviewHintZh": "建议模拟面试、简历反馈、行业导师或表达训练。"
+        }
+      ]
+    }
+  ]
+}

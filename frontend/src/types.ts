@@ -13,6 +13,8 @@ export type PracticeSentence = {
   order: number;
   text: string;
   audioUrl: string;
+  difficultyStage?: "easy" | "medium" | "hard";
+  estimatedSyllables?: number;
 };
 
 export type AzureToken = {
@@ -23,6 +25,9 @@ export type AzureToken = {
 export type AppConfig = {
   azureConfigured: boolean;
   azureRegion: string | null;
+  deepSeekConfigured: boolean;
+  interviewAiProvider: string;
+  deepSeekModel: string;
   envPath: string;
   requiresPassword: boolean;
   authenticated: boolean;
@@ -153,4 +158,200 @@ export type SessionAnalytics = {
     label: string;
     count: number;
   }[];
+};
+
+export type ReadingSetSummary = {
+  id: string;
+  title: string;
+  difficulty: "easy" | "medium" | "hard";
+  estimatedMinutes: number;
+  descriptionZh: string;
+  questionCount: number;
+  sectionTypes: ReadingSectionType[];
+};
+
+export type ReadingSectionType = "complete_words" | "daily_life" | "academic_passage";
+
+export type ReadingSet = {
+  id: string;
+  title: string;
+  difficulty: "easy" | "medium" | "hard";
+  estimatedMinutes: number;
+  descriptionZh: string;
+  sections: ReadingSection[];
+};
+
+export type ReadingSection = {
+  id: string;
+  type: ReadingSectionType;
+  title: string;
+  instructionsZh: string;
+  passage: string;
+  blanks?: ReadingWordBlank[];
+  questions: ReadingQuestion[];
+};
+
+export type ReadingWordBlank = {
+  id: string;
+  prefix: string;
+  answer: string;
+  fullWord: string;
+  explanationZh: string;
+  evidence: string;
+  skillTags: string[];
+  errorTags: string[];
+  difficulty: "easy" | "medium" | "hard";
+};
+
+export type ReadingQuestion = {
+  id: string;
+  type: string;
+  prompt: string;
+  options: string[];
+  answer: number;
+  explanationZh: string;
+  evidence: string;
+  skillTags: string[];
+  errorTags: string[];
+  difficulty: "easy" | "medium" | "hard";
+};
+
+export type ReadingAttemptResult = {
+  setId: string;
+  title: string;
+  correct: number;
+  total: number;
+  accuracy: number;
+  estimatedBand: string;
+  elapsedMs: number;
+  sectionBreakdown: Record<string, ReadingBreakdown>;
+  skillBreakdown: Record<string, ReadingBreakdown>;
+  missed: ReadingMissedQuestion[];
+  summaryZh: string;
+};
+
+export type ReadingBreakdown = {
+  correct: number;
+  total: number;
+  accuracy: number;
+};
+
+export type ReadingMissedQuestion = {
+  questionId: string;
+  sectionType: ReadingSectionType;
+  prompt: string;
+  submitted: number | string | null;
+  submittedText?: string;
+  answer: number | string;
+  answerText?: string;
+  fullAnswer?: string;
+  explanationZh: string;
+  evidence: string;
+  skillTags: string[];
+  errorTags: string[];
+};
+
+export type InterviewSetSummary = {
+  id: string;
+  title: string;
+  theme: string;
+  difficulty: "easy" | "medium" | "hard";
+  descriptionZh: string;
+  questionCount: number;
+  answerSeconds: number;
+};
+
+export type InterviewSet = {
+  id: string;
+  title: string;
+  theme: string;
+  difficulty: "easy" | "medium" | "hard";
+  descriptionZh: string;
+  answerSeconds: number;
+  questions: InterviewQuestion[];
+};
+
+export type InterviewQuestion = {
+  id: string;
+  order: number;
+  interviewerText: string;
+  audioUrl: string;
+  answerSeconds: number;
+  focus: string;
+  reviewHintZh: string;
+};
+
+export type InterviewAttempt = {
+  id: string;
+  setId: string;
+  questionId: string;
+  durationMs: number;
+  transcript: string;
+  aiFeedback: InterviewFeedback;
+  rubricScores: Record<string, number>;
+  scoringStatus:
+    | "not_scored"
+    | "pending"
+    | "scored"
+    | "failed"
+    | "feedback_ready"
+    | "empty_transcript"
+    | "failed_transcription"
+    | "stt_not_configured";
+  audioPath: string;
+  audioUrl: string;
+  localAudioUrl?: string;
+  createdAt?: string;
+};
+
+export type InterviewFeedback = {
+  provider?: string;
+  aiProvider?: string;
+  aiProviderStatus?: string;
+  model?: string;
+  isOfficialScore?: boolean;
+  noticeZh?: string;
+  summaryZh?: string;
+  overallScore?: number;
+  strengthsZh?: string[];
+  prioritiesZh?: string[];
+  nextPracticeZh?: string;
+  metrics?: {
+    durationSeconds?: number;
+    wordCount?: number;
+    wpm?: number;
+    uniqueWordRatio?: number;
+    fillerCount?: number;
+    structureMarkerCount?: number;
+    promptKeywordOverlap?: number;
+    recognitionConfidence?: number | null;
+  };
+  dimensions?: Record<
+    "delivery" | "languageUse" | "topicDevelopment" | "organization",
+    {
+      level: "on_track" | "developing" | "needs_work";
+      messages: string[];
+    }
+  >;
+  rubricScores?: Record<string, number>;
+  stt?: {
+    provider?: string;
+    configured?: boolean;
+    confidence?: number | null;
+    recognitionStatus?: string;
+    error?: string;
+  };
+};
+
+export type InterviewReferenceAnswer = {
+  id: string;
+  setId: string;
+  questionId: string;
+  provider: "local" | "deepseek" | "openai" | "qwen" | string;
+  model: string;
+  answerText: string;
+  learningPoints: string[];
+  targetLevel: string;
+  wordCount: number;
+  createdAt: string;
 };

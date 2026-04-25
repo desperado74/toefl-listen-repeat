@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 
@@ -574,6 +575,169 @@ KIND_ORDER = [
     ("coordinate_program", "hard"),
 ]
 
+TOPIC_TAGS = {
+    "academic-advising": "advising",
+    "library-services": "library",
+    "residence-life": "housing",
+    "campus-technology": "tech",
+    "student-health": "health",
+    "career-services": "career",
+    "transportation": "transit",
+    "student-finance": "finance",
+    "recreation-center": "gym",
+    "international-services": "global",
+    "research-support": "research",
+    "student-organizations": "club",
+    "community-engagement": "service",
+    "campus-safety": "safety",
+    "dining-and-sustainability": "dining",
+}
+
+FOCUS_BY_KIND = {
+    "find_place": "desk",
+    "reach_office": "office",
+    "use_resource": "kiosk",
+    "reserve_slot": "slot",
+    "book_service": "session",
+    "submit_document": "form",
+    "request_access": "pass",
+    "report_issue": "ticket",
+    "prepare_event": "event",
+    "complete_application": "application",
+    "handle_exception": "request",
+    "coordinate_program": "plan",
+}
+
+BASE_REBUILDS = [
+    {
+        "id": "campus-website-login",
+        "title": "Logging in to the campus website",
+        "context": "A student helper explains how to access a university website.",
+        "level": "medium",
+        "topic": "campus-technology",
+        "tag": "website",
+        "focus": "login",
+    },
+    {
+        "id": "library-study-room",
+        "title": "Reserving a library study room",
+        "context": "A librarian explains how to reserve and use a group study room.",
+        "level": "medium",
+        "topic": "library-services",
+        "tag": "library",
+        "focus": "room",
+    },
+    {
+        "id": "office-hours-appointment",
+        "title": "Booking professor office hours",
+        "context": "A classmate explains how to book a meeting with a professor.",
+        "level": "medium",
+        "topic": "academic-advising",
+        "tag": "office",
+        "focus": "hours",
+    },
+    {
+        "id": "group-project-meeting",
+        "title": "Preparing a group project meeting",
+        "context": "A team leader gives instructions before a project meeting.",
+        "level": "medium",
+        "topic": "student-organizations",
+        "tag": "group",
+        "focus": "meeting",
+    },
+    {
+        "id": "bus-to-campus",
+        "title": "Taking the bus to campus",
+        "context": "A student explains how to commute by bus in the morning.",
+        "level": "easy",
+        "topic": "transportation",
+        "tag": "bus",
+        "focus": "stop",
+    },
+    {
+        "id": "printing-assignment",
+        "title": "Printing an assignment",
+        "context": "A teaching assistant explains how to print and submit homework.",
+        "level": "medium",
+        "topic": "coursework",
+        "tag": "print",
+        "focus": "file",
+    },
+    {
+        "id": "dorm-check-in",
+        "title": "Checking in to a dorm",
+        "context": "A resident assistant explains dorm check in steps for new students.",
+        "level": "medium",
+        "topic": "residence-life",
+        "tag": "dorm",
+        "focus": "desk",
+    },
+    {
+        "id": "campus-job-application",
+        "title": "Applying for a campus job",
+        "context": "A senior student shares steps for applying to campus jobs.",
+        "level": "hard",
+        "topic": "career-services",
+        "tag": "job",
+        "focus": "form",
+    },
+]
+
+SYLLABLE_TARGETS = {
+    1: ("easy", 9, 11),
+    2: ("easy", 9, 11),
+    3: ("medium", 14, 16),
+    4: ("medium", 14, 16),
+    5: ("medium", 14, 16),
+    6: ("hard", 19, 23),
+    7: ("hard", 19, 23),
+}
+
+WORD_RE = re.compile(r"[A-Za-z0-9]+(?:'[A-Za-z]+)?")
+SYLLABLE_EXCEPTIONS = {
+    "a": 1,
+    "the": 1,
+    "your": 1,
+    "our": 1,
+    "you": 1,
+    "are": 1,
+    "campus": 2,
+    "advising": 3,
+    "library": 2,
+    "housing": 2,
+    "career": 2,
+    "transit": 2,
+    "finance": 2,
+    "global": 2,
+    "research": 2,
+    "service": 2,
+    "safety": 2,
+    "dining": 2,
+    "office": 2,
+    "kiosk": 2,
+    "session": 2,
+    "ticket": 2,
+    "event": 2,
+    "request": 2,
+    "application": 4,
+    "student": 2,
+    "email": 2,
+    "reminder": 3,
+    "unclear": 2,
+    "confirm": 2,
+    "number": 2,
+    "busy": 2,
+    "hallway": 2,
+    "until": 2,
+    "before": 2,
+    "deadline": 2,
+    "planner": 2,
+    "changes": 2,
+    "update": 2,
+    "tomorrow's": 3,
+    "easier": 3,
+}
+
 
 def with_article(noun: str) -> str:
     first = noun.strip().lower()[:1]
@@ -616,122 +780,139 @@ def context_for(kind: str, noun: str, label: str) -> str:
     return mapping[kind]
 
 
-def sentences_for(kind: str, noun: str) -> list[str]:
-    templates = {
-        "find_place": [
-            f"Start at the main entrance before you look for the {noun}.",
-            f"Use the campus map to match the building code for the {noun}.",
-            f"Follow the posted signs until the arrow for the {noun} appears.",
-            f"Ask the front desk where the {noun} is located if the hallway feels confusing.",
-            f"Take the elevator or stairs that lead directly to the {noun}.",
-            f"Check the room number outside the {noun} before you join the line.",
-            f"Save the location of the {noun} on your phone so the next visit is easier.",
-        ],
-        "reach_office": [
-            f"Leave a few minutes early if you need to reach the {noun} before it closes.",
-            f"Check which building entrance is closest to the {noun} before you start walking.",
-            f"Walk past the first lobby until the sign for the {noun} becomes visible.",
-            f"Use the floor directory to confirm the quickest route to the {noun}.",
-            f"Ask a staff member whether the {noun} has moved to a temporary room.",
-            f"Wait outside the {noun} only after you confirm the office hours on the door.",
-            f"Mark the {noun} on your personal map so you can find it again next time.",
-        ],
-        "use_resource": [
-            f"Read the short instructions beside the {noun} before you press any buttons.",
-            f"Sign in with your student account if the {noun} asks for verification.",
-            f"Check whether the {noun} has a time limit before you begin using it.",
-            f"Keep your materials ready so the {noun} can be used without delay.",
-            f"Ask nearby staff for help if the {noun} responds in an unexpected way.",
-            f"Log out or clean up the {noun} as soon as you finish your task.",
-            f"Report any visible problem with the {noun} before you leave the area.",
-        ],
-        "reserve_slot": [
-            f"Open the booking page for the {noun} before the busy hours begin.",
-            f"Compare the available times for the {noun} with your own schedule.",
-            f"Choose the time for the {noun} that leaves room for walking or setup.",
-            f"Sign in with your student account to confirm the {noun}.",
-            f"Save the confirmation message for the {noun} as soon as it arrives.",
-            f"Cancel the {noun} quickly if your plans change at the last minute.",
-            f"Arrive early enough that the {noun} is not released to someone else.",
-        ],
-        "book_service": [
-            f"Check the service description before you book the {noun}.",
-            f"Pick the format of the {noun} that matches your immediate need.",
-            f"Prepare one clear question so the {noun} can stay focused.",
-            f"Bring any document that the {noun} might require during the session.",
-            f"Confirm the location of the {noun} after you receive the email reminder.",
-            f"Write down next steps before the {noun} ends and the details fade.",
-            f"Follow up soon if the {noun} leads to another required action.",
-        ],
-        "submit_document": [
-            f"Download the instructions for the {noun} before you start writing anything.",
-            f"Fill in every required field on the {noun} using your official student information.",
-            f"Review the {noun} carefully so you do not miss a signature or date.",
-            f"Attach any supporting file that the {noun} requires before submission.",
-            f"Submit the {noun} before the deadline because late forms are harder to fix.",
-            f"Save a copy of the {noun} in case the office requests clarification later.",
-            f"Check your email after sending the {noun} to confirm that it was received.",
-        ],
-        "request_access": [
-            f"Read the eligibility rules before you request the {noun}.",
-            f"Use your campus email when you ask for the {noun} so staff can verify you faster.",
-            f"Explain briefly why the {noun} is necessary for your course or project.",
-            f"Complete any training that must happen before the {noun} can be approved.",
-            f"Check the approval timeline for the {noun} instead of assuming it is immediate.",
-            f"Keep the confirmation message once the {noun} has been granted.",
-            f"Contact the office again if the {noun} still does not work on the next day.",
-        ],
-        "report_issue": [
-            f"Describe the {noun} as soon as you notice that it is not working correctly.",
-            f"Take one clear photo of the {noun} if visual proof can speed up the repair.",
-            f"Write down when the {noun} failed so the support team can trace the problem.",
-            f"Use the official report channel for the {noun} instead of relying on word of mouth.",
-            f"Explain how the {noun} is affecting your schedule or assignment if the delay matters.",
-            f"Check for an update on the {noun} rather than assuming the issue is already solved.",
-            f"Keep any ticket number connected to the {noun} until the repair is complete.",
-        ],
-        "prepare_event": [
-            f"Read the schedule for the {noun} before you decide what to bring.",
-            f"Register early if the {noun} has limited seats or materials.",
-            f"Prepare one question so the {noun} feels useful instead of passive.",
-            f"Bring notes, documents, or samples if the {noun} invites personal feedback.",
-            f"Arrive a little early because the {noun} may start exactly on time.",
-            f"Write down action items during the {noun} while the advice is still fresh.",
-            f"Review your notes after the {noun} so the best ideas do not disappear.",
-        ],
-        "complete_application": [
-            f"Read the full criteria for the {noun} before you invest time in the form.",
-            f"Collect every required file for the {noun} before the portal opens.",
-            f"Draft your responses offline so the {noun} is easier to edit and review.",
-            f"Ask someone to proofread the {noun} because small errors look careless.",
-            f"Submit the {noun} early enough to handle technical problems without panic.",
-            f"Save the confirmation page for the {noun} after the final upload finishes.",
-            f"Track future emails about the {noun} because some steps may happen in stages.",
-        ],
-        "handle_exception": [
-            f"Read the official policy before you request help with the {noun}.",
-            f"Explain the reason for the {noun} clearly instead of writing a vague excuse.",
-            f"Attach supporting proof if the {noun} depends on a documented circumstance.",
-            f"Send the {noun} to the correct office so time is not lost in forwarding.",
-            f"Ask politely about the review timeline for the {noun} after you submit it.",
-            f"Check your email often because the {noun} may require one more response from you.",
-            f"Keep a written record of the {noun} until the final decision is confirmed.",
-        ],
-        "coordinate_program": [
-            f"List the moving parts of the {noun} before you assign any responsibilities.",
-            f"Share one clear timeline for the {noun} so everyone sees the same deadlines.",
-            f"Confirm who owns each task connected to the {noun} before the week begins.",
-            f"Store files for the {noun} in one shared place instead of scattered messages.",
-            f"Review risks around the {noun} early enough that backup plans still exist.",
-            f"Send a short update on the {noun} after every major change or decision.",
-            f"Close the {noun} with a summary so the next round starts from a stable record.",
-        ],
-    }
-    return templates[kind]
+def count_word_syllables(word: str) -> int:
+    cleaned = re.sub(r"[^a-z']", "", word.lower())
+    if not cleaned:
+        return 0
+    if cleaned in SYLLABLE_EXCEPTIONS:
+        return SYLLABLE_EXCEPTIONS[cleaned]
+    if cleaned.endswith("'s"):
+        cleaned = cleaned[:-2]
+    groups = re.findall(r"[aeiouy]+", cleaned)
+    count = len(groups)
+    if cleaned.endswith("e") and not cleaned.endswith(("le", "ue")) and count > 1:
+        count -= 1
+    if cleaned.endswith("ed") and count > 1 and not cleaned.endswith(("ted", "ded")):
+        count -= 1
+    return max(count, 1)
+
+
+def estimate_syllables(text: str) -> int:
+    return sum(count_word_syllables(word) for word in WORD_RE.findall(text))
+
+
+def word_count(text: str) -> int:
+    return len(WORD_RE.findall(text))
+
+
+def sentence_candidates(order: int, tag: str, focus: str) -> list[str]:
+    if order == 1:
+        return [
+            f"Use the {tag} {focus} today.",
+            f"Check the {tag} {focus} before noon.",
+            f"Start at the {tag} {focus} this morning.",
+            f"Please check the {tag} {focus} before noon today.",
+            f"Start at the {tag} {focus} before noon today.",
+        ]
+    if order == 2:
+        return [
+            f"Please check the {tag} {focus} today.",
+            f"Check the {tag} {focus} now.",
+            f"Start the {tag} {focus} today.",
+            f"Find the {tag} {focus} before lunch today.",
+            f"Ask where the {tag} {focus} opens today.",
+        ]
+    if order == 3:
+        return [
+            f"Bring your student card to the {tag} {focus} today.",
+            f"Review the posted note near the {tag} {focus} before you leave.",
+            f"Confirm the room number for the {tag} {focus} before you go.",
+        ]
+    if order == 4:
+        return [
+            f"Ask the {tag} staff if the {focus} looks unclear to you.",
+            f"Check whether the {tag} {focus} looks clear today.",
+            f"Review the {tag} {focus} before you leave.",
+            f"Confirm the room number for the {tag} {focus} before you go.",
+            f"Review the posted note near the {tag} {focus} before you leave.",
+        ]
+    if order == 5:
+        return [
+            f"Please send the {tag} {focus} before noon today.",
+            f"Please save the {tag} {focus} before noon today.",
+            f"Send the {tag} {focus} before noon today.",
+            f"Save the {tag} {focus} before noon today.",
+            f"Please save the email reminder for the {tag} {focus} today.",
+            f"Save the email reminder for the {tag} {focus} today.",
+            f"Confirm the room number for the {tag} {focus} before you go.",
+            f"Review the posted note near the {tag} {focus} before you leave.",
+        ]
+    if order == 6:
+        return [
+            f"If the {tag} {focus} is busy, wait near the hallway until staff call you.",
+            f"If your {tag} {focus} changes, send a short update before the office closes.",
+            f"Ask one clear follow-up question if the {tag} {focus} still feels confusing.",
+            f"If the {tag} {focus} is busy today, wait near the hallway until staff call you.",
+            f"If your {tag} {focus} changes today, send a short update before the office closes.",
+        ]
+    return [
+        f"Before you leave, confirm the {tag} {focus} and write the deadline in your planner.",
+        f"After the {tag} {focus} ends, save the notes so tomorrow's work feels easier.",
+        f"If your {tag} {focus} changes, send a short update before the office closes.",
+    ]
+
+
+def choose_sentence(order: int, tag: str, focus: str, used: set[str]) -> str:
+    _, low, high = SYLLABLE_TARGETS[order]
+    options = sentence_candidates(order, tag, focus)
+    valid = [text for text in options if text not in used and low <= estimate_syllables(text) <= high]
+    if valid:
+        midpoint = (low + high) / 2
+        return min(valid, key=lambda text: (abs(estimate_syllables(text) - midpoint), word_count(text), text))
+    details = ", ".join(f"{estimate_syllables(text)}:{text}" for text in options)
+    raise ValueError(f"No sentence candidate fits order {order} for {tag} {focus}. Candidates: {details}")
+
+
+def sentences_for(tag: str, focus: str) -> list[dict[str, object]]:
+    sentences: list[dict[str, object]] = []
+    used: set[str] = set()
+    for order in range(1, 8):
+        difficulty_stage, _, _ = SYLLABLE_TARGETS[order]
+        text = choose_sentence(order, tag, focus, used)
+        used.add(text)
+        sentences.append(
+            {
+                "order": order,
+                "text": text,
+                "audioUrl": "",
+                "difficultyStage": difficulty_stage,
+                "estimatedSyllables": estimate_syllables(text),
+            }
+        )
+    return sentences
 
 
 def scenario_id(topic: str, kind: str) -> str:
     return f"{topic}-{kind.replace('_', '-')}"
+
+
+def with_ids(slug: str, sentences: list[dict[str, object]]) -> list[dict[str, object]]:
+    return [{**sentence, "id": f"{slug}-v2-{int(sentence['order']):02d}"} for sentence in sentences]
+
+
+def build_base_scenarios() -> list[dict[str, object]]:
+    return [
+        {
+            "id": item["id"],
+            "title": item["title"],
+            "context": item["context"],
+            "level": item["level"],
+            "topic": item["topic"],
+            "sourceType": "curated",
+            "sentences": with_ids(str(item["id"]), sentences_for(str(item["tag"]), str(item["focus"]))),
+        }
+        for item in BASE_REBUILDS
+    ]
 
 
 def build_generated_scenarios() -> list[dict[str, object]]:
@@ -740,10 +921,7 @@ def build_generated_scenarios() -> list[dict[str, object]]:
         for kind, level in KIND_ORDER:
             noun = domain[kind]
             slug = scenario_id(domain["topic"], kind)
-            sentences = [
-                {"id": f"{slug}-{index + 1:02d}", "order": index + 1, "text": text, "audioUrl": ""}
-                for index, text in enumerate(sentences_for(kind, noun))
-            ]
+            sentences = with_ids(slug, sentences_for(TOPIC_TAGS[domain["topic"]], FOCUS_BY_KIND[kind]))
             scenarios.append(
                 {
                     "id": slug,
@@ -758,10 +936,7 @@ def build_generated_scenarios() -> list[dict[str, object]]:
 
     for item in SUPPLEMENTAL_SCENARIOS:
         slug = scenario_id(item["topic"], item["kind"])
-        sentences = [
-            {"id": f"{slug}-{index + 1:02d}", "order": index + 1, "text": text, "audioUrl": ""}
-            for index, text in enumerate(sentences_for(item["kind"], item["noun"]))
-        ]
+        sentences = with_ids(slug, sentences_for(TOPIC_TAGS[item["topic"]], FOCUS_BY_KIND[item["kind"]]))
         scenarios.append(
             {
                 "id": slug,
@@ -776,10 +951,35 @@ def build_generated_scenarios() -> list[dict[str, object]]:
     return scenarios
 
 
+def interleave_by_level(scenarios: list[dict[str, object]]) -> list[dict[str, object]]:
+    def spread_by_topic(items: list[dict[str, object]]) -> list[dict[str, object]]:
+        topic_groups: dict[str, list[dict[str, object]]] = {}
+        for item in sorted(items, key=lambda item: (item["topic"], item["id"])):
+            topic_groups.setdefault(str(item["topic"]), []).append(item)
+        spread: list[dict[str, object]] = []
+        topics = sorted(topic_groups)
+        while any(topic_groups.values()):
+            for topic in topics:
+                if topic_groups[topic]:
+                    spread.append(topic_groups[topic].pop(0))
+        return spread
+
+    groups = {
+        level: spread_by_topic([item for item in scenarios if item["level"] == level])
+        for level in ("easy", "medium", "hard")
+    }
+    pattern = ["easy", "medium", "hard", "medium"]
+    mixed: list[dict[str, object]] = []
+    while any(groups.values()):
+        for level in pattern:
+            if groups[level]:
+                mixed.append(groups[level].pop(0))
+    return mixed
+
+
 def build_bank() -> dict[str, object]:
-    generated = build_generated_scenarios()
-    scenarios = BASE_SCENARIOS + generated
-    scenarios.sort(key=lambda item: (item["level"], item["topic"], item["id"]))
+    scenarios = build_base_scenarios() + build_generated_scenarios()
+    scenarios = interleave_by_level(scenarios)
     return {"scenarios": scenarios}
 
 

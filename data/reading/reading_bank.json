@@ -1,0 +1,172 @@
+{
+  "version": "toefl-reading-v1-seed-2026-04",
+  "sourcePolicy": "Original TOEFL-style practice content; not copied from official tests, TPO, paid banks, or third-party copyrighted questions.",
+  "practiceMode": "shortened",
+  "sets": [
+    {
+      "id": "reading_seed_001_campus_sustainability",
+      "title": "Campus Sustainability Program",
+      "difficulty": "medium",
+      "estimatedMinutes": 18,
+      "descriptionZh": "围绕校园可持续发展项目设计的新版阅读短练，覆盖补全单词、校园生活短文和学术型说明文。",
+      "sections": [
+        {
+          "id": "rs001_complete_words",
+          "type": "complete_words",
+          "title": "Complete the Words: Green Campus Notice",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "The university is {{rs001_cw_b01}} a {{rs001_cw_b02}} program that asks students to {{rs001_cw_b03}} waste, {{rs001_cw_b04}} energy, and report {{rs001_cw_b05}} problems. Student {{rs001_cw_b06}} will receive weekly {{rs001_cw_b07}} comparing residence halls. The committee hopes that small, {{rs001_cw_b08}} choices will create a {{rs001_cw_b09}} effect across {{rs001_cw_b10}}.",
+          "questions": [],
+          "blanks": [
+            {"id":"rs001_cw_b01","prefix":"exp","answer":"anding","fullWord":"expanding","explanationZh":"expand 表示扩大项目，句中 is expanding 是现在进行时。","evidence":"is ... a program","skillTags":["c-test","spelling","verb-form"],"errorTags":["word-form"],"difficulty":"medium"},
+            {"id":"rs001_cw_b02","prefix":"sustain","answer":"ability","fullWord":"sustainability","explanationZh":"sustainability program 表示可持续发展项目，是校园环保语境中的固定表达。","evidence":"reduce waste; conserve energy","skillTags":["c-test","academic-vocabulary","context"],"errorTags":["suffix-error"],"difficulty":"medium"},
+            {"id":"rs001_cw_b03","prefix":"red","answer":"uce","fullWord":"reduce","explanationZh":"reduce waste 表示减少浪费，符合环保项目目标。","evidence":"waste","skillTags":["c-test","collocation"],"errorTags":["semantic-mismatch"],"difficulty":"easy"},
+            {"id":"rs001_cw_b04","prefix":"con","answer":"serve","fullWord":"conserve","explanationZh":"conserve energy 表示节约能源，和 reduce waste 并列。","evidence":"energy","skillTags":["c-test","collocation"],"errorTags":["near-sounding-word"],"difficulty":"medium"},
+            {"id":"rs001_cw_b05","prefix":"maint","answer":"enance","fullWord":"maintenance","explanationZh":"maintenance problems 指维修问题，影响资源使用。","evidence":"report ... problems","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"medium"},
+            {"id":"rs001_cw_b06","prefix":"vol","answer":"unteers","fullWord":"volunteers","explanationZh":"student volunteers 指学生志愿者，后文说明他们会收到报告。","evidence":"Student ... will receive","skillTags":["c-test","noun-form"],"errorTags":["plural-form"],"difficulty":"medium"},
+            {"id":"rs001_cw_b07","prefix":"rep","answer":"orts","fullWord":"reports","explanationZh":"weekly reports 指每周报告，用来比较宿舍楼。","evidence":"weekly ... comparing residence halls","skillTags":["c-test","context"],"errorTags":["plural-form"],"difficulty":"easy"},
+            {"id":"rs001_cw_b08","prefix":"dai","answer":"ly","fullWord":"daily","explanationZh":"daily choices 表示日常选择，和 small 并列修饰 choices。","evidence":"small ... choices","skillTags":["c-test","word-form"],"errorTags":["suffix-error"],"difficulty":"easy"},
+            {"id":"rs001_cw_b09","prefix":"cum","answer":"ulative","fullWord":"cumulative","explanationZh":"cumulative effect 表示累积效应，符合小选择逐渐产生影响。","evidence":"small ... choices will create","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"hard"},
+            {"id":"rs001_cw_b10","prefix":"cam","answer":"pus","fullWord":"campus","explanationZh":"across campus 表示在整个校园范围内。","evidence":"across ...","skillTags":["c-test","context"],"errorTags":["completion-error"],"difficulty":"easy"}
+          ]
+        },
+        {
+          "id": "rs001_daily_life",
+          "type": "daily_life",
+          "title": "Daily Life: Residence Hall Composting",
+          "instructionsZh": "阅读校园生活场景短文，选择最佳答案。",
+          "passage": "Maya finds a note from her residence assistant about a new composting station in the lobby. The note says students should place fruit peels, coffee grounds, and uncoated paper napkins in the green bin, but they should not include meat, plastic forks, or glossy takeout boxes. A volunteer will be in the lobby on Monday evening to answer questions. The note adds that the station is a pilot project; if contamination stays low for six weeks, the university will add bins to two more residence halls.",
+          "questions": [
+            {"id":"rs001_dl_q01","type":"daily_life","prompt":"What is the main purpose of the note?","options":["To explain how students should use a new composting station","To announce that all dining halls will stop serving meat","To ask students to volunteer for a city recycling center","To compare several residence halls' waste levels"],"answer":0,"explanationZh":"短文主要说明新堆肥站能放什么、不能放什么以及试点条件。B 夸大为食堂停止供肉，文中只是说肉不能进堆肥桶。","evidence":"new composting station; should place; should not include","skillTags":["main-idea","campus-notice"],"errorTags":["overgeneralization"],"difficulty":"easy"},
+            {"id":"rs001_dl_q02","type":"daily_life","prompt":"According to the note, which item belongs in the green bin?","options":["Coffee grounds","Plastic forks","Glossy takeout boxes","Meat scraps"],"answer":0,"explanationZh":"文中明确列出 coffee grounds 可以放入绿色桶。plastic forks、glossy takeout boxes 和 meat 都被列为不应放入的物品。","evidence":"place fruit peels, coffee grounds, and uncoated paper napkins in the green bin","skillTags":["detail","scanning"],"errorTags":["confused-list-item"],"difficulty":"easy"},
+            {"id":"rs001_dl_q03","type":"daily_life","prompt":"Why will a volunteer be in the lobby on Monday evening?","options":["To answer students' questions","To collect room keys","To sell reusable containers","To inspect every student's trash"],"answer":0,"explanationZh":"志愿者在大厅的目的就是 answer questions。D 把“回答问题”误解成逐一检查垃圾，文中没有这种要求。","evidence":"A volunteer will be in the lobby on Monday evening to answer questions.","skillTags":["purpose","detail"],"errorTags":["unsupported-inference"],"difficulty":"easy"}
+          ]
+        },
+        {
+          "id": "rs001_academic_passage",
+          "type": "academic_passage",
+          "title": "Academic Passage: Behavior and Campus Energy Use",
+          "instructionsZh": "阅读学术型短文，回答主旨、细节、推断、词义和修辞目的题。",
+          "passage": "Universities often begin sustainability efforts by purchasing efficient equipment, yet equipment alone rarely produces the largest possible savings. Buildings are used by people whose routines determine when lights, computers, and heating systems operate. For this reason, many campuses now combine technical upgrades with behavioral programs. One common strategy is feedback: residence halls receive weekly reports showing electricity use compared with similar buildings. The comparison is not meant to shame students; rather, it makes an invisible resource visible. When occupants see that a neighboring hall used less energy during the same cold week, they may look for practical explanations, such as open windows or unused devices left on overnight. However, feedback must be designed carefully. If a report only praises the most efficient hall, students in other buildings may feel the goal is unreachable. Successful programs therefore emphasize specific actions and short time frames. A message such as 'turn off desk lamps before breakfast this week' is easier to act on than a broad request to 'save the planet.'",
+          "questions": [
+            {"id":"rs001_ap_q01","type":"academic_passage","prompt":"What is the main idea of the passage?","options":["Campus energy savings improve when technology is paired with behavior-focused feedback","Universities should avoid buying efficient equipment for residence halls","Students generally refuse to participate in sustainability programs","Heating systems are the only major cause of campus energy waste"],"answer":0,"explanationZh":"全文强调设备升级之外，还要通过反馈改变使用习惯。B 说不应购买设备，和第一句不符；D 把问题缩小到供暖，过窄。","evidence":"combine technical upgrades with behavioral programs","skillTags":["main-idea","synthesis"],"errorTags":["too-narrow","contradiction"],"difficulty":"medium"},
+            {"id":"rs001_ap_q02","type":"academic_passage","prompt":"The word 'occupants' in the passage is closest in meaning to","options":["people who use a building","machines that measure heat","official campus rules","reports sent by managers"],"answer":0,"explanationZh":"occupants 指建筑中的使用者或居住者，对应前文 buildings are used by people。B 把词误解成设备，不符合句子主语。","evidence":"Buildings are used by people... When occupants see","skillTags":["vocabulary-in-context"],"errorTags":["referent-confusion"],"difficulty":"easy"},
+            {"id":"rs001_ap_q03","type":"academic_passage","prompt":"Why does the author mention a neighboring hall that used less energy?","options":["To illustrate how comparison can prompt students to examine their routines","To prove that old buildings can never be efficient","To argue that cold weather has no effect on electricity use","To show that weekly reports are illegal in some dormitories"],"answer":0,"explanationZh":"相邻宿舍的比较让学生寻找开放窗户、设备未关等实际原因，说明反馈如何引发行为检查。B 和 D 没有依据；C 还与 cold week 的背景不符。","evidence":"they may look for practical explanations, such as open windows","skillTags":["rhetorical-purpose","inference"],"errorTags":["unsupported-detail"],"difficulty":"medium"},
+            {"id":"rs001_ap_q04","type":"academic_passage","prompt":"According to the passage, what is a risk of praising only the most efficient hall?","options":["Other students may think improvement is impossible","The efficient hall will stop receiving electricity","Reports will become too short to read","The university will cancel all technical upgrades"],"answer":0,"explanationZh":"原文说其他楼学生可能觉得目标 unreachable。B、C、D 都错在是原文没有提到的夸张后果。","evidence":"students in other buildings may feel the goal is unreachable","skillTags":["detail","cause-effect"],"errorTags":["unsupported-inference"],"difficulty":"medium"},
+            {"id":"rs001_ap_q05","type":"academic_passage","prompt":"Which recommendation is most consistent with the passage?","options":["Give students concrete weekly actions connected to energy reports","Send one general environmental slogan at the start of the year","Hide building-level energy data to avoid competition","Focus only on replacing equipment and ignore routines"],"answer":0,"explanationZh":"结尾明确支持具体行动和短时间框架。B 的 broad request 正是作者认为不如具体提示有效；D 忽视行为，与全文主旨相反。","evidence":"emphasize specific actions and short time frames","skillTags":["application","author-view"],"errorTags":["opposite-idea"],"difficulty":"medium"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reading_seed_002_library_research",
+      "title": "Library Research Support",
+      "difficulty": "medium",
+      "estimatedMinutes": 18,
+      "descriptionZh": "围绕大学图书馆研究支持服务设计，训练补全单词、校园公告理解和学术信息素养阅读。",
+      "sections": [
+        {
+          "id": "rs002_complete_words",
+          "type": "complete_words",
+          "title": "Complete the Words: Research Help Desk",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "The library research desk helps students {{rs002_cw_b01}} sources, {{rs002_cw_b02}} information, and organize {{rs002_cw_b03}} for class projects. A librarian may suggest {{rs002_cw_b04}} keywords, show how to use {{rs002_cw_b05}} filters, and explain why some websites are less {{rs002_cw_b06}}. Students should keep a {{rs002_cw_b07}} record of search terms so they can {{rs002_cw_b08}} a successful search and {{rs002_cw_b09}} sources before writing a final {{rs002_cw_b10}}.",
+          "questions": [],
+          "blanks": [
+            {"id":"rs002_cw_b01","prefix":"loc","answer":"ate","fullWord":"locate","explanationZh":"locate sources 表示找到资料来源，是图书馆研究支持的核心动作。","evidence":"sources","skillTags":["c-test","academic-vocabulary"],"errorTags":["semantic-mismatch"],"difficulty":"easy"},
+            {"id":"rs002_cw_b02","prefix":"eval","answer":"uate","fullWord":"evaluate","explanationZh":"evaluate information 表示评估信息可靠性。","evidence":"information","skillTags":["c-test","information-literacy"],"errorTags":["spelling"],"difficulty":"medium"},
+            {"id":"rs002_cw_b03","prefix":"cit","answer":"ations","fullWord":"citations","explanationZh":"organize citations 表示整理引用信息，符合 class projects 语境。","evidence":"organize ... for class projects","skillTags":["c-test","academic-vocabulary"],"errorTags":["plural-form"],"difficulty":"medium"},
+            {"id":"rs002_cw_b04","prefix":"alt","answer":"ernative","fullWord":"alternative","explanationZh":"alternative keywords 指可替换关键词，帮助缩小或调整搜索。","evidence":"suggest ... keywords","skillTags":["c-test","context"],"errorTags":["suffix-error"],"difficulty":"hard"},
+            {"id":"rs002_cw_b05","prefix":"data","answer":"base","fullWord":"database","explanationZh":"database filters 指数据库筛选器。","evidence":"filters","skillTags":["c-test","academic-tools"],"errorTags":["compound-word"],"difficulty":"medium"},
+            {"id":"rs002_cw_b06","prefix":"rel","answer":"iable","fullWord":"reliable","explanationZh":"less reliable 指不太可靠的网站，符合评估信息质量。","evidence":"some websites are less","skillTags":["c-test","information-literacy"],"errorTags":["spelling"],"difficulty":"medium"},
+            {"id":"rs002_cw_b07","prefix":"sys","answer":"tematic","fullWord":"systematic","explanationZh":"systematic record 表示有系统的记录，方便复现搜索。","evidence":"record of search terms","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"hard"},
+            {"id":"rs002_cw_b08","prefix":"rep","answer":"eat","fullWord":"repeat","explanationZh":"repeat a successful search 表示重复一次有效搜索。","evidence":"a successful search","skillTags":["c-test","context"],"errorTags":["near-sounding-word"],"difficulty":"easy"},
+            {"id":"rs002_cw_b09","prefix":"comp","answer":"are","fullWord":"compare","explanationZh":"compare sources 表示比较资料来源。","evidence":"sources before writing","skillTags":["c-test","verb-form"],"errorTags":["completion-error"],"difficulty":"medium"},
+            {"id":"rs002_cw_b10","prefix":"repo","answer":"rt","fullWord":"report","explanationZh":"final report 指最终报告，是 class project 的常见产出。","evidence":"writing a final","skillTags":["c-test","context"],"errorTags":["completion-error"],"difficulty":"easy"}
+          ]
+        },
+        {
+          "id": "rs002_daily_life",
+          "type": "daily_life",
+          "title": "Daily Life: Booking a Librarian",
+          "instructionsZh": "阅读校园生活场景短文，选择最佳答案。",
+          "passage": "Omar needs sources for a sociology presentation, but the library website lists hundreds of database results. He opens the research support page and sees that students can book a twenty-minute appointment with a subject librarian. The appointment can be online or at the reference desk. Students are asked to upload their assignment prompt and two keywords before the meeting, so the librarian can prepare examples. Same-day appointments are sometimes available, but the page recommends booking two days ahead during midterm week.",
+          "questions": [
+            {"id":"rs002_dl_q01","type":"daily_life","prompt":"Why is Omar likely using the research support page?","options":["He needs help narrowing database results for a presentation","He wants to reserve a group study room for a party","He is applying for a job at the library","He needs to pay a fine for an overdue book"],"answer":0,"explanationZh":"Omar 的问题是数据库结果太多且要做 sociology presentation，因此预约学科馆员最合理。B、C、D 都不是短文中的需求。","evidence":"needs sources for a sociology presentation; hundreds of database results","skillTags":["problem-solution","inference"],"errorTags":["irrelevant-detail"],"difficulty":"easy"},
+            {"id":"rs002_dl_q02","type":"daily_life","prompt":"What must students upload before the meeting?","options":["The assignment prompt and two keywords","A complete bibliography and a photo ID","Their class schedule and dorm address","A recording of their presentation"],"answer":0,"explanationZh":"短文明确说上传 assignment prompt and two keywords。B 错在 bibliography 可能和研究有关但文中没有要求。","evidence":"upload their assignment prompt and two keywords before the meeting","skillTags":["detail","scanning"],"errorTags":["plausible-but-unsupported"],"difficulty":"easy"},
+            {"id":"rs002_dl_q03","type":"daily_life","prompt":"Why does the page recommend booking two days ahead during midterm week?","options":["Appointments may be harder to get at that busy time","The library closes for the entire week","Librarians refuse to meet online during exams","Students need two days to receive a library card"],"answer":0,"explanationZh":"期中周需求高，所以建议提前两天预约。B、C、D 都错在没有文本依据，也过于绝对。","evidence":"Same-day appointments are sometimes available, but... booking two days ahead during midterm week","skillTags":["inference","campus-service"],"errorTags":["unsupported-extreme"],"difficulty":"medium"}
+          ]
+        },
+        {
+          "id": "rs002_academic_passage",
+          "type": "academic_passage",
+          "title": "Academic Passage: Search Strategies in Digital Libraries",
+          "instructionsZh": "阅读学术型短文，回答主旨、细节、推断、词义和修辞目的题。",
+          "passage": "Digital libraries have made scholarly material easier to reach, but easy access does not always produce effective research. A student who types a broad phrase into a search box may receive thousands of results, many only loosely connected to the topic. Librarians therefore teach search as an iterative process. Researchers begin with a tentative question, test several keywords, examine the language used in promising articles, and then revise the search. This cycle is especially useful because academic fields often use specialized terms. For example, articles about city parks may discuss 'urban green space,' while a student may initially search only for 'parks.' Another important strategy is filtering. Date limits, peer-review options, and subject categories can remove irrelevant material, but filters should not be applied mechanically. A narrow date range may exclude a classic study that later research continues to cite. Effective searching is thus neither a single click nor a random exploration; it is a controlled process of adjustment.",
+          "questions": [
+            {"id":"rs002_ap_q01","type":"academic_passage","prompt":"What is the passage mainly about?","options":["Why effective digital research requires repeated adjustment of searches","Why students should avoid using online library databases","How librarians decide which books to buy each year","How city parks are designed in modern urban planning"],"answer":0,"explanationZh":"全文围绕 iterative process、关键词修订和过滤器调整，说明数字研究需要反复调整。D 只是例子中的内容，不是主旨。","evidence":"search as an iterative process; controlled process of adjustment","skillTags":["main-idea","synthesis"],"errorTags":["example-as-main-idea"],"difficulty":"medium"},
+            {"id":"rs002_ap_q02","type":"academic_passage","prompt":"The word 'tentative' in the passage is closest in meaning to","options":["preliminary","permanent","unrelated","illegal"],"answer":0,"explanationZh":"tentative question 指初步问题，之后会测试和修改。B permanent 错在与后文 revise the search 的过程相反。","evidence":"begin with a tentative question... then revise the search","skillTags":["vocabulary-in-context"],"errorTags":["opposite-meaning"],"difficulty":"medium"},
+            {"id":"rs002_ap_q03","type":"academic_passage","prompt":"Why does the author mention 'urban green space'?","options":["To show that scholarly articles may use terms students do not initially search for","To argue that parks are not appropriate research topics","To explain why databases contain no articles about cities","To recommend replacing all keywords with longer phrases"],"answer":0,"explanationZh":"这个例子说明学术领域常用专门术语，学生需要从相关文章中发现并调整关键词。D 过度推断，并不是所有关键词都要变长。","evidence":"academic fields often use specialized terms","skillTags":["rhetorical-purpose","example"],"errorTags":["overgeneralization"],"difficulty":"medium"},
+            {"id":"rs002_ap_q04","type":"academic_passage","prompt":"According to the passage, what is a possible problem with a narrow date filter?","options":["It may exclude an older study that remains influential","It always increases the number of irrelevant results","It prevents students from seeing peer-reviewed articles","It changes article titles into unfamiliar terms"],"answer":0,"explanationZh":"原文指出窄日期范围可能排除仍被引用的经典研究。B 的 always 绝对化，且与过滤器通常减少结果不符。","evidence":"A narrow date range may exclude a classic study that later research continues to cite.","skillTags":["detail","cause-effect"],"errorTags":["absolute-language"],"difficulty":"medium"},
+            {"id":"rs002_ap_q05","type":"academic_passage","prompt":"Which statement best reflects the author's view of filters?","options":["They are useful when applied thoughtfully","They should replace keyword revision entirely","They are harmful in every scholarly search","They matter only for printed books"],"answer":0,"explanationZh":"作者承认过滤器能去除无关材料，但提醒不要机械使用，所以应“谨慎、有思考地使用”。C 说总是有害，和前半句矛盾。","evidence":"filters can remove irrelevant material, but filters should not be applied mechanically","skillTags":["author-view","inference"],"errorTags":["contradiction"],"difficulty":"medium"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reading_seed_003_biology_lab_safety",
+      "title": "Intro Biology Lab Safety",
+      "difficulty": "hard",
+      "estimatedMinutes": 19,
+      "descriptionZh": "围绕入门生物实验室安全主题设计，包含补全单词、实验室通知和学术说明文。",
+      "sections": [
+        {
+          "id": "rs003_complete_words",
+          "type": "complete_words",
+          "title": "Complete the Words: Lab Safety Orientation",
+          "instructionsZh": "阅读短文。每个空只输入单词缺失的字母，不要重复已经给出的开头字母。",
+          "passage": "Introductory biology students must learn basic {{rs003_cw_b01}} routines before handling {{rs003_cw_b02}}, stains, glassware, or electrical {{rs003_cw_b03}}. Goggles are required when liquid may {{rs003_cw_b04}}, and broken glass belongs in a {{rs003_cw_b05}} container. The instructor will {{rs003_cw_b06}} each procedure, keep labels {{rs003_cw_b07}}, and ask students to report spills {{rs003_cw_b08}}. These habits reduce {{rs003_cw_b09}} and support careful {{rs003_cw_b10}}.",
+          "questions": [],
+          "blanks": [
+            {"id":"rs003_cw_b01","prefix":"safe","answer":"ty","fullWord":"safety","explanationZh":"safety routines 指安全流程，是实验室主题核心。","evidence":"before handling specimens","skillTags":["c-test","context"],"errorTags":["completion-error"],"difficulty":"easy"},
+            {"id":"rs003_cw_b02","prefix":"spec","answer":"imens","fullWord":"specimens","explanationZh":"specimens 指实验样本，和 stains、glassware 并列。","evidence":"stains, glassware","skillTags":["c-test","academic-vocabulary"],"errorTags":["plural-form"],"difficulty":"medium"},
+            {"id":"rs003_cw_b03","prefix":"equip","answer":"ment","fullWord":"equipment","explanationZh":"electrical equipment 指电气设备，实验室安全中常见。","evidence":"electrical","skillTags":["c-test","academic-vocabulary"],"errorTags":["suffix-error"],"difficulty":"medium"},
+            {"id":"rs003_cw_b04","prefix":"spl","answer":"ash","fullWord":"splash","explanationZh":"liquid may splash 表示液体可能飞溅，因此需要护目镜。","evidence":"Goggles are required","skillTags":["c-test","lab-safety"],"errorTags":["semantic-mismatch"],"difficulty":"easy"},
+            {"id":"rs003_cw_b05","prefix":"desig","answer":"nated","fullWord":"designated","explanationZh":"designated container 表示指定容器，符合碎玻璃处理规则。","evidence":"broken glass belongs in","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"hard"},
+            {"id":"rs003_cw_b06","prefix":"dem","answer":"onstrate","fullWord":"demonstrate","explanationZh":"instructor will demonstrate 表示教师会演示步骤。","evidence":"each procedure","skillTags":["c-test","verb-form"],"errorTags":["near-sounding-word"],"difficulty":"medium"},
+            {"id":"rs003_cw_b07","prefix":"leg","answer":"ible","fullWord":"legible","explanationZh":"labels legible 表示标签清晰可读。","evidence":"keep labels","skillTags":["c-test","academic-vocabulary"],"errorTags":["spelling"],"difficulty":"medium"},
+            {"id":"rs003_cw_b08","prefix":"imm","answer":"ediately","fullWord":"immediately","explanationZh":"report spills immediately 表示溢洒后立即报告。","evidence":"report spills","skillTags":["c-test","adverb-meaning"],"errorTags":["spelling"],"difficulty":"hard"},
+            {"id":"rs003_cw_b09","prefix":"uncer","answer":"tainty","fullWord":"uncertainty","explanationZh":"reduce uncertainty 表示减少不确定性，呼应安全习惯的作用。","evidence":"These habits reduce","skillTags":["c-test","academic-vocabulary"],"errorTags":["suffix-error"],"difficulty":"hard"},
+            {"id":"rs003_cw_b10","prefix":"obser","answer":"vation","fullWord":"observation","explanationZh":"careful observation 指细致观察，是实验课目标。","evidence":"support careful","skillTags":["c-test","academic-vocabulary"],"errorTags":["word-form"],"difficulty":"medium"}
+          ]
+        },
+        {
+          "id": "rs003_daily_life",
+          "type": "daily_life",
+          "title": "Daily Life: First Lab Session",
+          "instructionsZh": "阅读校园生活场景短文，选择最佳答案。",
+          "passage": "Before her first biology lab, Lina reads a message from the teaching assistant. Students should arrive ten minutes early to store backpacks along the side wall, put on closed-toe shoes, and review the safety quiz. Food and drinks are not allowed at the benches. The message also says that anyone who missed the online safety quiz may still attend class, but must complete the quiz on a lab computer before touching any materials. Extra goggles are available near the entrance.",
+          "questions": [
+            {"id":"rs003_dl_q01","type":"daily_life","prompt":"What should students do with backpacks?","options":["Store them along the side wall","Keep them under the lab bench","Hang them on microscope handles","Leave them outside the building"],"answer":0,"explanationZh":"信息明确要求把背包放在 side wall。B 错在文中没有说放桌下，且实验室安全通常避免堵塞工作区。","evidence":"store backpacks along the side wall","skillTags":["detail","campus-instruction"],"errorTags":["plausible-but-unsupported"],"difficulty":"easy"},
+            {"id":"rs003_dl_q02","type":"daily_life","prompt":"What happens if a student missed the online safety quiz?","options":["The student must finish it before handling materials","The student is permanently removed from the course","The student may skip goggles for that class","The student must bring food for the group"],"answer":0,"explanationZh":"未完成线上安全测验的人仍可上课，但接触材料前必须在实验室电脑完成。B 错在 permanently removed 过度夸张。","evidence":"must complete the quiz on a lab computer before touching any materials","skillTags":["conditional-logic","detail"],"errorTags":["overstatement"],"difficulty":"medium"},
+            {"id":"rs003_dl_q03","type":"daily_life","prompt":"Why should students arrive ten minutes early?","options":["To complete preparation steps before lab work begins","To watch a film unrelated to the course","To clean the entire laboratory alone","To meet in the cafeteria before class"],"answer":0,"explanationZh":"提前到达是为了存包、穿合适鞋子、复习安全测验等准备事项。C 错在把准备工作夸大成独自清洁整个实验室，文中没有依据。","evidence":"arrive ten minutes early to store backpacks... put on closed-toe shoes, and review the safety quiz","skillTags":["purpose","inference"],"errorTags":["unsupported-inference"],"difficulty":"easy"}
+          ]
+        },
+        {
+          "id": "rs003_academic_passage",
+          "type": "academic_passage",
+          "title": "Academic Passage: Why Introductory Labs Emphasize Safety",
+          "instructionsZh": "阅读学术型短文，回答主旨、细节、推断、词义和修辞目的题。",
+          "passage": "Safety instruction in introductory biology laboratories is sometimes mistaken for a set of arbitrary rules. In fact, these routines reflect the way risk is managed in scientific work. Many first-year experiments use familiar materials, such as plant tissues or food coloring, but familiarity can create false confidence. A student who casually carries a beaker across a crowded room may not consider that wet glass is slippery or that a small spill can damage electrical equipment. Safety rules therefore aim to make hazards visible before an accident occurs. Personal protective equipment is only one part of this system. Clear labels, uncluttered benches, and immediate reporting of spills all reduce uncertainty. The goal is not to make students fearful; it is to help them develop habits that allow careful observation and collaboration. When safety becomes routine, students spend less attention wondering what to do in an emergency and more attention on the biological question being tested.",
+          "questions": [
+            {"id":"rs003_ap_q01","type":"academic_passage","prompt":"What is the main idea of the passage?","options":["Lab safety routines help students manage risk and focus on scientific work","Introductory biology labs should avoid all familiar materials","Personal protective equipment is unnecessary in first-year courses","Most accidents are caused by food coloring"],"answer":0,"explanationZh":"文章说明安全规则并非任意规定，而是风险管理和形成科研习惯的方式。B 误解 familiar materials 的例子；D 把一个材料例子当成事故主因。","evidence":"routines reflect the way risk is managed; develop habits","skillTags":["main-idea","synthesis"],"errorTags":["example-as-main-idea"],"difficulty":"medium"},
+            {"id":"rs003_ap_q02","type":"academic_passage","prompt":"The word 'arbitrary' in the passage is closest in meaning to","options":["based on no clear reason","carefully tested","required by electricity","easy to observe"],"answer":0,"explanationZh":"arbitrary rules 指看似没有明确理由的规定；后文 in fact 转折说明其实有风险管理原因。B 与转折前的 mistaken view 不一致。","evidence":"mistaken for a set of arbitrary rules. In fact, these routines reflect... risk","skillTags":["vocabulary-in-context","contrast"],"errorTags":["opposite-meaning"],"difficulty":"medium"},
+            {"id":"rs003_ap_q03","type":"academic_passage","prompt":"Why does the author discuss a student carrying a beaker across a crowded room?","options":["To illustrate how ordinary actions can involve overlooked hazards","To prove that beakers should never be used in biology","To suggest that crowded rooms improve collaboration","To show that electrical equipment is always wet"],"answer":0,"explanationZh":"烧杯例子说明熟悉材料会带来虚假自信，普通动作也可能有被忽视的危险。B 错在 never 过度绝对，文中只是说明风险。","evidence":"familiarity can create false confidence; may not consider that wet glass is slippery","skillTags":["rhetorical-purpose","example"],"errorTags":["absolute-language"],"difficulty":"medium"},
+            {"id":"rs003_ap_q04","type":"academic_passage","prompt":"According to the passage, which practice reduces uncertainty?","options":["Keeping labels clear","Leaving benches crowded","Reporting spills at the end of the semester","Avoiding collaboration during experiments"],"answer":0,"explanationZh":"文章列出 clear labels、整洁台面和立即报告溢洒都能减少不确定性。B 与 uncluttered benches 相反；C 与 immediate reporting 相反。","evidence":"Clear labels, uncluttered benches, and immediate reporting of spills all reduce uncertainty.","skillTags":["detail","parallel-list"],"errorTags":["opposite-detail"],"difficulty":"easy"},
+            {"id":"rs003_ap_q05","type":"academic_passage","prompt":"What can be inferred about well-practiced safety routines?","options":["They free students' attention for the experiment's scientific question","They eliminate the need for instructors in the laboratory","They make students more fearful of ordinary materials","They replace the need to observe biological results"],"answer":0,"explanationZh":"结尾说安全成为常规后，学生能把更多注意力放在被测试的生物学问题上。C 错在与 The goal is not to make students fearful 相反。","evidence":"more attention on the biological question being tested","skillTags":["inference","author-view"],"errorTags":["contradiction"],"difficulty":"medium"}
+          ]
+        }
+      ]
+    }
+  ]
+}
