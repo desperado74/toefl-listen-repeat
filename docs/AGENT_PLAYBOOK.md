@@ -1,6 +1,6 @@
 # AGENT PLAYBOOK
 
-Last updated: 2026-04-25
+Last updated: 2026-04-26
 Workspace: `/Users/wuliuqi/Documents/New project`
 
 ## Goal
@@ -9,15 +9,20 @@ Use a stable multi-agent workflow to keep context clean, avoid long-thread drift
 
 ## Runtime Placement
 
-- Default execution target is Windows remote `toefl-win`.
-- Mac should be treated as a control plane for chat, SSH, lightweight file edits, and browser access.
-- Heavy commands must run on Windows unless the user explicitly asks otherwise:
-  - frontend build / dev server
-  - backend compile / dev server
-  - API smoke tests
-  - content validation and bulk data processing
-- Use `scripts/windows_first.sh` from the Mac workspace for sync and remote checks.
-- Windows project path: `D:\Projects\toefl-listen-repeat`
+- Default execution target is this Mac workspace.
+- Use `scripts/start_mac_dev.sh --open` for local self-use.
+- Fixed local URL: `http://127.0.0.1:5174/`.
+- Local data stays in `data/toefl_repeat.sqlite3`, `attempts/`, and `data/audio/generated/`.
+- Windows remote `toefl-win` is optional backup only; use `scripts/windows_first.sh` only when the user explicitly asks for Windows verification.
+
+## Product and Deployment Strategy
+
+- Keep TOEFL Trainer as one app. New practice areas should be added as in-app modules by default.
+- Local Mac self-use is the primary development and personal-practice environment.
+- Render is a small friend-testing environment with separate `/data` persistence.
+- Do not sync personal Mac SQLite data or recordings to Render.
+- Render releases are manual: validate locally, push a ready version, then manually deploy/smoke test the hosted URL.
+- When adding a cloud-visible module, confirm the frontend route, backend/API surface, Docker data copy rules, env vars, and one browser save flow.
 
 ## Topology
 
@@ -97,8 +102,8 @@ No long narrative. No unrelated refactor.
 Before integrating any worker result:
 
 1. Build checks
-- `scripts/windows_first.sh build`
-- `scripts/windows_first.sh compile`
+- `npm --prefix frontend run build`
+- `.venv/bin/python -m compileall backend/app`
 
 2. Smoke checks
 - `GET /api/health` returns `ok`
@@ -108,7 +113,7 @@ Before integrating any worker result:
 3. Data checks (if DATA touched)
 - Scenario JSON parses
 - Reinforcement scenario endpoint returns valid payload
-- Reading bank changes pass `scripts/windows_first.sh validate-reading`
+- Reading bank changes pass `.venv/bin/python data/tools/validate_reading_bank.py`
 
 ## Branching Model
 

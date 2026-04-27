@@ -10,11 +10,15 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 usage() {
   cat <<'EOF'
 Usage: scripts/start_windows_dev.sh [--sync]
+       scripts/start_windows_dev.sh --self-use
+       scripts/start_windows_dev.sh --status
+       scripts/start_windows_dev.sh --stop
 
 Ensures the Windows-first dev environment is online:
   - optional source sync to Windows
-  - Windows backend on 8000 through a background SSH session
-  - Windows frontend on 5174
+  - self-use persistent local env on Windows
+  - Windows backend on 8000 through a Windows scheduled task
+  - Windows frontend on fixed port 5174 through a Windows scheduled task
   - Mac SSH tunnels for 5174 and 8000
   - local health checks from the Mac
 
@@ -23,6 +27,11 @@ Environment:
   TOEFL_WIN_PROJECT   Windows project path. Default: D:\Projects\toefl-listen-repeat
   TOEFL_FRONTEND_PORT Frontend dev port. Default: 5174
   TOEFL_BACKEND_PORT  Backend API port. Default: 8000
+
+Self-use mode stores data under the Windows project directory:
+  - data\toefl_repeat.sqlite3
+  - attempts
+  - data\audio\generated
 EOF
 }
 
@@ -85,21 +94,114 @@ function Test-HttpOk([string]\$Url) {
     return \$false
   }
 }
-function Start-DetachedCmd([string]\$Title, [string]\$Command) {
-  Start-Process -FilePath 'C:\\Windows\\System32\\cmd.exe' -ArgumentList '/k', \$Command -WorkingDirectory \$Project -WindowStyle Minimized | Out-Null
-}
 Set-Location -LiteralPath \$Project
+New-Item -ItemType Directory -Force -Path '.logs' | Out-Null
+\$BackendTask = 'TOEFLTrainerBackendDev'
+\$FrontendTask = 'TOEFLTrainerFrontendDev'
+\$BackendScript = Join-Path \$Project '.logs\\run-backend-dev.ps1'
+\$FrontendScript = Join-Path \$Project '.logs\\run-frontend-dev.ps1'
+Set-Content -LiteralPath \$BackendScript -Encoding UTF8 -Value @(
+  \"Set-Location -LiteralPath '\$Project'\",
+  '\$env:PYTHONUNBUFFERED = ''1''',
+  \"& '\$Project\\.venv\\Scripts\\python.exe' -m uvicorn backend.app.main:app --host 127.0.0.1 --port \$BackendPort *>> '\$Project\\.logs\\backend.task.log'\"
+)
+Set-Content -LiteralPath \$FrontendScript -Encoding UTF8 -Value @(
+  \"Set-Location -LiteralPath '\$Project'\",
+  \"& npm.cmd --prefix frontend run dev -- --host 0.0.0.0 --port \$FrontendPort --strictPort *>> '\$Project\\.logs\\frontend.task.log'\"
+)
+function Start-DevTask([string]\$Name, [string]\$ScriptPath) {
+  \$taskCommand = 'powershell.exe -NoProfile -ExecutionPolicy Bypass -File \"' + \$ScriptPath + '\"'
+  schtasks.exe /Create /TN \$Name /SC ONCE /ST 23:59 /F /TR \$taskCommand | Out-Null
+  schtasks.exe /Run /TN \$Name | Out-Null
+}
+if (-not (Test-HttpOk \"http://127.0.0.1:\$BackendPort/api/health\")) {
+  Start-DevTask \$BackendTask \$BackendScript
+}
 if (-not (Test-HttpOk \"http://127.0.0.1:\$FrontendPort/\")) {
-  Start-DetachedCmd 'TOEFL Frontend' \"cd /d \$Project && npm.cmd --prefix frontend run dev\"
+  Start-DevTask \$FrontendTask \$FrontendScript
 }
 Start-Sleep -Seconds 4
+\$backendOk = Test-HttpOk \"http://127.0.0.1:\$BackendPort/api/health\"
 \$frontendOk = Test-HttpOk \"http://127.0.0.1:\$FrontendPort/\"
-\$ports = Get-NetTCPConnection -LocalPort \$FrontendPort -ErrorAction SilentlyContinue |
+\$ports = Get-NetTCPConnection -LocalPort @(\$BackendPort, \$FrontendPort) -ErrorAction SilentlyContinue |
   Where-Object { \$_.State -eq 'Listen' } |
   Select-Object LocalAddress,LocalPort,OwningProcess
 \$ports | Format-Table -AutoSize
+if (-not \$backendOk) { throw \"Backend is not responding on \$BackendPort\" }
 if (-not \$frontendOk) { throw \"Frontend is not responding on \$FrontendPort\" }
+Write-Output \"Windows backend service OK: backend=\$BackendPort\"
 Write-Output \"Windows frontend service OK: frontend=\$FrontendPort\"
+"
+}
+
+ensure_self_use_env() {
+  local project="$REMOTE_PROJECT"
+  remote_ps_encoded "\
+\$Project = '$project'
+Set-Location -LiteralPath \$Project
+New-Item -ItemType Directory -Force -Path 'data', 'attempts', 'data\\audio\\generated', '.logs' | Out-Null
+\$EnvPath = Join-Path \$Project '.env'
+if (-not (Test-Path -LiteralPath \$EnvPath)) {
+  New-Item -ItemType File -Path \$EnvPath | Out-Null
+}
+function Set-EnvValue([string]\$Name, [string]\$Value) {
+  \$lines = @(Get-Content -LiteralPath \$EnvPath -ErrorAction SilentlyContinue)
+  \$pattern = '^' + [regex]::Escape(\$Name) + '='
+  \$replacement = \$Name + '=' + \$Value
+  \$found = \$false
+  \$next = foreach (\$line in \$lines) {
+    if (\$line -match \$pattern) {
+      \$found = \$true
+      \$replacement
+    } else {
+      \$line
+    }
+  }
+  if (-not \$found) { \$next += \$replacement }
+  [System.IO.File]::WriteAllLines(\$EnvPath, \$next, [System.Text.UTF8Encoding]::new(\$false))
+}
+Set-EnvValue 'APP_DATABASE_PATH' 'data/toefl_repeat.sqlite3'
+Set-EnvValue 'APP_ATTEMPTS_DIR' 'attempts'
+Set-EnvValue 'APP_PROMPT_AUDIO_DIR' 'data/audio/generated'
+Set-EnvValue 'APP_FRONTEND_DIST_DIR' 'frontend/dist'
+Set-EnvValue 'APP_SESSION_COOKIE_SECURE' '0'
+Set-EnvValue 'APP_VISITOR_COOKIE_NAME' 'trainer_visitor'
+Write-Output 'Self-use persistent storage configured:'
+Write-Output '  APP_DATABASE_PATH=data/toefl_repeat.sqlite3'
+Write-Output '  APP_ATTEMPTS_DIR=attempts'
+Write-Output '  APP_PROMPT_AUDIO_DIR=data/audio/generated'
+"
+}
+
+show_status() {
+  local project="$REMOTE_PROJECT"
+  local frontend_port="$FRONTEND_PORT"
+  local backend_port="$BACKEND_PORT"
+  remote_ps_encoded "\
+\$Project = '$project'
+\$FrontendPort = $frontend_port
+\$BackendPort = $backend_port
+Set-Location -LiteralPath \$Project
+Write-Output ('Project: ' + \$Project)
+\$backendHealth = 'DOWN'
+\$frontendHealth = 'DOWN'
+try { \$backendHealth = [string](Invoke-WebRequest -UseBasicParsing -Uri \"http://127.0.0.1:\$BackendPort/api/health\" -TimeoutSec 3).StatusCode } catch {}
+try { \$frontendHealth = [string](Invoke-WebRequest -UseBasicParsing -Uri \"http://127.0.0.1:\$FrontendPort/\" -TimeoutSec 3).StatusCode } catch {}
+Write-Output ('Backend health: ' + \$backendHealth)
+Write-Output ('Frontend health: ' + \$frontendHealth)
+\$db = Join-Path \$Project 'data\\toefl_repeat.sqlite3'
+\$attempts = Join-Path \$Project 'attempts'
+Write-Output ('SQLite exists: ' + (Test-Path -LiteralPath \$db))
+if (Test-Path -LiteralPath \$db) { Write-Output ('SQLite path: ' + \$db) }
+Write-Output ('Attempts dir exists: ' + (Test-Path -LiteralPath \$attempts))
+\$ports = Get-NetTCPConnection -LocalPort @(\$BackendPort, \$FrontendPort) -ErrorAction SilentlyContinue |
+  Where-Object { \$_.State -eq 'Listen' } |
+  Select-Object LocalAddress,LocalPort,OwningProcess
+\$ports | Format-Table -AutoSize
+Write-Output 'Scheduled tasks:'
+\$tasks = Get-ScheduledTask -TaskName 'TOEFLTrainerBackendDev', 'TOEFLTrainerFrontendDev' -ErrorAction SilentlyContinue |
+  Select-Object TaskName, State
+if (\$tasks) { \$tasks | Format-Table -AutoSize } else { Write-Output '  none' }
 "
 }
 
@@ -107,7 +209,21 @@ stop_windows_backend() {
   local backend_port="$BACKEND_PORT"
   remote_ps_encoded "\
 \$BackendPort = $backend_port
-\$connections = Get-NetTCPConnection -LocalPort \$BackendPort -State Listen -ErrorAction SilentlyContinue
+\$TaskName = 'TOEFLTrainerBackendDev'
+schtasks.exe /End /TN \$TaskName 2>\$null | Out-Null
+\$connections = @(Get-NetTCPConnection -LocalPort \$BackendPort -State Listen -ErrorAction SilentlyContinue)
+\$processIds = \$connections | Select-Object -ExpandProperty OwningProcess -Unique
+foreach (\$processId in \$processIds) { Stop-Process -Id \$processId -Force }
+"
+}
+
+stop_windows_frontend() {
+  local frontend_port="$FRONTEND_PORT"
+  remote_ps_encoded "\
+\$FrontendPort = $frontend_port
+\$TaskName = 'TOEFLTrainerFrontendDev'
+schtasks.exe /End /TN \$TaskName 2>\$null | Out-Null
+\$connections = @(Get-NetTCPConnection -LocalPort \$FrontendPort -State Listen -ErrorAction SilentlyContinue)
 \$processIds = \$connections | Select-Object -ExpandProperty OwningProcess -Unique
 foreach (\$processId in \$processIds) { Stop-Process -Id \$processId -Force }
 "
@@ -122,7 +238,7 @@ ensure_frontend_tunnel() {
   fi
 
   if ! is_local_port_open "$frontend_port"; then
-    ssh -fN -L "$frontend_port:127.0.0.1:$frontend_port" "$REMOTE"
+    ssh -fNn -L "$frontend_port:127.0.0.1:$frontend_port" "$REMOTE"
   fi
 }
 
@@ -136,18 +252,24 @@ ensure_backend_tunnel() {
   fi
 
   if ! curl -fsS --max-time 3 "http://127.0.0.1:$backend_port/api/health" >/dev/null 2>&1; then
-    stop_windows_backend
-    ssh -f \
+    ssh -fNn \
       -o ExitOnForwardFailure=yes \
       -L "$backend_port:127.0.0.1:$backend_port" \
-      "$REMOTE" \
-      "powershell -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location -LiteralPath '$REMOTE_PROJECT'; .\\.venv\\Scripts\\python.exe -m uvicorn backend.app.main:app --host 127.0.0.1 --port $backend_port *> backend-tunnel.log\""
+      "$REMOTE"
   fi
 }
 
 ensure_tunnels() {
   ensure_backend_tunnel
   ensure_frontend_tunnel
+}
+
+stop_all() {
+  stop_windows_backend
+  stop_windows_frontend
+  kill_local_port "$BACKEND_PORT"
+  kill_local_port "$FRONTEND_PORT"
+  echo "Stopped Windows dev services and local tunnels."
 }
 
 main() {
@@ -157,13 +279,36 @@ main() {
       ;;
     --sync)
       "$ROOT_DIR/scripts/windows_first.sh" sync
+      ensure_self_use_env
       stop_windows_backend
+      stop_windows_frontend
       kill_local_port "$BACKEND_PORT"
+      kill_local_port "$FRONTEND_PORT"
       ensure_windows_services
       ensure_tunnels
       wait_for_http "http://127.0.0.1:$BACKEND_PORT/api/health" "Backend tunnel"
       wait_for_http "http://127.0.0.1:$FRONTEND_PORT/" "Frontend tunnel"
       echo "Open: http://127.0.0.1:$FRONTEND_PORT/"
+      ;;
+    --self-use)
+      "$ROOT_DIR/scripts/windows_first.sh" sync
+      ensure_self_use_env
+      stop_windows_backend
+      stop_windows_frontend
+      kill_local_port "$BACKEND_PORT"
+      kill_local_port "$FRONTEND_PORT"
+      ensure_windows_services
+      ensure_tunnels
+      wait_for_http "http://127.0.0.1:$BACKEND_PORT/api/health" "Backend tunnel"
+      wait_for_http "http://127.0.0.1:$FRONTEND_PORT/" "Frontend tunnel"
+      show_status
+      echo "Open: http://127.0.0.1:$FRONTEND_PORT/"
+      ;;
+    --status)
+      show_status
+      ;;
+    --stop)
+      stop_all
       ;;
     "")
       ensure_windows_services

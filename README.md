@@ -2,55 +2,70 @@
 
 Personal TOEFL Listen and Repeat trainer focused on low-latency practice, Azure Pronunciation Assessment, SQLite history, and reinforcement drills.
 
-## Windows-First Development
+## Mac Local Development
 
-Active development is designed to keep the Mac lightweight. Use the Mac as the control plane for chat, SSH, and browser access; run builds, dev servers, API smoke tests, and content validation on Windows remote `toefl-win`.
-
-Windows project path:
+Active self-use now runs directly on this Mac. The fixed local URL is:
 
 ```text
-D:\Projects\toefl-listen-repeat
+http://127.0.0.1:5174/
 ```
 
-From the Mac workspace:
+From the project workspace:
 
 ```bash
 cd /Users/wuliuqi/Documents/New\ project
-scripts/start_windows_dev.sh --sync
+scripts/start_mac_dev.sh --open
 ```
 
-Open the app from the Mac browser at `http://127.0.0.1:5174/` after the Windows dev servers are running.
+For a double-click startup on macOS, use:
 
-If the app is already synced and you only need to recover the dev servers/tunnel:
+```text
+scripts/Start TOEFL Trainer.command
+```
+
+You can also place a copy of that `.command` file on the Desktop. It starts the Mac backend/frontend, keeps the ports fixed, and opens the app.
+
+Self-use mode keeps practice history on this Mac under the project directory:
+
+```text
+/Users/wuliuqi/Documents/New project/data/toefl_repeat.sqlite3
+/Users/wuliuqi/Documents/New project/attempts
+/Users/wuliuqi/Documents/New project/data/audio/generated
+```
+
+To inspect local persistence and service status:
 
 ```bash
-scripts/start_windows_dev.sh
+scripts/start_mac_dev.sh --status
 ```
 
-## Local Development (Optional)
-
-Use this only when you intentionally want to run the app on the Mac.
-
-1. Copy `.env.example` to `.env` and set `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION`.
-2. Install dependencies:
+To stop the local dev services cleanly:
 
 ```bash
-npm install
-npm --prefix frontend install
-python3 -m pip install -r backend/requirements.txt
+scripts/start_mac_dev.sh --stop
 ```
 
-3. Start frontend and backend:
+## Windows Remote Development (Backup)
+
+Windows remote `toefl-win` is now optional backup capacity. Use it only if the Mac is unavailable or a task explicitly needs Windows-side verification.
 
 ```bash
-npm run dev
+scripts/start_windows_dev.sh --self-use
+scripts/windows_first.sh build
 ```
-
-4. Open `http://127.0.0.1:5174`.
 
 ## Deploy As A Web App (Option 2)
 
 This repo is now deployable as a single container service: FastAPI serves both API and built frontend.
+
+## Local vs Cloud Testing Model
+
+Use one TOEFL Trainer site with modules such as Speaking, Reading, and future Listening/Writing features. Do not split each module into a separate web app unless the product becomes large enough to need independent deployments.
+
+- Local self-use: Mac runs the app and stores your long-term data under `/Users/wuliuqi/Documents/New project`.
+- Cloud friend testing: Render hosts a small shared testing version with its own `/data` disk.
+- Local and cloud data are intentionally separate. Do not sync personal SQLite data or recordings from Mac to Render.
+- Cloud deploys are manual. Validate locally first, then push/deploy when the version is ready for friends.
 
 ### Deploy on Render (recommended quick path)
 
@@ -75,7 +90,8 @@ This repo is now deployable as a single container service: FastAPI serves both A
    - `APP_PROMPT_AUDIO_DIR=/data/audio/generated`
    - `APP_FRONTEND_DIST_DIR=frontend/dist`
 5. Add a persistent disk mounted at `/data` so attempts and recordings survive restarts.
-6. Deploy and open your Render URL (HTTPS).
+6. Keep auto-deploy disabled for the friend-testing service.
+7. Manually deploy and open your Render URL (HTTPS).
 
 ### Why HTTPS matters
 

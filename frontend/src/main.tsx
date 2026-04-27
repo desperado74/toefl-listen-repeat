@@ -1,6 +1,21 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Activity, BarChart3, BookOpen, Check, Clock, MessageSquare, Mic, Play, RotateCcw, Square, Target, TrendingUp } from "lucide-react";
+import {
+  Activity,
+  BarChart3,
+  BookOpen,
+  Check,
+  Clock,
+  Eye,
+  EyeOff,
+  MessageSquare,
+  Mic,
+  Play,
+  RotateCcw,
+  Square,
+  Target,
+  TrendingUp,
+} from "lucide-react";
 import {
   fetchAppConfig,
   fetchAttempts,
@@ -39,6 +54,7 @@ import type {
   ReadingAdaptiveSession,
   ReadingAttemptResult,
   ReadingModule,
+  ReadingQuestion,
   ReadingRouterResult,
   ReadingSection,
   ReadingSet,
@@ -75,6 +91,9 @@ function App() {
   const [state, setState] = useState<RecordingState>("idle");
   const [status, setStatus] = useState("正在加载练习内容...");
   const [attempts, setAttempts] = useState<Record<string, AttemptResult>>({});
+  const [reviewAttempts, setReviewAttempts] = useState<Record<string, AttemptResult>>({});
+  const [reviewAttemptCounts, setReviewAttemptCounts] = useState<Record<string, number>>({});
+  const [visibleSentenceText, setVisibleSentenceText] = useState<Record<string, boolean>>({});
   const [plan, setPlan] = useState<TrainingPlan | null>(null);
   const [analytics, setAnalytics] = useState<SessionAnalytics | null>(null);
   const [appConfig, setAppConfig] = useState<AppConfig | null>(null);
@@ -129,7 +148,10 @@ function App() {
     if (disposed) return;
     setScenarios(scenarioItems);
     setPlan(planData);
-    setAttempts(mapAttemptsBySentence(attemptItems));
+    const attemptCollections = mapAttemptsBySentence(attemptItems);
+    setAttempts(attemptCollections.primary);
+    setReviewAttempts(attemptCollections.latestReview);
+    setReviewAttemptCounts(attemptCollections.reviewCounts);
     setAnalytics(analyticsData);
     setStatus("准备就绪");
   }
@@ -165,8 +187,15 @@ function App() {
   const scenario = scenarios[scenarioIndex];
   const sentence = scenario?.sentences[sentenceIndex];
   const attempt = sentence ? attempts[sentence.id] : null;
+  const reviewAttempt = sentence ? reviewAttempts[sentence.id] : null;
+  const reviewAttemptCount = sentence ? reviewAttemptCounts[sentence.id] ?? 0 : 0;
   const completedCount = useMemo(
     () => scenario?.sentences.filter((item) => attempts[item.id]).length ?? 0,
+    [attempts, scenario]
+  );
+  const currentTextVisible = sentence ? visibleSentenceText[sentence.id] !== false : true;
+  const suiteEvaluation = useMemo(
+    () => (scenario ? buildSuiteEvaluation(scenario, attempts) : null),
     [attempts, scenario]
   );
   const recommendedEntries = useMemo(() => {
@@ -289,20 +318,36 @@ function App() {
         audioBlob: recorded.blob
       });
       const localAudioUrl = URL.createObjectURL(recorded.blob);
-      setAttempts((prev) => {
-        const previousLocal = prev[sentence.id]?.localAudioUrl;
-        if (previousLocal) {
-          URL.revokeObjectURL(previousLocal);
-          delete localAudioUrlsRef.current[sentence.id];
-        }
-        localAudioUrlsRef.current[sentence.id] = localAudioUrl;
-        return { ...prev, [sentence.id]: { ...saved, localAudioUrl } };
-      });
+      const savedWithContext: AttemptResult = {
+        ...saved,
+        scenario_id: scenario.id,
+        sentence_id: sentence.id,
+        localAudioUrl,
+      };
+      const existingPrimary = attempts[sentence.id];
+      if (existingPrimary) {
+        setReviewAttempts((prev) => {
+          const previousLocal = prev[sentence.id]?.localAudioUrl;
+          if (previousLocal) {
+            URL.revokeObjectURL(previousLocal);
+            delete localAudioUrlsRef.current[`review:${sentence.id}`];
+          }
+          localAudioUrlsRef.current[`review:${sentence.id}`] = localAudioUrl;
+          return { ...prev, [sentence.id]: savedWithContext };
+        });
+        setReviewAttemptCounts((prev) => ({ ...prev, [sentence.id]: (prev[sentence.id] ?? 0) + 1 }));
+      } else {
+        setAttempts((prev) => {
+          localAudioUrlsRef.current[`primary:${sentence.id}`] = localAudioUrl;
+          return { ...prev, [sentence.id]: savedWithContext };
+        });
+      }
+      setVisibleSentenceText((current) => ({ ...current, [sentence.id]: true }));
       const [nextPlan, nextAnalytics] = await Promise.all([fetchTrainingPlan(), fetchSessionAnalytics()]);
       setPlan(nextPlan);
       setAnalytics(nextAnalytics);
       setState("scored");
-      setStatus("评分完成");
+      setStatus(existingPrimary ? "复盘练习已保存" : "评分完成");
     } catch (err) {
       setError(errorMessage(err));
       setState("error");
@@ -396,6 +441,14 @@ function App() {
     setState(attempts[sentenceId] ? "scored" : "idle");
     setStatus(attempts[sentenceId] ? "评分完成" : "准备就绪");
     setError("");
+  }
+
+  function toggleCurrentSentenceText() {
+    if (!sentence || !attempt) return;
+    setVisibleSentenceText((current) => ({
+      ...current,
+      [sentence.id]: current[sentence.id] === false,
+    }));
   }
 
   if (appConfig?.requiresPassword && !appConfig.authenticated) {
@@ -609,8 +662,32 @@ function App() {
         {appConfig && !appConfig.azureConfigured ? <AzureSetupBanner envPath={appConfig.envPath} /> : null}
 
         <section className="examSurface">
-          <div className="hiddenPrompt">
-            {attempt ? sentence.text : "这句的英文原文会在评分后显示。"}
+          <div
+            className={`hiddenPrompt ${attempt ? "toggleablePrompt" : ""} ${attempt && !currentTextVisible ? "maskedPrompt" : ""}`}
+            onClick={attempt ? toggleCurrentSentenceText : undefined}
+            role={attempt ? "button" : undefined}
+            tabIndex={attempt ? 0 : undefined}
+            title={attempt ? (currentTextVisible ? "点击隐藏原文" : "点击显示原文") : undefined}
+            onKeyDown={(event) => {
+              if (!attempt) return;
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                toggleCurrentSentenceText();
+              }
+            }}
+          >
+            <span>
+              {attempt
+                ? currentTextVisible
+                  ? sentence.text
+                  : "英文原文已隐藏。再次点击右侧按钮可显示。"
+                : "这句的英文原文会在评分后显示。"}
+            </span>
+            {attempt ? (
+              <span className="promptToggleIcon" aria-hidden="true">
+                {currentTextVisible ? <EyeOff size={18} /> : <Eye size={18} />}
+              </span>
+            ) : null}
           </div>
           <div className="controls">
             <button onClick={play} disabled={state === "playing" || state === "recording" || state === "scoring"}>
@@ -632,8 +709,11 @@ function App() {
               <RotateCcw size={18} />
               重置
             </button>
-            <button onClick={nextSentence} disabled={state !== "scored"}>
-              下一句
+            <button
+              onClick={nextSentence}
+              disabled={state === "recording" || state === "scoring" || state === "requestingMic"}
+            >
+              {attempt ? "下一句" : "跳过本句"}
             </button>
           </div>
           <div className="keyboardHints">空格：下一步操作 · Enter：下一句 · R：重置</div>
@@ -655,17 +735,346 @@ function App() {
           {error ? <div className="errorBox">{error}</div> : null}
         </section>
 
-        {attempt ? <Feedback sentence={sentence} attempt={attempt} /> : <Placeholder />}
+        {attempt ? (
+          <Feedback
+            sentence={sentence}
+            attempt={attempt}
+            reviewAttempt={reviewAttempt}
+            reviewAttemptCount={reviewAttemptCount}
+          />
+        ) : <Placeholder />}
+        {suiteEvaluation && suiteEvaluation.completed >= suiteEvaluation.total ? (
+          <SuiteEvaluationPanel evaluation={suiteEvaluation} />
+        ) : null}
       </section>
     </main>
   );
 }
 
-function Feedback({ attempt }: { sentence: PracticeSentence; attempt: AttemptResult }) {
+type SuiteEvaluation = {
+  completed: number;
+  total: number;
+  averageRepeat: number | null;
+  averageAccuracy: number | null;
+  averageFluency: number | null;
+  averageCompleteness: number | null;
+  averageProsody: number | null;
+  moduleScore: number | null;
+  level: string;
+  summary: string;
+  priority: string;
+  issues: SuiteIssue[];
+  sentenceReviews: SuiteSentenceReview[];
+};
+
+type SuiteIssue = {
+  label: string;
+  count: number;
+  examples: string[];
+  action: string;
+};
+
+type SuiteSentenceReview = {
+  order: number;
+  text: string;
+  audioUrl: string;
+  itemScore: number | null;
+  repeatAccuracy: number | null;
+  issueLabels: string[];
+};
+
+function SuiteEvaluationPanel({ evaluation }: { evaluation: SuiteEvaluation }) {
+  async function playOriginalSentence(sentence: SuiteSentenceReview) {
+    await playPrompt({
+      id: `suite-review-${sentence.order}`,
+      order: sentence.order,
+      text: sentence.text,
+      audioUrl: sentence.audioUrl,
+    });
+  }
+
+  return (
+    <section className="suiteEvaluation">
+      <div className="panelTitle">
+        <Target size={16} />
+        整套评价
+      </div>
+      <div className="suiteScore">
+        <span>Listen & Repeat 模块分</span>
+        <strong>{evaluation.moduleScore == null ? "--" : evaluation.moduleScore.toFixed(1)}</strong>
+        <small>/ 5.0</small>
+      </div>
+      <p>{evaluation.summary}</p>
+      <div className="tagList compactTags">
+        <span>{evaluation.completed}/{evaluation.total} 句</span>
+        <span>复述均分 {scoreText(evaluation.averageRepeat)}</span>
+        <span>{evaluation.level}</span>
+      </div>
+      <div className="suiteBreakdown">
+        <span>准确 {scoreText(evaluation.averageAccuracy)}</span>
+        <span>流利 {scoreText(evaluation.averageFluency)}</span>
+        <span>完整 {scoreText(evaluation.averageCompleteness)}</span>
+        <span>韵律 {scoreText(evaluation.averageProsody)}</span>
+      </div>
+      <div className="suiteSentenceReview">
+        <h3>原句复盘</h3>
+        {evaluation.sentenceReviews.map((sentence) => (
+          <div className="suiteSentenceCard" key={`suite-sentence-${sentence.order}`}>
+            <button
+              className="iconButton sentenceAudioButton"
+              onClick={() => void playOriginalSentence(sentence)}
+              title={`播放第 ${sentence.order} 句原音`}
+              aria-label={`播放第 ${sentence.order} 句原音`}
+            >
+              <Play size={16} />
+            </button>
+            <div>
+              <div className="suiteSentenceTop">
+                <strong>S{sentence.order}</strong>
+                <span>{sentence.itemScore == null ? "-" : sentence.itemScore.toFixed(1)}/5</span>
+              </div>
+              <p>{sentence.text}</p>
+              <div className="tagList compactTags">
+                <span>复述 {scoreText(sentence.repeatAccuracy)}</span>
+                {sentence.issueLabels.length
+                  ? sentence.issueLabels.map((label) => <span key={`S${sentence.order}-${label}`}>{label}</span>)
+                  : <span>无明显集中问题</span>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="suiteIssueList">
+        <h3>本套暴露的问题</h3>
+        {evaluation.issues.length ? (
+          evaluation.issues.map((issue) => (
+            <div className="suiteIssueCard" key={issue.label}>
+              <div className="suiteIssueTop">
+                <strong>{issue.label}</strong>
+                <span>{issue.count}</span>
+              </div>
+              <div className="tagList compactTags">
+                {issue.examples.map((example) => <span key={`${issue.label}-${example}`}>{example}</span>)}
+              </div>
+              <p>{issue.action}</p>
+            </div>
+          ))
+        ) : (
+          <p>这套没有明显集中问题。下一轮可以提高语速稳定性和自然重音。</p>
+        )}
+      </div>
+      <p className="reviewAction">{evaluation.priority}</p>
+    </section>
+  );
+}
+
+function buildSuiteEvaluation(scenario: ScenarioPack, attempts: Record<string, AttemptResult>): SuiteEvaluation | null {
+  const sentenceEntries = scenario.sentences
+    .map((sentence) => ({ sentence, attempt: attempts[sentence.id] }))
+    .filter((item): item is { sentence: PracticeSentence; attempt: AttemptResult } => Boolean(item.attempt));
+  if (!sentenceEntries.length) return null;
+
+  const averageRepeat = averageScore(sentenceEntries.map((item) => item.attempt.normalized.scores.repeatAccuracy));
+  const averageAccuracy = averageScore(sentenceEntries.map((item) => item.attempt.normalized.scores.accuracy));
+  const averageFluency = averageScore(sentenceEntries.map((item) => item.attempt.normalized.scores.fluency));
+  const averageCompleteness = averageScore(sentenceEntries.map((item) => item.attempt.normalized.scores.completeness));
+  const averageProsody = averageScore(sentenceEntries.map((item) => item.attempt.normalized.scores.prosody));
+  const itemScores = sentenceEntries
+    .map((item) => repeatScoreToOfficialItemScore(item.attempt.normalized.scores.repeatAccuracy))
+    .filter((value): value is number => value != null);
+  const moduleScore = itemScores.length
+    ? Math.round((itemScores.reduce((sum, value) => sum + value, 0) / itemScores.length) * 10) / 10
+    : null;
+  const completedAll = sentenceEntries.length >= scenario.sentences.length;
+  const level = suiteLevel(moduleScore);
+  const priority = suitePriority({
+    averageAccuracy,
+    averageFluency,
+    averageCompleteness,
+    averageProsody,
+  });
+
+  return {
+    completed: sentenceEntries.length,
+    total: scenario.sentences.length,
+    averageRepeat,
+    averageAccuracy,
+    averageFluency,
+    averageCompleteness,
+    averageProsody,
+    moduleScore,
+    level,
+    summary: completedAll
+      ? `仅看 Listen and Repeat 这一套，当前折算为 ${level}。这是按官方每题 0-5 的量表做的本地模块评价，不等同于完整 Speaking 1-6 报告分。`
+      : "先完成整套 7 句，系统会按官方每题 0-5 的量表汇总 Listen and Repeat。",
+    priority,
+    issues: buildSuiteIssues(sentenceEntries, {
+      averageAccuracy,
+      averageFluency,
+      averageCompleteness,
+      averageProsody,
+    }),
+    sentenceReviews: buildSuiteSentenceReviews(sentenceEntries),
+  };
+}
+
+function buildSuiteSentenceReviews(entries: { sentence: PracticeSentence; attempt: AttemptResult }[]): SuiteSentenceReview[] {
+  return entries.map(({ sentence, attempt }) => {
+    const scores = attempt.normalized.scores;
+    const issues = attempt.normalized.issues;
+    const issueLabels: string[] = [];
+    if (issues.omissions.length) issueLabels.push(`漏读 ${issues.omissions.length}`);
+    if (issues.insertions.length) issueLabels.push(`多读 ${issues.insertions.length}`);
+    if (issues.mispronunciations.length) issueLabels.push(`发音偏差 ${issues.mispronunciations.length}`);
+    if (issues.repetitions.length) issueLabels.push(`重复 ${issues.repetitions.length}`);
+    if (issues.low_score_words.length) issueLabels.push(`低分词 ${issues.low_score_words.length}`);
+    if (issues.low_score_phonemes.length) issueLabels.push(`低分音素 ${issues.low_score_phonemes.length}`);
+    if (scores.completeness != null && scores.completeness < 85) issueLabels.push("完整度低");
+    if (scores.fluency != null && scores.fluency < 80) issueLabels.push("流利度低");
+    if (scores.prosody != null && scores.prosody < 80) issueLabels.push("韵律不稳");
+    return {
+      order: sentence.order,
+      text: sentence.text,
+      audioUrl: sentence.audioUrl,
+      itemScore: repeatScoreToOfficialItemScore(scores.repeatAccuracy),
+      repeatAccuracy: scores.repeatAccuracy,
+      issueLabels: issueLabels.slice(0, 5),
+    };
+  });
+}
+
+function buildSuiteIssues(
+  entries: { sentence: PracticeSentence; attempt: AttemptResult }[],
+  averages: {
+    averageAccuracy: number | null;
+    averageFluency: number | null;
+    averageCompleteness: number | null;
+    averageProsody: number | null;
+  }
+): SuiteIssue[] {
+  const issueMap = new Map<string, SuiteIssue>();
+  const ensureIssue = (label: string, action: string) => {
+    const existing = issueMap.get(label);
+    if (existing) return existing;
+    const created: SuiteIssue = { label, count: 0, examples: [], action };
+    issueMap.set(label, created);
+    return created;
+  };
+  const addIssue = (label: string, action: string, examples: string[]) => {
+    if (!examples.length) return;
+    const issue = ensureIssue(label, action);
+    issue.count += examples.length;
+    for (const example of examples) {
+      if (issue.examples.length < 8 && !issue.examples.includes(example)) {
+        issue.examples.push(example);
+      }
+    }
+  };
+
+  for (const { sentence, attempt } of entries) {
+    const sentenceLabel = `S${sentence.order}`;
+    const scores = attempt.normalized.scores;
+    const issues = attempt.normalized.issues;
+    addIssue("漏读", "下一轮先不追求快，确保主干词完整复述。", issues.omissions.map((word) => `${sentenceLabel}: ${word}`));
+    addIssue("多读", "回练时只复述一遍，不补解释、不重复启动句。", issues.insertions.map((word) => `${sentenceLabel}: ${word}`));
+    addIssue("发音偏差", "把这些词单独慢读两遍，再放回整句。", issues.mispronunciations.map((word) => `${sentenceLabel}: ${word}`));
+    addIssue("重复卡顿", "先用较慢但连续的节奏完成整句，减少回头重说。", issues.repetitions.map((word) => `${sentenceLabel}: ${word}`));
+    addIssue(
+      "低分词",
+      "优先修这些词的重音和清晰度，它们最影响整句可懂度。",
+      issues.low_score_words.slice(0, 4).map((item) => `${sentenceLabel}: ${item.word} ${Math.round(item.accuracy)}`)
+    );
+    addIssue(
+      "低分音素",
+      "把对应音素抽出来做 3-5 次短 drill，再回到原句。",
+      issues.low_score_phonemes.slice(0, 4).map((item) => `${sentenceLabel}: ${item.word} /${item.phoneme}/ ${Math.round(item.accuracy)}`)
+    );
+    addIssue("完整度低", "这几句优先修漏词和句尾收束。", scores.completeness != null && scores.completeness < 85 ? [`${sentenceLabel}: ${Math.round(scores.completeness)}`] : []);
+    addIssue("流利度低", "这几句用一次呼吸连完，先稳节奏再提速。", scores.fluency != null && scores.fluency < 80 ? [`${sentenceLabel}: ${Math.round(scores.fluency)}`] : []);
+    addIssue("韵律不稳", "注意重音、停顿和句尾语调，不要逐词平读。", scores.prosody != null && scores.prosody < 80 ? [`${sentenceLabel}: ${Math.round(scores.prosody)}`] : []);
+  }
+
+  if (averages.averageCompleteness != null && averages.averageCompleteness < 85) {
+    ensureIssue("整体完整度偏低", "先把 7 句主干完整复述出来，再打磨发音细节。").count += 1;
+  }
+  if (averages.averageFluency != null && averages.averageFluency < 80) {
+    ensureIssue("整体流利度偏低", "下一轮把目标改成连续输出，不要在单词间频繁停顿。").count += 1;
+  }
+  if (averages.averageAccuracy != null && averages.averageAccuracy < 82) {
+    ensureIssue("整体发音准确度偏低", "先集中回练低分词和低分音素，再整套重做。").count += 1;
+  }
+  if (averages.averageProsody != null && averages.averageProsody < 80) {
+    ensureIssue("整体韵律偏平", "按意群读句子，避免每个词同样重。").count += 1;
+  }
+
+  return [...issueMap.values()]
+    .filter((issue) => issue.count > 0)
+    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+    .slice(0, 8);
+}
+
+function averageScore(values: (number | null | undefined)[]): number | null {
+  const valid = values.filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+  if (!valid.length) return null;
+  return Math.round((valid.reduce((sum, value) => sum + value, 0) / valid.length) * 10) / 10;
+}
+
+function repeatScoreToOfficialItemScore(score: number | null): number | null {
+  if (score == null) return null;
+  if (score >= 94) return 5.0;
+  if (score >= 88) return 4.5;
+  if (score >= 82) return 4.0;
+  if (score >= 76) return 3.5;
+  if (score >= 68) return 3.0;
+  if (score >= 60) return 2.5;
+  if (score >= 50) return 2.0;
+  if (score >= 40) return 1.5;
+  if (score >= 28) return 1.0;
+  return 0.5;
+}
+
+function suiteLevel(score: number | null): string {
+  if (score == null) return "暂无等级";
+  if (score >= 4.5) return "高分表现";
+  if (score >= 3.5) return "良好表现";
+  if (score >= 2.5) return "中等表现";
+  if (score >= 1.5) return "基础表现";
+  return "低于基础";
+}
+
+function suitePriority(scores: {
+  averageAccuracy: number | null;
+  averageFluency: number | null;
+  averageCompleteness: number | null;
+  averageProsody: number | null;
+}): string {
+  const candidates = [
+    { label: "完整度", value: scores.averageCompleteness, action: "优先保证每句不漏主干词，再追求速度。" },
+    { label: "流利度", value: scores.averageFluency, action: "下一轮重点减少停顿，把 7 句都连成一个稳定节奏。" },
+    { label: "发音准确度", value: scores.averageAccuracy, action: "下一轮先慢速修低分词，再恢复自然语速。" },
+    { label: "韵律", value: scores.averageProsody, action: "下一轮注意重音、升降调和句尾收束。" },
+  ].filter((item): item is { label: string; value: number; action: string } => item.value != null);
+  if (!candidates.length) return "完成整套后，优先回练最低分的 2-3 句。";
+  candidates.sort((a, b) => a.value - b.value);
+  return `当前最该补的是${candidates[0].label}：${candidates[0].action}`;
+}
+
+function Feedback({
+  attempt,
+  reviewAttempt,
+  reviewAttemptCount,
+}: {
+  sentence: PracticeSentence;
+  attempt: AttemptResult;
+  reviewAttempt: AttemptResult | null;
+  reviewAttemptCount: number;
+}) {
   const score = attempt.normalized.scores;
   const issues = attempt.normalized.issues;
   const diagnostics = attempt.normalized.diagnostics;
   const playbackUrl = attempt.localAudioUrl || attempt.audioUrl;
+  const reviewScore = reviewAttempt?.normalized.scores;
+  const reviewPlaybackUrl = reviewAttempt ? reviewAttempt.localAudioUrl || reviewAttempt.audioUrl : "";
   return (
     <section className="feedbackGrid">
       <Metric label="复述分" value={score.repeatAccuracy} />
@@ -675,7 +1084,7 @@ function Feedback({ attempt }: { sentence: PracticeSentence; attempt: AttemptRes
       <Metric label="韵律" value={score.prosody} fallbackLabel={diagnostics.prosodyAvailable ? "-" : "无"} />
 
       <section className="widePanel">
-        <h2>即时反馈 / Immediate Feedback</h2>
+        <h2>首轮考试记录 / First Attempt</h2>
         <audio controls src={playbackUrl} preload="metadata" />
         <p><strong>识别结果 Recognized:</strong> {attempt.normalized.recognizedText || "（空）"}</p>
         <p>{attempt.normalized.summary}</p>
@@ -688,6 +1097,25 @@ function Feedback({ attempt }: { sentence: PracticeSentence; attempt: AttemptRes
           <span>低分音素 {diagnostics.lowPhonemeCount}</span>
         </div>
       </section>
+
+      {reviewAttempt && reviewScore ? (
+        <section className="widePanel reviewAttemptPanel">
+          <div className="reviewAttemptHeader">
+            <h2>最近复盘练习 / Review Practice</h2>
+            <span>第 {reviewAttemptCount} 次复盘</span>
+          </div>
+          <audio controls src={reviewPlaybackUrl} preload="metadata" />
+          <div className="suiteBreakdown">
+            <span>复述 {scoreText(reviewScore.repeatAccuracy)}</span>
+            <span>准确 {scoreText(reviewScore.accuracy)}</span>
+            <span>流利 {scoreText(reviewScore.fluency)}</span>
+            <span>完整 {scoreText(reviewScore.completeness)}</span>
+          </div>
+          <p><strong>识别结果 Recognized:</strong> {reviewAttempt.normalized.recognizedText || "（空）"}</p>
+          <p>{reviewAttempt.normalized.summary}</p>
+          <p className="reviewAction">这条记录只作为复盘练习，不覆盖上面的首轮考试结果，也不改变整套评价使用的首轮分数。</p>
+        </section>
+      ) : null}
 
       <section className="widePanel">
         <h2>详细建议 / Coaching</h2>
@@ -820,6 +1248,7 @@ function InterviewPractice({
   const [saving, setSaving] = useState(false);
   const [remainingSeconds, setRemainingSeconds] = useState(45);
   const [attempts, setAttempts] = useState<Record<string, InterviewAttempt>>({});
+  const [reviewUnlocked, setReviewUnlocked] = useState(false);
   const recorderRef = useRef<WavRecorder | null>(null);
   const autoStopRef = useRef<number | null>(null);
   const localAudioUrlsRef = useRef<Record<string, string>>({});
@@ -829,6 +1258,8 @@ function InterviewPractice({
   const currentAttempt = question ? attempts[question.id] : null;
   const completedCount = interviewSet?.questions.filter((item) => attempts[item.id]).length ?? 0;
   const answerSeconds = question?.answerSeconds ?? interviewSet?.answerSeconds ?? 45;
+  const totalQuestions = interviewSet?.questions.length ?? 4;
+  const reviewVisible = Boolean(interviewSet && (reviewUnlocked || completedCount >= totalQuestions));
 
   useEffect(() => {
     if (!selectedSetId && interviewSets[0]) {
@@ -854,6 +1285,7 @@ function InterviewPractice({
         setState("idle");
         setStatus("准备就绪");
         setRemainingSeconds(setDetail.answerSeconds);
+        setReviewUnlocked(false);
       } catch (err) {
         if (disposed) return;
         setError(errorMessage(err));
@@ -951,6 +1383,8 @@ function InterviewPractice({
         audioBlob: recorded.blob,
       });
       const localAudioUrl = URL.createObjectURL(recorded.blob);
+      const savedQuestionIndex = questionIndex;
+      const nextCompletedCount = interviewSet.questions.filter((item) => attempts[item.id] || item.id === question.id).length;
       setAttempts((current) => {
         const previousLocal = current[question.id]?.localAudioUrl;
         if (previousLocal) {
@@ -960,8 +1394,17 @@ function InterviewPractice({
         localAudioUrlsRef.current[question.id] = localAudioUrl;
         return { ...current, [question.id]: { ...saved, localAudioUrl } };
       });
-      setState("scored");
-      setStatus(interviewStatusLabel(saved.scoringStatus));
+      if (nextCompletedCount >= interviewSet.questions.length || savedQuestionIndex >= interviewSet.questions.length - 1) {
+        setReviewUnlocked(true);
+        setState("scored");
+        setStatus("四题完成，可以集中复盘。");
+      } else {
+        const next = savedQuestionIndex + 1;
+        setQuestionIndex(next);
+        setState("idle");
+        setStatus(`第 ${next + 1} 题准备就绪`);
+        setRemainingSeconds(interviewSet.questions[next]?.answerSeconds ?? interviewSet.answerSeconds);
+      }
     } catch (err) {
       setError(errorMessage(err));
       setState("error");
@@ -977,6 +1420,7 @@ function InterviewPractice({
     setStatus(attempts[interviewSet?.questions[index]?.id ?? ""] ? "回答已保存" : "准备就绪");
     setError("");
     setRemainingSeconds(interviewSet?.questions[index]?.answerSeconds ?? interviewSet?.answerSeconds ?? 45);
+    setReviewUnlocked(false);
   }
 
   function nextQuestion() {
@@ -985,7 +1429,8 @@ function InterviewPractice({
       selectQuestion(questionIndex + 1);
       return;
     }
-    setStatus("这套 Interview 已完成，可以复盘四段回答。");
+    setReviewUnlocked(true);
+    setStatus("这套 Interview 已结束，可以复盘四段回答。");
   }
 
   return (
@@ -1019,11 +1464,11 @@ function InterviewPractice({
 
         <div className="progressBlock">
           <div className="progressTop">
-            <span>已完成 {completedCount}/4</span>
+            <span>已完成 {completedCount}/{totalQuestions}</span>
             <span>{levelLabel((interviewSet?.difficulty || interviewSets[0]?.difficulty || "medium") as ScenarioPack["level"])}</span>
           </div>
           <div className="progressTrack">
-            <div style={{ width: `${(completedCount / 4) * 100}%` }} />
+            <div style={{ width: `${(completedCount / totalQuestions) * 100}%` }} />
           </div>
         </div>
 
@@ -1036,7 +1481,7 @@ function InterviewPractice({
               disabled={state === "recording" || state === "scoring"}
             >
               <span>Q{item.order}</span>
-              <small>{interviewFocusLabel(item.focus)}</small>
+              <small>{attempts[item.id] ? "已完成" : "未完成"}</small>
               {attempts[item.id] ? <Check size={15} /> : null}
             </button>
           ))}
@@ -1047,7 +1492,7 @@ function InterviewPractice({
             <MessageSquare size={16} />
             Interview 计划
           </div>
-          <p>{interviewSet?.descriptionZh || "选择一套模拟面试，按 4 段完成回答。"}</p>
+          <p>选择一套模拟面试，听同一场景下的 4 个递进问题，每题回答 45 秒。</p>
           <div className="tagList">
             <span>4 问</span>
             <span>每题 45 秒</span>
@@ -1076,14 +1521,22 @@ function InterviewPractice({
         {loading ? <section className="emptyState">正在加载 Interview 题库...</section> : null}
         {!loading && !interviewSet ? <section className="emptyState">还没有可用 Interview 题库。</section> : null}
 
-        {question ? (
+        {!reviewVisible && interviewSet ? (
+          <section className="interviewContextPanel">
+            <span className="eyebrow">Scenario</span>
+            <h2>{interviewSet.title}</h2>
+            <p>场景主题：{interviewSet.theme}。你将听到同一主题下的四个递进问题；练习阶段只听题，不显示 interviewer 原文。</p>
+          </section>
+        ) : null}
+
+        {question && !reviewVisible ? (
           <section className="examSurface interviewSurface">
             <div className="interviewPromptTop">
-              <span>Question {question.order}</span>
-              <span>{interviewFocusLabel(question.focus)}</span>
+              <span>Question {question.order} / {totalQuestions}</span>
+              <span>{answerSeconds} 秒回答</span>
             </div>
             <div className="interviewerPrompt hiddenInterviewPrompt">
-              正式练习中不显示 interviewer 原文。请先听问题，再作答；完成后会在复盘里显示文字。
+              请先播放 interviewer 提问，然后直接回答。题目文字和参考答案会在整套完成后显示。
             </div>
             <div className="controls">
               <button onClick={playQuestionAndRecord} disabled={state === "playing" || state === "recording" || state === "scoring" || state === "requestingMic"}>
@@ -1098,8 +1551,14 @@ function InterviewPractice({
                 <Square size={18} />
                 结束并保存
               </button>
-              <button onClick={nextQuestion} disabled={!currentAttempt || state === "recording" || state === "scoring"}>
-                下一题
+              <button onClick={nextQuestion} disabled={state === "recording" || state === "scoring" || state === "requestingMic"}>
+                {currentAttempt
+                  ? questionIndex < totalQuestions - 1
+                    ? "下一题"
+                    : "结束并复盘"
+                  : questionIndex < totalQuestions - 1
+                    ? "跳过本题"
+                    : "结束并复盘"}
               </button>
             </div>
             <div className="keyboardHints">Interview v2 会生成非官方训练反馈，不代表 ETS 官方评分。</div>
@@ -1112,7 +1571,7 @@ function InterviewPractice({
           </section>
         ) : null}
 
-        {interviewSet ? (
+        {reviewVisible && interviewSet ? (
           <>
             <InterviewSetSummaryPanel interviewSet={interviewSet} attempts={attempts} />
             <section className="feedbackGrid interviewReviewGrid">
@@ -1307,13 +1766,12 @@ function InterviewReviewCard({ question, attempt }: { question: InterviewQuestio
       <div className="interviewReviewHeader">
         <div>
           <span className="eyebrow">Question {question.order}</span>
-          <h2>{interviewFocusLabel(question.focus)}</h2>
+          <h2>回答复盘</h2>
         </div>
         <span className={`priorityBadge ${attempt ? "later" : ""}`}>
           {attempt ? interviewStatusLabel(attempt.scoringStatus) : "未完成"}
         </span>
       </div>
-      <p>{question.reviewHintZh}</p>
       {attempt ? (
         <>
           <div className="reviewPromptText">
@@ -1429,7 +1887,7 @@ function ReadingPractice({
   loadError: string;
   onReload: () => Promise<void>;
 }) {
-  const [readingMode, setReadingMode] = useState<"adaptive" | "single">("adaptive");
+  const [readingMode, setReadingMode] = useState<"adaptive" | "single">("single");
   const [selectedSetId, setSelectedSetId] = useState("");
   const [readingSet, setReadingSet] = useState<ReadingSet | null>(null);
   const [answers, setAnswers] = useState<Record<string, number | string>>({});
@@ -1489,10 +1947,6 @@ function ReadingPractice({
 
   async function submit() {
     if (!readingSet) return;
-    if (remainingCount > 0) {
-      setError(`还有 ${remainingCount} 题未完成，请答完后再提交。`);
-      return;
-    }
     setSubmitting(true);
     setError("");
     try {
@@ -1523,10 +1977,10 @@ function ReadingPractice({
 
         <div className="modeTabs">
           <button className={readingMode === "adaptive" ? "active" : ""} onClick={() => setReadingMode("adaptive")}>
-            Adaptive
+            Adaptive 模考
           </button>
           <button className={readingMode === "single" ? "active" : ""} onClick={() => setReadingMode("single")}>
-            Single Set
+            Single Set 练习
           </button>
         </div>
 
@@ -1555,7 +2009,7 @@ function ReadingPractice({
             <Clock size={16} />
             阅读计划
           </div>
-          <p>{readingMode === "adaptive" ? adaptiveSessions[0]?.descriptionZh || "先完成 Router，再进入 Lower/Upper 第二模块。" : readingSet?.descriptionZh || "先选择一套阅读短练，完成后查看技能拆解。"}</p>
+          <p>{readingMode === "adaptive" ? adaptiveSessions[0]?.descriptionZh || "模拟考试模式：先完成 Router 模块，系统按正确率进入 Lower 或 Upper 第二模块。" : readingSet?.descriptionZh || "先选择一套阅读短练，完成后查看技能拆解。"}</p>
           <div className="tagList">
             <span>{readingMode === "adaptive" ? "50 题" : `${totalQuestions || readingSets[0]?.questionCount || 0} 题`}</span>
             <span>{readingMode === "adaptive" ? `${adaptiveSessions[0]?.estimatedMinutes || 30} 分钟` : `${readingSet?.estimatedMinutes || readingSets[0]?.estimatedMinutes || 10} 分钟`}</span>
@@ -1569,7 +2023,7 @@ function ReadingPractice({
             <div className="progressTrack">
               <div style={{ width: totalQuestions ? `${(answeredCount / totalQuestions) * 100}%` : "0%" }} />
             </div>
-          </div> : <p className="miniNotice">训练模拟路由，非 ETS 官方自适应算法。</p>}
+          </div> : <p className="miniNotice">Adaptive 是完整 50 题模拟，不会由 Single Set 自动触发；训练路由不是 ETS 官方算法。</p>}
           <button onClick={() => void onReload()}>刷新题库</button>
         </section>
       </aside>
@@ -1593,71 +2047,22 @@ function ReadingPractice({
         {loading ? <section className="emptyState">正在加载阅读题...</section> : null}
         {!loading && !readingSet ? <section className="emptyState">还没有可用阅读题库。</section> : null}
 
-        {readingSet?.sections.map((section) => (
-          <section className="readingSection" key={section.id}>
-            <div className="readingSectionHeader">
-              <div>
-                <span className="eyebrow">{sectionTypeLabel(section.type)}</span>
-                <h2>{section.title}</h2>
-              </div>
-              <span>{section.instructionsZh}</span>
-            </div>
-            {section.type === "complete_words" ? (
-              <CompleteWordsSection
-                answers={answers}
-                result={result}
-                section={section}
-                onAnswer={(blankId, value) => setAnswers((current) => ({ ...current, [blankId]: value }))}
-              />
-            ) : (
-              <>
-                <div className="readingPassage">{section.passage}</div>
-                <div className="readingQuestions">
-                  {section.questions.map((question, questionIndex) => (
-                    <div className="readingQuestion" key={question.id}>
-                      <h3>
-                        {questionIndex + 1}. {question.prompt}
-                      </h3>
-                      <div className="optionGrid">
-                        {question.options.map((option, optionIndex) => {
-                          const selected = answers[question.id] === optionIndex;
-                          const revealed = result != null;
-                          const isAnswer = question.answer === optionIndex;
-                          return (
-                            <button
-                              key={option}
-                              className={`answerOption${selected ? " selected" : ""}${revealed && isAnswer ? " correct" : ""}${revealed && selected && !isAnswer ? " wrong" : ""}`}
-                              onClick={() => setAnswers((current) => ({ ...current, [question.id]: optionIndex }))}
-                              disabled={revealed}
-                            >
-                              <strong>{String.fromCharCode(65 + optionIndex)}</strong>
-                              <span>{option}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                      {result ? (
-                        <div className="explanationBox">
-                          <strong>解析：</strong>
-                          {question.explanationZh}
-                          <p>证据：{question.evidence}</p>
-                        </div>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </section>
-        ))}
+        {readingSet ? (
+          <ReadingModuleContent
+            module={readingSet}
+            answers={answers}
+            result={result}
+            onAnswer={(id, value) => setAnswers((current) => ({ ...current, [id]: value }))}
+          />
+        ) : null}
 
         {readingSet ? (
           <section className="readingSubmitBar">
             <div>
               <strong>{result ? "已完成" : `已作答 ${answeredCount}/${totalQuestions}`}</strong>
-              <span>{result ? result.summaryZh : remainingCount ? `还差 ${remainingCount} 题，答完后可提交复盘。` : "已答完，可以提交复盘。"}</span>
+              <span>{result ? result.summaryZh : remainingCount ? `还有 ${remainingCount} 题未答；提交后会按错题处理。` : "已答完，可以提交复盘。"}</span>
             </div>
-            <button onClick={submit} disabled={submitting || result != null || remainingCount > 0}>
+            <button onClick={submit} disabled={submitting || result != null}>
               {submitting ? "提交中..." : "提交并复盘"}
             </button>
           </section>
@@ -1739,16 +2144,13 @@ function AdaptiveReadingPractice({
   const activeModule = routerResult ? secondModule : routerModule;
   const activeAnswers = routerResult ? secondAnswers : routerAnswers;
   const activeResult = routerResult ? finalResult?.secondResult ?? null : routerResult;
+  const adaptiveStep = finalResult ? "review" : routerResult ? "module2" : "router";
   const totalQuestions = useMemo(() => activeModule?.sections.reduce((sum, section) => sum + readingSectionItemCount(section), 0) ?? 0, [activeModule]);
   const answeredCount = useMemo(() => countReadingAnswers(activeModule, activeAnswers), [activeAnswers, activeModule]);
   const remainingCount = Math.max(totalQuestions - answeredCount, 0);
 
   async function submitRouterStep() {
     if (!session || !routerModule) return;
-    if (remainingCount > 0) {
-      setError(`Router 还有 ${remainingCount} 题未完成。`);
-      return;
-    }
     setSubmitting(true);
     setError("");
     try {
@@ -1772,10 +2174,6 @@ function AdaptiveReadingPractice({
 
   async function submitFinalStep() {
     if (!session || !routerModule || !secondModule || !routeInfo) return;
-    if (remainingCount > 0) {
-      setError(`第二模块还有 ${remainingCount} 题未完成。`);
-      return;
-    }
     setSubmitting(true);
     setError("");
     try {
@@ -1831,6 +2229,24 @@ function AdaptiveReadingPractice({
         </section>
       ) : null}
 
+      <section className="adaptiveFlowPanel" aria-label="Adaptive 阅读流程">
+        <div className={`adaptiveStep ${adaptiveStep === "router" ? "active" : "done"}`}>
+          <strong>1</strong>
+          <span>Router Module</span>
+          <small>先完成 25 题入口模块</small>
+        </div>
+        <div className={`adaptiveStep ${adaptiveStep === "module2" ? "active" : finalResult ? "done" : ""}`}>
+          <strong>2</strong>
+          <span>{routeInfo?.routePath === "upper" ? "Upper Module" : routeInfo?.routePath === "lower" ? "Lower Module" : "Lower / Upper Module"}</span>
+          <small>按 Router 正确率进入第二模块</small>
+        </div>
+        <div className={`adaptiveStep ${adaptiveStep === "review" ? "active done" : ""}`}>
+          <strong>3</strong>
+          <span>50 题复盘</span>
+          <small>合并两个模块生成训练结果</small>
+        </div>
+      </section>
+
       {activeModule ? (
         <>
           <ReadingModuleContent
@@ -1848,14 +2264,14 @@ function AdaptiveReadingPractice({
           <section className="readingSubmitBar">
             <div>
               <strong>{finalResult ? "自适应阅读已完成" : `已作答 ${answeredCount}/${totalQuestions}`}</strong>
-              <span>{finalResult ? finalResult.overallResult.summaryZh : remainingCount ? `还差 ${remainingCount} 题。` : "已答完，可以提交当前模块。"}</span>
+              <span>{finalResult ? finalResult.overallResult.summaryZh : remainingCount ? `还有 ${remainingCount} 题未答；提交后会按错题处理。` : "已答完，可以提交当前模块。"}</span>
             </div>
             {!routerResult ? (
-              <button onClick={submitRouterStep} disabled={submitting || remainingCount > 0}>
+              <button onClick={submitRouterStep} disabled={submitting}>
                 {submitting ? "提交中..." : "提交 Router 并路由"}
               </button>
             ) : (
-              <button onClick={submitFinalStep} disabled={submitting || finalResult != null || remainingCount > 0}>
+              <button onClick={submitFinalStep} disabled={submitting || finalResult != null}>
                 {submitting ? "提交中..." : "提交第二模块并复盘"}
               </button>
             )}
@@ -1892,6 +2308,17 @@ function ReadingModuleContent({
   result: ReadingAttemptResult | null;
   onAnswer: (id: string, value: number | string) => void;
 }) {
+  const pages = useMemo(() => buildReadingPages(module), [module]);
+  const [pageIndex, setPageIndex] = useState(0);
+  const activePage = pages[Math.min(pageIndex, Math.max(pages.length - 1, 0))] ?? null;
+  const currentPageIndex = activePage ? Math.min(pageIndex, pages.length - 1) : 0;
+  const pageAnswered = activePage ? isReadingPageAnswered(activePage, answers) : false;
+  const canGoNext = currentPageIndex < pages.length - 1;
+
+  useEffect(() => {
+    setPageIndex(0);
+  }, [module.id]);
+
   return (
     <>
       <section className="widePanel">
@@ -1903,59 +2330,106 @@ function ReadingModuleContent({
           <span>{levelLabel(module.difficulty)}</span>
         </div>
       </section>
-      {module.sections.map((section) => (
-        <section className="readingSection" key={section.id}>
-          <div className="readingSectionHeader">
+      {activePage ? (
+        <section className="readingSection readingPageCard" key={activePage.key}>
+          <div className="readingPageTop">
             <div>
-              <span className="eyebrow">{sectionTypeLabel(section.type)}</span>
-              <h2>{section.title}</h2>
+              <span className="eyebrow">{sectionTypeLabel(activePage.section.type)}</span>
+              <h2>{activePage.section.title}</h2>
             </div>
-            <span>{section.instructionsZh}</span>
+            <div className="readingPageCounter">
+              第 {currentPageIndex + 1} / {pages.length} 页
+            </div>
           </div>
-          {section.type === "complete_words" ? (
-            <CompleteWordsSection answers={answers} result={result} section={section} onAnswer={(blankId, value) => onAnswer(blankId, value)} />
+          <div className="readingSectionHeader compact">
+            <span>{activePage.section.instructionsZh}</span>
+          </div>
+          {activePage.kind === "complete_words" ? (
+            <CompleteWordsSection answers={answers} result={result} section={activePage.section} onAnswer={(blankId, value) => onAnswer(blankId, value)} />
           ) : (
             <>
-              <div className="readingPassage">{section.passage}</div>
-              <div className="readingQuestions">
-                {section.questions.map((question, questionIndex) => (
-                  <div className="readingQuestion" key={question.id}>
-                    <h3>
-                      {questionIndex + 1}. {question.prompt}
-                    </h3>
-                    <div className="optionGrid">
-                      {question.options.map((option, optionIndex) => {
-                        const selected = answers[question.id] === optionIndex;
-                        const revealed = result != null;
-                        const isAnswer = question.answer === optionIndex;
-                        return (
-                          <button
-                            key={option}
-                            className={`answerOption${selected ? " selected" : ""}${revealed && isAnswer ? " correct" : ""}${revealed && selected && !isAnswer ? " wrong" : ""}`}
-                            onClick={() => onAnswer(question.id, optionIndex)}
-                            disabled={revealed}
-                          >
-                            <strong>{String.fromCharCode(65 + optionIndex)}</strong>
-                            <span>{option}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {result ? (
-                      <div className="explanationBox">
-                        <strong>解析：</strong>
-                        {question.explanationZh}
-                        <p>证据：{question.evidence}</p>
-                      </div>
-                    ) : null}
-                  </div>
-                ))}
+              <div className="readingPassage">{activePage.section.passage}</div>
+              <div className="readingQuestions oneQuestion">
+                <ReadingQuestionCard
+                  answers={answers}
+                  question={activePage.question}
+                  questionIndex={activePage.questionIndex}
+                  result={result}
+                  onAnswer={onAnswer}
+                />
               </div>
             </>
           )}
+          <div className="readingPageNav">
+            <button onClick={() => setPageIndex((current) => Math.max(current - 1, 0))} disabled={currentPageIndex === 0}>
+              上一页
+            </button>
+            <div className="progressTrack" aria-label="阅读分页进度">
+              <div style={{ width: pages.length ? `${((currentPageIndex + 1) / pages.length) * 100}%` : "0%" }} />
+            </div>
+            {!pageAnswered && canGoNext && result == null ? (
+              <button className="ghostButton" onClick={() => setPageIndex((current) => Math.min(current + 1, pages.length - 1))}>
+                跳过本页
+              </button>
+            ) : null}
+            <button
+              onClick={() => setPageIndex((current) => Math.min(current + 1, pages.length - 1))}
+              disabled={!canGoNext}
+            >
+              下一页
+            </button>
+          </div>
+          {!pageAnswered && result == null ? <p className="miniNotice">可以先跳过本页；提交时未答项目会按错题处理。</p> : null}
         </section>
-      ))}
+      ) : null}
     </>
+  );
+}
+
+function ReadingQuestionCard({
+  question,
+  questionIndex,
+  answers,
+  result,
+  onAnswer,
+}: {
+  question: ReadingQuestion;
+  questionIndex: number;
+  answers: Record<string, number | string>;
+  result: ReadingAttemptResult | null;
+  onAnswer: (id: string, value: number | string) => void;
+}) {
+  return (
+    <div className="readingQuestion" key={question.id}>
+      <h3>
+        {questionIndex + 1}. {question.prompt}
+      </h3>
+      <div className="optionGrid">
+        {question.options.map((option, optionIndex) => {
+          const selected = answers[question.id] === optionIndex;
+          const revealed = result != null;
+          const isAnswer = question.answer === optionIndex;
+          return (
+            <button
+              key={option}
+              className={`answerOption${selected ? " selected" : ""}${revealed && isAnswer ? " correct" : ""}${revealed && selected && !isAnswer ? " wrong" : ""}`}
+              onClick={() => onAnswer(question.id, optionIndex)}
+              disabled={revealed}
+            >
+              <strong>{String.fromCharCode(65 + optionIndex)}</strong>
+              <span>{option}</span>
+            </button>
+          );
+        })}
+      </div>
+      {result ? (
+        <div className="explanationBox">
+          <strong>解析：</strong>
+          {question.explanationZh}
+          <p>证据：{question.evidence}</p>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -2000,13 +2474,14 @@ function CompleteWordsSection({
                 disabled={revealed}
                 maxLength={Math.max(blank.answer.length + 4, 8)}
                 onChange={(event) => onAnswer(blank.id, event.target.value)}
+                style={{ width: `${Math.max(4, Math.min(9, blank.answer.length + 1))}ch` }}
                 value={value}
               />
             </span>
           );
         })}
       </div>
-      <div className="blankHintGrid">
+      {result ? <div className="blankHintGrid">
         {blanks.map((blank, index) => {
           const revealed = result != null;
           return (
@@ -2020,7 +2495,7 @@ function CompleteWordsSection({
             </div>
           );
         })}
-      </div>
+      </div> : null}
     </>
   );
 }
@@ -2261,16 +2736,40 @@ async function refreshMicrophoneHint(): Promise<void> {
   }
 }
 
-function mapAttemptsBySentence(items: AttemptResult[]): Record<string, AttemptResult> {
-  const mapped: Record<string, AttemptResult> = {};
+function mapAttemptsBySentence(items: AttemptResult[]): {
+  primary: Record<string, AttemptResult>;
+  latestReview: Record<string, AttemptResult>;
+  reviewCounts: Record<string, number>;
+} {
+  const grouped: Record<string, AttemptResult[]> = {};
   for (const item of items) {
     const sentenceId = item.sentence_id;
     if (!sentenceId) continue;
-    if (!mapped[sentenceId]) {
-      mapped[sentenceId] = item;
+    grouped[sentenceId] = [...(grouped[sentenceId] ?? []), item];
+  }
+  const primary: Record<string, AttemptResult> = {};
+  const latestReview: Record<string, AttemptResult> = {};
+  const reviewCounts: Record<string, number> = {};
+  for (const [sentenceId, sentenceAttempts] of Object.entries(grouped)) {
+    const ordered = [...sentenceAttempts].sort(compareAttemptsByCreatedAt);
+    const [first, ...reviews] = ordered;
+    if (!first) continue;
+    primary[sentenceId] = first;
+    reviewCounts[sentenceId] = reviews.length;
+    if (reviews.length) {
+      latestReview[sentenceId] = reviews[reviews.length - 1];
     }
   }
-  return mapped;
+  return { primary, latestReview, reviewCounts };
+}
+
+function compareAttemptsByCreatedAt(left: AttemptResult, right: AttemptResult): number {
+  const leftTime = Date.parse(left.created_at ?? "");
+  const rightTime = Date.parse(right.created_at ?? "");
+  if (Number.isFinite(leftTime) && Number.isFinite(rightTime) && leftTime !== rightTime) {
+    return leftTime - rightTime;
+  }
+  return left.id.localeCompare(right.id);
 }
 
 function mapInterviewAttemptsByQuestion(items: InterviewAttempt[]): Record<string, InterviewAttempt> {
@@ -2341,6 +2840,50 @@ function readingSectionItemCount(section: ReadingSection): number {
   return section.questions.length;
 }
 
+type ReadingPage =
+  | {
+      key: string;
+      kind: "complete_words";
+      section: ReadingSection;
+    }
+  | {
+      key: string;
+      kind: "question";
+      section: ReadingSection;
+      question: ReadingQuestion;
+      questionIndex: number;
+    };
+
+function buildReadingPages(readingSet: ReadingSet | ReadingModule): ReadingPage[] {
+  const pages: ReadingPage[] = [];
+  for (const section of readingSet.sections) {
+    if (section.type === "complete_words") {
+      pages.push({ key: section.id, kind: "complete_words", section });
+      continue;
+    }
+    section.questions.forEach((question, questionIndex) => {
+      pages.push({
+      key: question.id,
+      kind: "question",
+      section,
+      question,
+      questionIndex,
+      });
+    });
+  }
+  return pages;
+}
+
+function isReadingPageAnswered(page: ReadingPage, answers: Record<string, number | string>): boolean {
+  if (page.kind === "complete_words") {
+    return (page.section.blanks ?? []).every((blank) => {
+      const value = answers[blank.id];
+      return typeof value === "string" && value.trim().length > 0;
+    });
+  }
+  return answers[page.question.id] != null;
+}
+
 function countReadingAnswers(readingSet: ReadingSet | null, answers: Record<string, number | string>): number {
   if (!readingSet) return 0;
   let count = 0;
@@ -2390,31 +2933,6 @@ function readingSetLabel(readingSet: ReadingSetSummary, index: number): string {
 
 function interviewSetLabel(interviewSet: InterviewSetSummary, index: number): string {
   return `Interview ${String(index + 1).padStart(2, "0")} · ${levelLabel(interviewSet.difficulty)}`;
-}
-
-function interviewFocusLabel(focus: string): string {
-  const labels: Record<string, string> = {
-    "personal experience": "个人经历",
-    "personal role": "个人角色",
-    "personal improvement": "个人提升",
-    "personal routine": "个人习惯",
-    "personal interest": "个人兴趣",
-    "personal goal": "个人目标",
-    preference: "偏好选择",
-    evaluation: "评价判断",
-    recommendation: "建议方案",
-    advice: "建议表达",
-    "cause and solution": "原因与方案",
-    "cause and effect": "因果分析",
-    "problem solving": "问题解决",
-    "problem analysis": "问题分析",
-    "policy evaluation": "政策评价",
-    "solution design": "方案设计",
-    "specific explanation": "具体解释",
-    "specific habit": "具体行为",
-    "resource description": "资源描述",
-  };
-  return labels[focus] ?? focus;
 }
 
 function interviewDurationLabel(durationMs: number): string {

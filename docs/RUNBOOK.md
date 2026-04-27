@@ -1,55 +1,93 @@
 # RUNBOOK
 
-## Windows-First Development
+## Mac Local Development
 
 Default for active development:
 
-- Use the Mac only as the control plane for chat, SSH commands, and browser access.
-- Run heavy commands on Windows remote `toefl-win`.
-- Windows project path: `D:\Projects\toefl-listen-repeat`
-- Mac browser URL: `http://127.0.0.1:5174/`
+- Run TOEFL Trainer directly on this Mac.
+- Keep the browser URL fixed at `http://127.0.0.1:5174/`.
+- Store personal practice data locally in this project directory.
+- Use Windows remote `toefl-win` only as optional backup capacity.
 
-Remote helper from the Mac workspace:
+Main helper:
 
 ```bash
 cd /Users/wuliuqi/Documents/New\ project
-scripts/start_windows_dev.sh --sync
-scripts/windows_first.sh sync
-scripts/windows_first.sh check
+scripts/start_mac_dev.sh --open
+```
+
+The helper starts the backend on port `8000`, the frontend on port `5174`, waits for health checks, and opens the app when `--open` is passed.
+
+Double-click startup on macOS:
+
+```text
+scripts/Start TOEFL Trainer.command
+```
+
+Keep a Desktop copy if desired. It runs `scripts/start_mac_dev.sh --open` and opens `http://127.0.0.1:5174/`.
+
+Persistent self-use storage on Mac:
+
+```text
+/Users/wuliuqi/Documents/New project/data/toefl_repeat.sqlite3
+/Users/wuliuqi/Documents/New project/attempts
+/Users/wuliuqi/Documents/New project/data/audio/generated
+```
+
+Check service and storage status:
+
+```bash
+scripts/start_mac_dev.sh --status
+```
+
+Stop local dev services cleanly:
+
+```bash
+scripts/start_mac_dev.sh --stop
 ```
 
 Daily start / recover command:
 
 ```bash
 cd /Users/wuliuqi/Documents/New\ project
-scripts/start_windows_dev.sh
+scripts/start_mac_dev.sh --open
 ```
 
-Use this whenever the browser cannot reach the app after sleep, restart, or network interruption. It keeps the heavy processes on Windows and only recreates Mac-side SSH tunnels when needed.
+Use this whenever the browser cannot reach the app after sleep or reboot.
 
-Individual remote checks:
+## Validation
 
 ```bash
-scripts/windows_first.sh build
-scripts/windows_first.sh compile
-scripts/windows_first.sh validate-listen
-scripts/windows_first.sh validate-interview
-scripts/windows_first.sh validate-reading
-scripts/windows_first.sh smoke-reading
+git diff --check
+.venv/bin/python -m compileall backend/app
+.venv/bin/python data/tools/validate_listen_repeat_bank.py
+.venv/bin/python data/tools/validate_interview_bank.py
+.venv/bin/python data/tools/validate_reading_bank.py
+npm --prefix frontend run build
 ```
 
-Do not run frontend production builds, long-running dev servers, or bulk validation on the Mac unless explicitly requested. If the Windows copy is out of sync, run `scripts/windows_first.sh sync` first.
+## Windows Remote Development (Backup)
 
-## Local Development (Optional)
+Windows remote is no longer the default, but the old helpers are kept:
 
-Use this only when intentionally running the app on the Mac:
+```bash
+scripts/start_windows_dev.sh --self-use
+scripts/start_windows_dev.sh --status
+scripts/start_windows_dev.sh --stop
+scripts/windows_first.sh build
+scripts/windows_first.sh compile
+```
+
+Use these only when intentionally testing or running on `toefl-win`.
+
+## Manual Local Commands
+
+If the helper is not used:
 
 ```bash
 cd /Users/wuliuqi/Documents/New\ project
-npm install
-npm --prefix frontend install
-python3 -m pip install -r backend/requirements.txt
-npm run dev
+.venv/bin/python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000
+npm --prefix frontend run dev -- --host 127.0.0.1 --port 5174 --strictPort
 ```
 
 Frontend:
@@ -62,19 +100,40 @@ Backend:
 
 ## Production Build Check
 
-```bash
-cd /Users/wuliuqi/Documents/New\ project
-scripts/windows_first.sh build
-scripts/windows_first.sh compile
-```
+Use the validation commands above before publishing.
+
+## Local-to-Cloud Release Model
+
+Use one TOEFL Trainer app for current and future modules. Add new practice areas as in-app modules by default, not as separate deployments.
+
+Data policy:
+
+- Mac self-use data stays local: `/Users/wuliuqi/Documents/New project/data` and `/Users/wuliuqi/Documents/New project/attempts`.
+- Render friend-testing data stays on the Render disk mounted at `/data`.
+- Do not automatically sync SQLite files or recordings between Mac and Render.
+
+Release policy:
+
+1. Finish the feature locally.
+2. Run local Mac checks.
+3. Push the ready version to GitHub.
+4. Manually deploy/confirm Render.
+5. Smoke test the hosted URL before sharing with friends.
+
+Before adding a new module to cloud, confirm:
+
+- The module appears in the built frontend.
+- Required data folders are copied by `Dockerfile`.
+- Required environment variables are listed in `.env.example`, `render.yaml`, and this runbook.
+- At least one core browser flow can complete and save a record.
 
 ## Listen and Repeat Content Maintenance
 
-Run validation on Windows through the helper script by default:
+Run validation locally:
 
 ```bash
 cd /Users/wuliuqi/Documents/New\ project
-scripts/windows_first.sh validate-listen
+.venv/bin/python data/tools/validate_listen_repeat_bank.py
 ```
 
 Outputs:
@@ -82,44 +141,30 @@ Outputs:
 - Scenario bank: `data/scenarios/listen_repeat.json`
 - Validation report: `data/reports/listen_repeat_bank_report.json`
 
-Direct Windows commands when intentionally regenerating content:
+Regenerate content locally:
 
-```powershell
-cd D:\Projects\toefl-listen-repeat
-.\.venv\Scripts\python.exe data\tools\build_listen_repeat_bank.py
-.\.venv\Scripts\python.exe data\tools\validate_listen_repeat_bank.py
+```bash
+cd /Users/wuliuqi/Documents/New\ project
+.venv/bin/python data/tools/build_listen_repeat_bank.py
+.venv/bin/python data/tools/validate_listen_repeat_bank.py
 ```
 
 ## Reading Content Maintenance
 
-Run this on Windows through the helper script by default:
+Run this locally:
 
 ```bash
 cd /Users/wuliuqi/Documents/New\ project
-scripts/windows_first.sh validate-reading
-```
-
-Direct Windows command:
-
-```powershell
-cd D:\Projects\toefl-listen-repeat
-.\.venv\Scripts\python.exe data\tools\validate_reading_bank.py
+.venv/bin/python data/tools/validate_reading_bank.py
 ```
 
 ## Speaking Interview Content Maintenance
 
-Run this on Windows through the helper script by default:
+Run this locally:
 
 ```bash
 cd /Users/wuliuqi/Documents/New\ project
-scripts/windows_first.sh validate-interview
-```
-
-Direct Windows command:
-
-```powershell
-cd D:\Projects\toefl-listen-repeat
-.\.venv\Scripts\python.exe data\tools\validate_interview_bank.py
+.venv/bin/python data/tools/validate_interview_bank.py
 ```
 
 Outputs:
@@ -148,11 +193,12 @@ Outputs:
 
 ## Render Deploy Steps
 
-1. Push `main` branch to GitHub.
+1. Push the locally verified `main` branch to GitHub.
 2. In Render, create `Web Service` from repo (Docker runtime).
-3. Mount persistent disk:
+3. Disable auto-deploy for the small friend-testing service.
+4. Mount persistent disk:
    - path: `/data`
-4. Set all env vars above. For small friend testing, require at least:
+5. Set all env vars above. For small friend testing, require at least:
    - `AZURE_SPEECH_KEY`
    - `AZURE_SPEECH_REGION`
    - `DEEPSEEK_API_KEY`
@@ -167,8 +213,8 @@ Outputs:
    - `APP_ATTEMPTS_DIR=/data/attempts`
    - `APP_PROMPT_AUDIO_DIR=/data/audio/generated`
    - `APP_PROMPT_TTS_PROVIDER=azure`
-5. Deploy.
-6. Smoke test:
+6. Manually deploy.
+7. Smoke test:
    - `/api/health` returns `ok`
    - unlock page appears if password enabled
    - complete one sentence scoring cycle

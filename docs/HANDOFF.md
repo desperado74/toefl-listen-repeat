@@ -1,6 +1,6 @@
 # HANDOFF
 
-Last updated: 2026-04-25
+Last updated: 2026-04-26
 Workspace: `/Users/wuliuqi/Documents/New project`
 Repo: `https://github.com/desperado74/toefl-listen-repeat`
 
@@ -12,6 +12,10 @@ Repo: `https://github.com/desperado74/toefl-listen-repeat`
 - FastAPI backend + React frontend + SQLite
 - Reinforcement scenario generation based on weak words/phonemes
 - Optional app-level password gate for hosted usage
+- One-app module strategy: Speaking, Reading, and future Listening/Writing live inside the same TOEFL Trainer site by default
+- Two runtime tracks:
+  - Mac self-use stores personal data locally
+  - Render friend-testing stores separate shared test data on `/data`
 
 ## Implemented
 
@@ -58,8 +62,8 @@ Repo: `https://github.com/desperado74/toefl-listen-repeat`
 
 ## Verified
 
-- Frontend build succeeds on Windows remote (`scripts/windows_first.sh build`)
-- Backend imports/compile succeed on Windows remote (`scripts/windows_first.sh compile`)
+- Frontend build succeeds locally with `npm --prefix frontend run build`
+- Backend imports/compile succeed locally with `.venv/bin/python -m compileall backend/app`
 - Analytics aggregation runs against local SQLite attempt history
 - Listen and Repeat bank validation passes:
   - 180 scenarios total
@@ -74,22 +78,26 @@ Repo: `https://github.com/desperado74/toefl-listen-repeat`
 - Auth behavior:
   - no password -> APIs accessible
   - password set -> protected APIs return 401 until login
-- Reading v1 on Windows remote:
+- Reading v1:
   - `npm --prefix frontend run build`
   - `.venv\Scripts\python.exe -m compileall backend\app`
   - `/api/reading/sets` returns 3 sets
   - `/api/reading/attempts` returns mixed typed-blank + multiple-choice scored breakdown
-- Windows-first workflow added:
-  - Mac acts as the control plane only
-  - `scripts/windows_first.sh` syncs source and runs remote checks through `toefl-win`
-  - `scripts/start_windows_dev.sh` recovers Windows dev servers and Mac SSH tunnels
+- Mac local workflow restored:
+  - `scripts/start_mac_dev.sh --open` starts backend/frontend directly on Mac
+  - `scripts/Start TOEFL Trainer.command` and the Desktop shortcut call the Mac helper
+  - `scripts/start_windows_dev.sh` and `scripts/windows_first.sh` remain as backup only
   - Reading bank validation runs with `data/tools/validate_reading_bank.py`
   - Frontend dev URL is fixed at `http://127.0.0.1:5174/`
+- Local-to-cloud release policy:
+  - validate locally on Mac first
+  - keep Mac SQLite/recordings separate from Render `/data`
+  - manually deploy Render after a ready push
 
 ## Pending
 
 - Push local git commits to GitHub remote `origin main` (blocked only by GitHub token auth)
-- Create Render web service from GitHub repo
+- Create or maintain Render web service from GitHub repo with auto-deploy disabled
 - Set Render environment variables and persistent disk `/data`
 - Final deploy smoke test on public HTTPS URL
 - Continue Listen and Repeat optimization with deeper spaced review logic and richer drill specificity
@@ -99,11 +107,13 @@ Repo: `https://github.com/desperado74/toefl-listen-repeat`
 
 - Azure key was previously exposed in chat. Rotate key in Azure portal before production usage.
 - Keep repository private by default for self-use.
-- Default development validation should run on Windows remote `toefl-win`, not on the Mac.
-- Regenerate the scenario bank on Windows with `.venv\Scripts\python.exe data\tools\build_listen_repeat_bank.py`.
-- Validate the scenario bank with `scripts/windows_first.sh validate-listen`.
-- Validate Reading bank with `scripts/windows_first.sh validate-reading`.
-- Validate Interview bank with `scripts/windows_first.sh validate-interview`.
+- For friend testing, use the Render deployment as a separate low-cost test environment with shared password access.
+- Do not sync local Mac practice records to Render unless a future explicit export/import feature is designed.
+- Default development validation should run on Mac unless the user explicitly asks for Windows remote verification.
+- Regenerate the scenario bank locally with `.venv/bin/python data/tools/build_listen_repeat_bank.py`.
+- Validate the scenario bank with `.venv/bin/python data/tools/validate_listen_repeat_bank.py`.
+- Validate Reading bank with `.venv/bin/python data/tools/validate_reading_bank.py`.
+- Validate Interview bank with `.venv/bin/python data/tools/validate_interview_bank.py`.
 - Interview feedback currently uses `INTERVIEW_AI_PROVIDER=none` by default. Future provider options are reserved for `openai`, `qwen`, and `deepseek`, but no paid LLM scoring API is called yet.
 - To enable DeepSeek scoring, set `INTERVIEW_AI_PROVIDER=deepseek`, `DEEPSEEK_API_KEY`, and optionally `DEEPSEEK_MODEL=deepseek-v4-flash`. DeepSeek receives the Interview prompt, transcript, duration/WPM/word count, recognition confidence, and baseline feedback, then returns a non-official 0-5 training score.
 - The in-app DeepSeek settings box enables both `INTERVIEW_AI_PROVIDER=deepseek` and `INTERVIEW_REFERENCE_PROVIDER=deepseek`, using the same `DEEPSEEK_API_KEY`.

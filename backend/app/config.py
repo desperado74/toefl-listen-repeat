@@ -6,34 +6,38 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv()
+load_dotenv(Path(".env"), override=True)
+
+
+def _env(name: str, default: str = "") -> str:
+    return os.getenv(name, os.getenv(f"\ufeff{name}", default))
 
 
 class Settings:
-    azure_speech_key: str = os.getenv("AZURE_SPEECH_KEY", "")
-    azure_speech_region: str = os.getenv("AZURE_SPEECH_REGION", "")
-    database_path: Path = Path(os.getenv("APP_DATABASE_PATH", "data/toefl_repeat.sqlite3"))
-    attempts_dir: Path = Path(os.getenv("APP_ATTEMPTS_DIR", "attempts"))
-    prompt_audio_dir: Path = Path(os.getenv("APP_PROMPT_AUDIO_DIR", "data/audio/generated"))
-    prompt_voice: str = os.getenv("APP_PROMPT_VOICE", "Samantha")
-    prompt_rate: str = os.getenv("APP_PROMPT_RATE", "150")
-    prompt_tts_provider: str = os.getenv("APP_PROMPT_TTS_PROVIDER", "auto").lower()
-    prompt_azure_voice: str = os.getenv("APP_PROMPT_AZURE_VOICE", "en-US-JennyNeural")
-    interview_ai_provider: str = os.getenv("INTERVIEW_AI_PROVIDER", "none").lower()
-    interview_reference_provider: str = os.getenv("INTERVIEW_REFERENCE_PROVIDER", "local").lower()
-    deepseek_api_key: str = os.getenv("DEEPSEEK_API_KEY", "")
-    deepseek_base_url: str = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
-    deepseek_model: str = os.getenv("DEEPSEEK_MODEL", "deepseek-v4-flash")
-    frontend_dist_dir: Path = Path(os.getenv("APP_FRONTEND_DIST_DIR", "frontend/dist"))
-    cors_allow_origins: str = os.getenv(
+    azure_speech_key: str = _env("AZURE_SPEECH_KEY")
+    azure_speech_region: str = _env("AZURE_SPEECH_REGION")
+    database_path: Path = Path(_env("APP_DATABASE_PATH", "data/toefl_repeat.sqlite3"))
+    attempts_dir: Path = Path(_env("APP_ATTEMPTS_DIR", "attempts"))
+    prompt_audio_dir: Path = Path(_env("APP_PROMPT_AUDIO_DIR", "data/audio/generated"))
+    prompt_voice: str = _env("APP_PROMPT_VOICE", "Samantha")
+    prompt_rate: str = _env("APP_PROMPT_RATE", "150")
+    prompt_tts_provider: str = _env("APP_PROMPT_TTS_PROVIDER", "auto").lower()
+    prompt_azure_voice: str = _env("APP_PROMPT_AZURE_VOICE", "en-US-JennyNeural")
+    interview_ai_provider: str = _env("INTERVIEW_AI_PROVIDER", "none").lower()
+    interview_reference_provider: str = _env("INTERVIEW_REFERENCE_PROVIDER", "local").lower()
+    deepseek_api_key: str = _env("DEEPSEEK_API_KEY")
+    deepseek_base_url: str = _env("DEEPSEEK_BASE_URL", "https://api.deepseek.com")
+    deepseek_model: str = _env("DEEPSEEK_MODEL", "deepseek-v4-flash")
+    frontend_dist_dir: Path = Path(_env("APP_FRONTEND_DIST_DIR", "frontend/dist"))
+    cors_allow_origins: str = _env(
         "APP_CORS_ALLOW_ORIGINS",
         "http://localhost:5173,http://127.0.0.1:5173",
     )
-    access_password: str = os.getenv("APP_ACCESS_PASSWORD", "")
-    session_cookie_name: str = os.getenv("APP_SESSION_COOKIE_NAME", "trainer_session")
-    visitor_cookie_name: str = os.getenv("APP_VISITOR_COOKIE_NAME", "trainer_visitor")
-    session_cookie_secure: bool = os.getenv("APP_SESSION_COOKIE_SECURE", "0") == "1"
-    session_secret: str = os.getenv("APP_SESSION_SECRET", "replace-me")
+    access_password: str = _env("APP_ACCESS_PASSWORD")
+    session_cookie_name: str = _env("APP_SESSION_COOKIE_NAME", "trainer_session")
+    visitor_cookie_name: str = _env("APP_VISITOR_COOKIE_NAME", "trainer_visitor")
+    session_cookie_secure: bool = _env("APP_SESSION_COOKIE_SECURE", "0") == "1"
+    session_secret: str = _env("APP_SESSION_SECRET", "replace-me")
     scenarios_path: Path = Path("data/scenarios/listen_repeat.json")
     reading_bank_path: Path = Path("data/reading/reading_bank.json")
     interview_bank_path: Path = Path("data/interview/interview_bank.json")

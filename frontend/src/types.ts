@@ -78,6 +78,7 @@ export type AttemptResult = {
   id: string;
   scenario_id?: string;
   sentence_id?: string;
+  created_at?: string;
   normalized: ScoreSummary;
   tags: string[];
   audioPath: string;
