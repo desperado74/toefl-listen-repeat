@@ -3,6 +3,7 @@ frontend/node_modules/
 frontend/dist/
 .venv/
 .env
+.logs/
 data/*.sqlite3
 data/*.sqlite3-*
 data/audio/generated/

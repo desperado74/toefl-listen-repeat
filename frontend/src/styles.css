@@ -281,6 +281,7 @@ input {
 
 .planPanel,
 .analyticsPanel,
+.suiteEvaluation,
 .examSurface,
 .setupBanner,
 .widePanel,
@@ -300,6 +301,182 @@ input {
 .analyticsPanel {
   margin-top: 18px;
   padding: 16px;
+}
+
+.suiteEvaluation {
+  margin: 20px 0 0;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+.suiteEvaluation p {
+  margin: 0;
+  color: #2d3844;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.suiteScore {
+  border: 1px solid #aad8c6;
+  border-radius: 8px;
+  background: #eef8f3;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: end;
+  gap: 6px;
+  color: #155c43;
+}
+
+.suiteScore span,
+.suiteScore small {
+  font-size: 12px;
+}
+
+.suiteScore strong {
+  color: #12372a;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.suiteBreakdown {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.suiteBreakdown span {
+  border: 1px solid #dce3e9;
+  border-radius: 8px;
+  background: #f7f9fb;
+  padding: 10px;
+  color: #475463;
+  font-size: 13px;
+}
+
+.suiteSentenceReview {
+  display: grid;
+  gap: 10px;
+}
+
+.suiteSentenceReview h3 {
+  margin: 2px 0 0;
+  font-size: 15px;
+}
+
+.suiteSentenceCard {
+  border: 1px solid #dce3e9;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.suiteSentenceCard p {
+  margin: 6px 0 8px;
+  color: #2d3844;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.suiteSentenceTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.suiteSentenceTop span {
+  border: 1px solid #aad8c6;
+  border-radius: 999px;
+  background: #eef8f3;
+  color: #155c43;
+  font-size: 12px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+.iconButton {
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  min-height: 38px;
+  padding: 0;
+}
+
+.sentenceAudioButton {
+  color: #155c43;
+  border-color: #aad8c6;
+  background: #eef8f3;
+}
+
+.suiteIssueList {
+  display: grid;
+  gap: 10px;
+}
+
+.suiteIssueList h3 {
+  margin: 2px 0 0;
+  font-size: 15px;
+}
+
+.suiteIssueCard {
+  border: 1px solid #dce3e9;
+  border-radius: 8px;
+  background: #fbfcfd;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.suiteIssueCard p {
+  font-size: 13px;
+}
+
+.suiteIssueTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.suiteIssueTop span {
+  border: 1px solid #f4cf89;
+  border-radius: 999px;
+  background: #fff8e8;
+  color: #9a6700;
+  font-size: 12px;
+  padding: 3px 8px;
+}
+
+.reviewAttemptPanel {
+  border-color: #f4cf89;
+  background: #fffdf6;
+}
+
+.reviewAttemptHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.reviewAttemptHeader h2 {
+  margin: 0;
+}
+
+.reviewAttemptHeader span {
+  border: 1px solid #f4cf89;
+  border-radius: 999px;
+  background: #fff8e8;
+  color: #9a6700;
+  font-size: 12px;
+  padding: 4px 8px;
+  white-space: nowrap;
 }
 
 .planPanel > button {
@@ -581,7 +758,44 @@ input {
   font-size: 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 14px;
   color: #2d3844;
+}
+
+.hiddenPrompt span {
+  min-width: 0;
+  line-height: 1.45;
+}
+
+.hiddenPrompt.maskedPrompt {
+  color: #64717f;
+  background: #fbfcfd;
+}
+
+.toggleablePrompt {
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.toggleablePrompt:hover,
+.toggleablePrompt:focus-visible {
+  border-color: #1d7f63;
+  background: #f4faf7;
+  outline: none;
+}
+
+.promptToggleIcon {
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  border: 1px solid #dce3e9;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #475463;
+  background: #ffffff;
 }
 
 .interviewPractice {
@@ -592,6 +806,24 @@ input {
 
 .interviewSurface {
   margin-bottom: 0;
+}
+
+.interviewContextPanel {
+  border: 1px solid #dce3e9;
+  border-radius: 8px;
+  background: #fbfcfd;
+  padding: 18px 20px;
+}
+
+.interviewContextPanel h2 {
+  margin: 4px 0 8px;
+  font-size: 20px;
+}
+
+.interviewContextPanel p {
+  margin: 0;
+  color: #64717f;
+  line-height: 1.55;
 }
 
 .interviewPromptTop,
@@ -1001,8 +1233,25 @@ audio {
 
 .readingPractice {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: start;
   gap: 18px;
+  min-width: 0;
+}
+
+.readingPractice .widePanel,
+.readingPractice .readingSection,
+.readingPractice .readingSubmitBar,
+.readingPractice .feedbackGrid {
+  grid-column: 1 / -1;
+}
+
+.readingShell {
+  grid-template-columns: 320px minmax(0, 1fr);
+}
+
+.readingShell .practice {
+  overflow-x: hidden;
 }
 
 .readingSection,
@@ -1024,6 +1273,11 @@ audio {
   margin-bottom: 14px;
 }
 
+.readingSectionHeader.compact {
+  display: block;
+  margin-bottom: 12px;
+}
+
 .readingSectionHeader h2 {
   margin: 2px 0 0;
   font-size: 22px;
@@ -1033,6 +1287,33 @@ audio {
   color: #64717f;
   font-size: 13px;
   max-width: 360px;
+}
+
+.readingPageCard {
+  display: grid;
+  gap: 14px;
+}
+
+.readingPageTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.readingPageTop h2 {
+  margin: 2px 0 0;
+  font-size: 22px;
+}
+
+.readingPageCounter {
+  border: 1px solid #dce3e9;
+  border-radius: 999px;
+  background: #f7f9fb;
+  color: #475463;
+  padding: 6px 10px;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .readingPassage {
@@ -1046,14 +1327,18 @@ audio {
 }
 
 .completeWordsPassage {
-  font-size: 17px;
+  font-size: 19px;
+  line-height: 2.45;
+  max-width: none;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .wordBlank {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  margin: 0 4px;
+  gap: 5px;
+  margin: 0 6px;
   vertical-align: baseline;
   white-space: nowrap;
 }
@@ -1076,8 +1361,9 @@ audio {
 }
 
 .wordBlank input {
-  width: 96px;
-  min-width: 72px;
+  width: auto;
+  min-width: 4ch;
+  max-width: 9ch;
   border: 0;
   border-bottom: 2px solid #8ba0b5;
   border-radius: 0;
@@ -1145,9 +1431,84 @@ audio {
   margin-top: 18px;
 }
 
+.readingQuestions.oneQuestion {
+  margin-top: 0;
+}
+
+.adaptiveFlowPanel {
+  border: 1px solid #dce3e9;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.adaptiveStep {
+  border: 1px solid #dce3e9;
+  border-radius: 8px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: center;
+  min-width: 0;
+}
+
+.adaptiveStep strong {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: #e7edf2;
+  color: #475463;
+}
+
+.adaptiveStep span,
+.adaptiveStep small {
+  min-width: 0;
+}
+
+.adaptiveStep span {
+  font-weight: 700;
+}
+
+.adaptiveStep small {
+  grid-column: 2;
+  color: #64717f;
+  line-height: 1.35;
+}
+
+.adaptiveStep.active {
+  border-color: #6ea8fe;
+  background: #eff6ff;
+}
+
+.adaptiveStep.active strong {
+  background: #2f73c9;
+  color: #ffffff;
+}
+
+.adaptiveStep.done {
+  border-color: #aad8c6;
+  background: #eef8f3;
+}
+
+.adaptiveStep.done strong {
+  background: #1d7f63;
+  color: #ffffff;
+}
+
 .readingQuestion {
   border-top: 1px solid #e7edf2;
   padding-top: 16px;
+}
+
+.oneQuestion .readingQuestion {
+  border-top: 0;
+  padding-top: 0;
 }
 
 .readingQuestion h3 {
@@ -1214,6 +1575,18 @@ audio {
   box-shadow: 0 -8px 24px rgba(23, 32, 42, 0.06);
 }
 
+.readingPageNav {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) auto auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.ghostButton {
+  background: #f7f9fb;
+  color: #475463;
+}
+
 .readingSubmitBar strong,
 .readingSubmitBar span {
   display: block;
@@ -1260,9 +1633,45 @@ audio {
     grid-template-columns: 1fr;
   }
 
+  .readingShell {
+    grid-template-columns: 1fr;
+  }
+
+  .readingPageNav {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .readingPageNav .progressTrack {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .completeWordsPassage {
+    font-size: 17px;
+    line-height: 2.3;
+    padding: 12px;
+  }
+
+  .wordBlank {
+    margin: 0 2px;
+  }
+
+  .wordBlank input {
+    min-width: 3.5ch;
+  }
+
   .sidebar {
     border-right: 0;
     border-bottom: 1px solid #dce3e9;
+    padding: 18px;
+  }
+
+  .practice {
+    padding: 18px;
+  }
+
+  .readingSection {
+    padding: 14px;
   }
 
   .practiceHeader {
@@ -1274,6 +1683,10 @@ audio {
   }
 
   .feedbackGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .suiteBreakdown {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

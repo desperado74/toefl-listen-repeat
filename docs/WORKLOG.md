@@ -2,7 +2,35 @@
 
 Append-only log. Keep each entry short (3-8 lines).
 
+## 2026-04-26
+
+- Expanded Reading Single Set content from 3 to 8 original TOEFL-style sets.
+- Expanded Reading Single Set again to 60 original TOEFL-style sets / 1080 short-practice items.
+- Changed Reading default entry to Single Set and clarified Adaptive as a separate 50-item simulated exam mode.
+- Reworked Reading practice rendering into paged flow so users do not answer all sections on one long page.
+- Fixed Reading page grid layout so content cards stay full-width, and added skip/submit-with-unanswered behavior.
+- Reworked Speaking Interview practice into one-question pages with hidden prompt text during practice, auto-advance after saving, skip support, and centralized four-question review.
+- Added Listen and Repeat skip/next behavior so a missed sentence no longer blocks moving forward.
+- Added a scored-sentence text visibility toggle for Listen and Repeat so follow-up repetitions can hide/show the English prompt.
+- Aligned Listen and Repeat post-set evaluation with the 2026 TOEFL scale: seven local 0-5 item scores are averaged into a clearer 0-5 L&R module score, while noting full Speaking reporting is separate.
+- Expanded Listen and Repeat post-set review to list concrete issues across the 7 sentences, including omissions, insertions, mispronunciations, low-score words/phonemes, and weak scoring dimensions.
+- Added original-sentence review cards with one-tap prompt playback to the Listen and Repeat post-set evaluation.
+- Split Listen and Repeat first-pass scoring from later review practice: first attempts stay locked for completion and post-set evaluation, while same-sentence re-recordings show separately as review practice.
+- Switched the default self-use workflow back to Mac local development with `scripts/start_mac_dev.sh`, preserving Windows helpers as backup only.
+- Updated the double-click startup command and Desktop shortcut to launch the Mac local backend/frontend directly.
+- Locked the product strategy to one TOEFL Trainer app with modules, rather than separate sites per practice area.
+- Documented local Windows self-use and Render friend-testing as separate runtime/data tracks.
+- Disabled Render auto-deploy in config so cloud releases stay manual after local Windows validation.
+- Added a macOS double-click startup command for Windows self-use mode.
+- Hardened Windows self-use startup so backend and frontend run through Windows scheduled tasks instead of SSH child processes.
+- Fixed frontend dev startup to stay on port 5174 with `--strictPort`.
+- Added a clean `--stop` command and scheduled-task status output for easier recovery.
+- Verified Windows local health and Mac tunnels: backend `/api/health` and frontend `http://127.0.0.1:5174/` both returned 200.
+
 ## 2026-04-25
+
+- Added Windows self-use startup mode for persistent local SQLite, recordings, and generated audio under the Windows project directory.
+- Updated Windows dev startup so backend and frontend both run as Windows-side background services; SSH tunnels only expose them to the Mac browser.
 
 - Added Reading adaptive simulation v1 with original public content only: Router module plus Lower/Upper second modules.
 - Added 50-item full Reading paths calibrated to ETS public structure: 30 Complete the Words items plus Daily Life/Academic items.

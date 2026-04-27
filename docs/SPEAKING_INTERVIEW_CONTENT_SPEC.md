@@ -51,15 +51,8 @@ Use this progression unless there is a strong content reason to vary it:
 
 ## Validation
 
-Run on Windows by default:
+Run locally by default:
 
 ```bash
-scripts/windows_first.sh validate-interview
-```
-
-Direct Windows command:
-
-```powershell
-cd D:\Projects\toefl-listen-repeat
-.\.venv\Scripts\python.exe data\tools\validate_interview_bank.py
+.venv/bin/python data/tools/validate_interview_bank.py
 ```

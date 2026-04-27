@@ -2,17 +2,21 @@
 
 ## Stage 1 (Finish Now)
 
-1. Push code to GitHub private repo
-2. Deploy on Render with HTTPS
-3. Configure:
+1. Keep one TOEFL Trainer app with Speaking, Reading, and future modules
+2. Use Mac self-use as the primary local environment
+3. Use Render only as a low-cost friend-testing environment
+4. Push locally verified code to GitHub
+5. Manually deploy on Render with HTTPS
+6. Configure:
    - `AZURE_SPEECH_KEY`
    - `AZURE_SPEECH_REGION`
    - `APP_ACCESS_PASSWORD`
    - `APP_SESSION_SECRET`
-4. Verify:
+7. Verify:
    - login gate works
    - mic permission works on hosted URL
    - scoring/feedback/training plan work end-to-end
+   - cloud data is isolated from Mac self-use data
 
 ## Stage 2 (Listen+Repeat Strengthening)
 

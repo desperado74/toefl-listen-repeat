@@ -3,7 +3,7 @@ services:
     name: toefl-listen-repeat
     env: docker
     plan: starter
-    autoDeploy: true
+    autoDeploy: false
     healthCheckPath: /api/health
     disk:
       name: toefl-data
