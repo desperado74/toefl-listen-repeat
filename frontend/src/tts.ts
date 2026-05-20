@@ -33,7 +33,7 @@ function speak(text: string): Promise<void> {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
     utterance.voice = chooseStableVoice();
-    utterance.rate = 0.88;
+    utterance.rate = 0.7;
     utterance.pitch = 1;
     utterance.onend = () => resolve();
     utterance.onerror = () => reject(new Error("Local TTS failed"));

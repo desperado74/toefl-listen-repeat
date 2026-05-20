@@ -20,7 +20,7 @@ class Settings:
     attempts_dir: Path = Path(_env("APP_ATTEMPTS_DIR", "attempts"))
     prompt_audio_dir: Path = Path(_env("APP_PROMPT_AUDIO_DIR", "data/audio/generated"))
     prompt_voice: str = _env("APP_PROMPT_VOICE", "Samantha")
-    prompt_rate: str = _env("APP_PROMPT_RATE", "150")
+    prompt_rate: str = _env("APP_PROMPT_RATE", "120")
     prompt_tts_provider: str = _env("APP_PROMPT_TTS_PROVIDER", "auto").lower()
     prompt_azure_voice: str = _env("APP_PROMPT_AZURE_VOICE", "en-US-JennyNeural")
     interview_ai_provider: str = _env("INTERVIEW_AI_PROVIDER", "none").lower()

@@ -1913,7 +1913,9 @@ def _generate_prompt_audio_azure(text: str, target: Path) -> None:
     escaped = html.escape(text)
     ssml = (
         "<speak version='1.0' xml:lang='en-US'>"
-        f"<voice xml:lang='en-US' name='{settings.prompt_azure_voice}'>{escaped}</voice>"
+        f"<voice xml:lang='en-US' name='{settings.prompt_azure_voice}'>"
+        f"<prosody rate='-20%'>{escaped}</prosody>"
+        "</voice>"
         "</speak>"
     )
     url = f"https://{settings.azure_speech_region}.tts.speech.microsoft.com/cognitiveservices/v1"
