@@ -2,6 +2,15 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VENV_DIR="${TOEFL_VENV_DIR:-}"
+if [[ -z "$VENV_DIR" ]]; then
+  for candidate in "$ROOT_DIR"/.venv-* "$ROOT_DIR/.venv"; do
+    if [[ -x "$candidate/bin/python" ]]; then
+      VENV_DIR="$candidate"
+      break
+    fi
+  done
+fi
 BACKEND_PORT="${TOEFL_BACKEND_PORT:-8000}"
 FRONTEND_PORT="${TOEFL_FRONTEND_PORT:-5174}"
 APP_URL="http://127.0.0.1:${FRONTEND_PORT}/"
@@ -145,8 +154,8 @@ start_launch_agent() {
 
 check_dependencies() {
   local missing=0
-  if [[ ! -x "$ROOT_DIR/.venv/bin/python" ]]; then
-    echo "Missing .venv/bin/python. Create the venv and install backend requirements first."
+  if [[ -z "$VENV_DIR" || ! -x "$VENV_DIR/bin/python" ]]; then
+    echo "Missing backend virtual environment. Create one and install backend requirements first."
     missing=1
   fi
   if [[ ! -d "$ROOT_DIR/frontend/node_modules" ]]; then

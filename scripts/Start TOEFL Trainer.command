@@ -1,7 +1,8 @@
 #!/bin/zsh
 set -e
 
-PROJECT_DIR="/Users/your-user/Documents/New project"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 APP_URL="http://127.0.0.1:5174/"
 
 cd "$PROJECT_DIR"

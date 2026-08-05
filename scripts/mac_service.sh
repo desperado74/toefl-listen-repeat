@@ -2,6 +2,15 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VENV_DIR="${TOEFL_VENV_DIR:-}"
+if [[ -z "$VENV_DIR" ]]; then
+  for candidate in "$ROOT_DIR"/.venv-* "$ROOT_DIR/.venv"; do
+    if [[ -x "$candidate/bin/python" ]]; then
+      VENV_DIR="$candidate"
+      break
+    fi
+  done
+fi
 SERVICE="${1:-}"
 PORT="${2:-}"
 
@@ -13,7 +22,7 @@ case "$SERVICE" in
     export APP_DATABASE_PATH="${APP_DATABASE_PATH:-data/toefl_repeat.sqlite3}"
     export APP_ATTEMPTS_DIR="${APP_ATTEMPTS_DIR:-attempts}"
     export APP_PROMPT_AUDIO_DIR="${APP_PROMPT_AUDIO_DIR:-data/audio/generated}"
-    exec "$ROOT_DIR/.venv/bin/python" -m uvicorn backend.app.main:app --host 127.0.0.1 --port "${PORT:-8000}"
+    exec "$VENV_DIR/bin/python" -m uvicorn backend.app.main:app --host 127.0.0.1 --port "${PORT:-8000}"
     ;;
   frontend)
     exec npm --prefix frontend run dev -- --host 127.0.0.1 --port "${PORT:-5174}" --strictPort
