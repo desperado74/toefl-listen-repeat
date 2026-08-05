@@ -1,15 +1,16 @@
 # TOEFL AI Trainer
 
-An AI-assisted TOEFL practice platform for speaking and reading, built with React, FastAPI, Azure Speech, DeepSeek and SQLite.
+> A deployed full-stack AI learning application that turns speaking and reading practice into immediate feedback, persisted learning history and targeted review signals.
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Open-2563eb?style=for-the-badge)](https://toefl-listen-repeat.onrender.com/)
-[![Health](https://img.shields.io/badge/API-Healthy-16a34a?style=for-the-badge)](https://toefl-listen-repeat.onrender.com/api/health)
+[**Try the live demo**](https://toefl-listen-repeat.onrender.com/) · [Architecture](docs/ARCHITECTURE.md) · [Deployment notes](docs/DEPLOYMENT.md)
 
-> The hosted demo is publicly accessible and opens without a shared password. Third-party AI features use limited project quotas.
+Built with React, TypeScript, FastAPI, SQLite, Azure Speech, DeepSeek and Docker.
+
+> The public demo opens without a shared password. It uses shared third-party API quotas, so AI-intensive features may be temporarily limited.
 
 ## Overview
 
-TOEFL AI Trainer is a full-stack learning application designed around a complete practice loop: attempt, evaluate, review and reinforce. It combines browser audio recording, cloud speech assessment, AI-generated feedback and persistent learning history in one deployable service.
+TOEFL AI Trainer is designed around a complete practice loop: attempt, evaluate, review and reinforce. It combines browser audio recording, cloud speech assessment, AI-generated feedback and persistent learning history in one deployable service.
 
 This is an independent training project. It is not affiliated with, endorsed by or an official scoring product of ETS.
 
@@ -38,12 +39,12 @@ flowchart LR
 
 The production container builds the React frontend and serves it together with the FastAPI API. Render provides HTTPS, persistent storage and server-side environment variables.
 
-## Engineering Highlights
+## What This Project Demonstrates
 
 - Kept API credentials server-side and separated configuration from source code.
 - Preserved raw provider responses alongside normalized diagnostics for traceability and debugging.
 - Isolated hosted demo data from personal local practice data.
-- Implemented optional password-gated access with an HttpOnly session cookie; the public portfolio demo currently runs with this gate disabled.
+- Implemented optional password-gated access with an HttpOnly session cookie; the portfolio deployment runs in public-demo mode.
 - Packaged frontend and backend as one Docker service with a persistent `/data` mount.
 - Added content validators for Listen & Repeat, Reading and Speaking Interview banks.
 
@@ -58,7 +59,7 @@ The repository intentionally excludes:
 
 Use `.env.example` only as a configuration template. Never commit a populated `.env` file.
 
-## Local Development
+## Run Locally
 
 ### Prerequisites
 
