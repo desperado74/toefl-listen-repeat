@@ -40,7 +40,7 @@ The routing and reported scores are training simulations, not official ETS algor
 
 - Provider credentials remain in server-side environment variables.
 - Browser clients receive only short-lived Azure tokens where required.
-- The hosted demo uses password-gated sessions and secure cookies.
+- Password-gated sessions and secure cookies are supported as an optional deployment mode; the public portfolio demo currently allows direct access.
 - Local and hosted databases are intentionally separate.
 - `.env`, SQLite files, recordings, generated audio and logs are excluded from Git.
 

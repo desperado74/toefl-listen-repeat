@@ -5,7 +5,7 @@ An AI-assisted TOEFL practice platform for speaking and reading, built with Reac
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Open-2563eb?style=for-the-badge)](https://toefl-listen-repeat.onrender.com/)
 [![Health](https://img.shields.io/badge/API-Healthy-16a34a?style=for-the-badge)](https://toefl-listen-repeat.onrender.com/api/health)
 
-> The hosted demo is password protected to control third-party API usage. Access can be provided for review or testing.
+> The hosted demo is publicly accessible and opens without a shared password. Third-party AI features use limited project quotas.
 
 ## Overview
 
@@ -43,7 +43,7 @@ The production container builds the React frontend and serves it together with t
 - Kept API credentials server-side and separated configuration from source code.
 - Preserved raw provider responses alongside normalized diagnostics for traceability and debugging.
 - Isolated hosted demo data from personal local practice data.
-- Added password-gated access with an HttpOnly session cookie for the hosted demo.
+- Implemented optional password-gated access with an HttpOnly session cookie; the public portfolio demo currently runs with this gate disabled.
 - Packaged frontend and backend as one Docker service with a persistent `/data` mount.
 - Added content validators for Listen & Repeat, Reading and Speaking Interview banks.
 
@@ -115,6 +115,6 @@ render.yaml              Render service definition
 
 ## Current Limitations
 
-- The hosted demo uses shared third-party API quotas and therefore remains access controlled.
+- The hosted demo uses shared third-party API quotas, so availability or AI-intensive features may be limited temporarily if quotas are exhausted.
 - AI feedback and adaptive routing are training aids, not official TOEFL scores.
 - SQLite is appropriate for the current single-service demo; a multi-user production product would require stronger account, storage and rate-limit design.
