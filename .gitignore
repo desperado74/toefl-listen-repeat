@@ -2,6 +2,7 @@ node_modules/
 frontend/node_modules/
 frontend/dist/
 .venv/
+.venv-*/
 .env
 .logs/
 data/*.sqlite3
