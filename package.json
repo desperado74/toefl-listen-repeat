@@ -1,5 +1,5 @@
 {
-  "name": "toefl-listen-repeat-local",
+  "name": "toefl-ai-trainer",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm:dev:backend\" \"npm:dev:frontend\"",
