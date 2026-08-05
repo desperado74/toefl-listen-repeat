@@ -14,8 +14,6 @@ services:
         sync: false
       - key: AZURE_SPEECH_REGION
         value: eastus
-      - key: APP_ACCESS_PASSWORD
-        sync: false
       - key: APP_SESSION_SECRET
         sync: false
       - key: APP_SESSION_COOKIE_SECURE

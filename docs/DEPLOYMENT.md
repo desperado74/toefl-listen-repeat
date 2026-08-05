@@ -9,7 +9,6 @@ The `Dockerfile` uses a multi-stage build: Node builds the frontend, then a Pyth
 Configure these in the hosting provider. Do not add their values to source control.
 
 - `AZURE_SPEECH_KEY`
-- `APP_ACCESS_PASSWORD`
 - `APP_SESSION_SECRET`
 - `DEEPSEEK_API_KEY` when DeepSeek feedback is enabled
 
@@ -28,6 +27,10 @@ Configure these in the hosting provider. Do not add their values to source contr
 - `APP_PROMPT_AUDIO_DIR=/data/audio/generated`
 - `APP_FRONTEND_DIST_DIR=frontend/dist`
 
+Optional private-demo access control:
+
+- `APP_ACCESS_PASSWORD` enables the shared-password gate when set. Leave it unset for a directly accessible public demo.
+
 ## Persistent Storage
 
 Mount a persistent disk at `/data`. This keeps SQLite data, recordings and generated prompt audio outside the application image and preserves them across deploys.
@@ -39,7 +42,7 @@ Mount a persistent disk at `/data`. This keeps SQLite data, recordings and gener
 3. Confirm no secrets or personal runtime data are tracked by Git.
 4. Deploy the verified commit.
 5. Confirm `/api/health` returns `{"status":"ok"}`.
-6. Confirm the access gate rejects an incorrect password.
+6. Confirm the intended access mode: direct public access when `APP_ACCESS_PASSWORD` is unset, or password rejection when it is enabled.
 7. Complete one Listen & Repeat assessment.
 8. Complete one Interview response and verify transcription plus feedback.
 9. Confirm a stored attempt remains available after a service restart.
